@@ -1,0 +1,30 @@
+{
+	"typescript.tsdk": "node_modules/typescript/lib",
+	"editor.formatOnSave": true,
+	"editor.defaultFormatter": "esbenp.prettier-vscode",
+	"editor.codeActionsOnSave": {
+		"source.fixAll": true
+	},
+	"graphql-config.dotEnvPath": "./.env",
+	"graphql-config.load.configName": "graphql",
+	"files.associations": {
+		"*.css": "tailwindcss"
+	},
+	"editor.quickSuggestions": {
+		"strings": true
+	},
+	"workbench.colorCustomizations": {
+		"titleBar.activeBackground": "#04dd7b",
+		"titleBar.activeForeground": "#164ee8",
+		"activityBar.background": "#00ff8c",
+		"activityBarBadge.foreground": "#00ff8c",
+		"activityBar.inactiveForeground": "#2a5eeb",
+		"activityBar.activeFocusBorder": "#ffdd00",
+		"activityBar.activeBackground": "#ffdd00",
+		"activityBar.activeBorder": "#ffdd00",
+		"activityBar.dropBorder": "#2a5eeb",
+		"activityBar.border": "#ffdd00",
+		"activityBar.foreground": "#2a5eeb",
+		"activityBarBadge.background": "#2a5eeb"
+	}
+}
