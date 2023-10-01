@@ -26,8 +26,7 @@
 		"paths": {
 			"@/*": ["./src/*"],
 			"@ui/*": ["./src/ui/*"],
-			"@utils/*": ["./src/ui/utils/*"],
-			"@ui-types/*": ["./src/ui/types/*"]
+			"@utils/*": ["./src/ui/utils/*"]
 		}
 	},
 	"include": [
