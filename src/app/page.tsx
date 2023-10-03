@@ -4,39 +4,49 @@ import { type ProductItemType } from "@/ui/types";
 const products: ProductItemType[] = [
 	{
 		id: "1",
-		category: "buty",
-		name: "adidasy",
-		price: 123,
+		category: "tkanina",
+		name: "Maya",
+		price: 12000,
 		coverImage: {
-			alt: "buty",
-			src: "./product_1.png",
+			alt: "tkanina",
+			src: "/product_1.jpg",
 		},
 	},
 	{
 		id: "2",
-		category: "buty",
-		name: "ecco",
-		price: 124,
+		category: "tkanina",
+		name: "El Fuego",
+		price: 9900,
 		coverImage: {
-			alt: "buty",
-			src: "./product_2.png",
+			alt: "tkanina",
+			src: "/product_2.jpg",
 		},
 	},
 	{
 		id: "3",
-		category: "buty",
-		name: "camper",
-		price: 143,
+		category: "tkanina",
+		name: "Pacyfik",
+		price: 10000,
 		coverImage: {
-			alt: "buty",
-			src: "./product_1.png",
+			alt: "tkanina",
+			src: "/product_3.jpg",
+		},
+	},
+	{
+		id: "4",
+		category: "tkanina",
+		name: "La Noche",
+		price: 20000,
+		coverImage: {
+			alt: "tkanina",
+			src: "/product_4.jpg",
 		},
 	},
 ];
 
 export default function Home() {
 	return (
-		<section className="p12 sm:py mx-auto max-w-md sm:max-w-2xl ">
+		<section className="sm :max-w-6xl mx-auto max-w-md p-12 sm:max-w-7xl ">
 			<ProductList products={products} />
 		</section>
 	);

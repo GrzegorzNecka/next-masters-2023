@@ -9,7 +9,7 @@ type ProductListItemProps = {
 export const ProductListItem = ({ product }: ProductListItemProps) => {
 	return (
 		<li>
-			<article>
+			<article className="cursor-pointer">
 				<ProductListItemCoverImage coverImage={product.coverImage} />
 				<ProductListItemDescription product={product} />
 			</article>
