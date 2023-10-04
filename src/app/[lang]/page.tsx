@@ -1,3 +1,5 @@
+import { getDictionary } from "../../get-dictionary";
+import { type Locale } from "../../i18n-config";
 import { ProductList } from "@/ui/organisms/ProductList";
 import { type ProductItemType } from "@/ui/types";
 
@@ -44,9 +46,17 @@ const products: ProductItemType[] = [
 	},
 ];
 
-export default function Home() {
+export default async function Home({ params: { lang } }: { params: { lang: Locale } }) {
+	const dictionary = await getDictionary(lang);
+	const message = dictionary.Home;
+
 	return (
 		<section className="sm :max-w-6xl mx-auto max-w-md p-12 sm:max-w-7xl ">
+			<header>
+				<h1 className="mb-4 text-4xl font-bold tracking-tight text-gray-900 md:text-3xl lg:text-4xl ">
+					{message.header}
+				</h1>
+			</header>
 			<ProductList products={products} />
 		</section>
 	);
