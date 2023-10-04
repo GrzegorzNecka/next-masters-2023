@@ -11,7 +11,7 @@ const products: ProductItemType[] = [
 		price: 12000,
 		coverImage: {
 			alt: "tkanina",
-			src: "/product_1.jpg",
+			src: "/images/product_1.jpg",
 		},
 	},
 	{
@@ -21,7 +21,7 @@ const products: ProductItemType[] = [
 		price: 9900,
 		coverImage: {
 			alt: "tkanina",
-			src: "/product_2.jpg",
+			src: "/images/product_2.jpg",
 		},
 	},
 	{
@@ -31,7 +31,7 @@ const products: ProductItemType[] = [
 		price: 10000,
 		coverImage: {
 			alt: "tkanina",
-			src: "/product_3.jpg",
+			src: "/images/product_3.jpg",
 		},
 	},
 	{
@@ -41,7 +41,7 @@ const products: ProductItemType[] = [
 		price: 20000,
 		coverImage: {
 			alt: "tkanina",
-			src: "/product_4.jpg",
+			src: "/images/product_4.jpg",
 		},
 	},
 ];
