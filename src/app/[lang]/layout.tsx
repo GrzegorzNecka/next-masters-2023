@@ -23,7 +23,9 @@ export default async function RootLayout({
 }) {
 	return (
 		<html lang={params.lang}>
-			<body className={inter.className}>{children}</body>
+			<body className={inter.className}>
+				<section className="sm :max-w-6xl mx-auto max-w-md p-12 sm:max-w-7xl ">{children}</section>
+			</body>
 		</html>
 	);
 }
