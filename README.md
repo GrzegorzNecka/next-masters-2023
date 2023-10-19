@@ -8,6 +8,8 @@
 
 # do nadrobienia:
 
+- [i18n](https://nextjs.org/docs/app/building-your-application/routing/internationalization)
+- [next-international](https://next-international.vercel.app/docs/testing)
 - (e02 17:25)[https://www.youtube.com/watch?v=18H-LuL0ZDg]
 - (checkly)[https://www.checklyhq.com/docs/browser-checks/playwright-test/]
 
