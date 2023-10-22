@@ -4,6 +4,7 @@
 	"private": true,
 	"scripts": {
 		"dev": "next dev",
+		"ninja": "console-ninja next dev",
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint --fix --dir src",

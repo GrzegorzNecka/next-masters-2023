@@ -1,5 +1,4 @@
-import { getDictionary } from "../../get-dictionary";
-import { type Locale } from "../../i18n-config";
+import { getScopedI18n } from "@dictionaries/serwer";
 import { ProductList } from "@/ui/organisms/ProductList";
 import { type ProductItemType } from "@/ui/types";
 
@@ -46,15 +45,16 @@ const products: ProductItemType[] = [
 	},
 ];
 
-export default async function Home({ params: { lang } }: { params: { lang: Locale } }) {
-	const dictionary = await getDictionary(lang);
-	const message = dictionary.Home;
+// export default async function Home({ params: { lang } }: { params: { lang: Locale } }) {
+export default async function Home() {
+	const t = await getScopedI18n("Home");
+	// const scopedT = await getScopedI18n("hello");
 
 	return (
 		<>
 			<header>
 				<h1 className="mb-4 text-4xl font-bold tracking-tight text-gray-900 md:text-3xl lg:text-4xl ">
-					{message.header}
+					<p>{t("header")}</p>
 				</h1>
 			</header>
 			<ProductList products={products} />
