@@ -1,9 +1,13 @@
+import Link from "next/link";
 import { ProductCounter } from "@/ui/atoms/ProductCounter";
 
 export default async function Page() {
 	return (
 		<div>
-			<ProductCounter />
+			<Link href="/" className="hover:underline">
+				przejdź do strony głównej
+			</Link>
+			<ProductCounter> {"children"}</ProductCounter>
 		</div>
 	);
 }
