@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { i18n } from "../../i18n-config";
 import { getScopedI18n } from "@/dictionaries/serwer";
+import { ActiveLink } from "@/ui/atoms/ActiveLink";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -27,6 +28,17 @@ export default async function RootLayout({
 	return (
 		<html lang={params.lang}>
 			<body className={inter.className}>
+				<nav>
+					<ul className="flex justify-center gap-4 p-4">
+						<li>
+							<ActiveLink slug="/">Home</ActiveLink>
+						</li>
+						<li>
+							<ActiveLink slug="/products">Products</ActiveLink>
+						</li>
+					</ul>
+				</nav>
+
 				<section className="sm :max-w-6xl mx-auto max-w-md p-12 sm:max-w-7xl ">{children}</section>
 
 				<footer>
