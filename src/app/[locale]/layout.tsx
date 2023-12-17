@@ -31,10 +31,10 @@ export default async function RootLayout({
 				<nav>
 					<ul className="flex justify-center gap-4 p-4">
 						<li>
-							<ActiveLink slug="/">Home</ActiveLink>
+							<ActiveLink slug={{ pathname: `/` }}>Home</ActiveLink>
 						</li>
 						<li>
-							<ActiveLink slug="/products">Products</ActiveLink>
+							<ActiveLink slug={{ pathname: `/products` }}>Products</ActiveLink>
 						</li>
 					</ul>
 				</nav>

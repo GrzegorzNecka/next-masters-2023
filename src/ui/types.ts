@@ -1,6 +1,7 @@
 export type ProductItemType = {
 	id: string;
 	category: string;
+	description: string;
 	name: string;
 	price: number;
 	coverImage: {
@@ -8,3 +9,5 @@ export type ProductItemType = {
 		src: string;
 	};
 };
+
+//---- rest

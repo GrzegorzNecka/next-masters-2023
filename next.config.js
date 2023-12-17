@@ -1,4 +1,15 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const withMDX = require("@next/mdx")({ options: { remarkPlugins: [], rehypePlugins: [] } });
 
-module.exports = nextConfig;
+const nextConfig = {
+	pageExtensions: ["ts", "tsx", "mdx"],
+	experimental: {
+		typedRoutes: true,
+		mdxRs: true,
+	},
+	images: {
+		domains: ["naszsklep-api.vercel.app"],
+	},
+};
+
+module.exports = withMDX(nextConfig);
