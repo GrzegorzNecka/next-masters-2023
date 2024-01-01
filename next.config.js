@@ -8,7 +8,15 @@ const nextConfig = {
 		mdxRs: true,
 	},
 	images: {
-		domains: ["naszsklep-api.vercel.app"],
+		// domains: ["naszsklep-api.vercel.app"],
+		remotePatterns: [
+			{
+				protocol: "https",
+				hostname: "naszsklep-api.vercel.app",
+				port: "",
+				pathname: "/**",
+			},
+		],
 	},
 };
 

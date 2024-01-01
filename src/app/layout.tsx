@@ -1,16 +1,10 @@
-import "../globals.css";
+import "./globals.css";
 
 import type { Metadata, Route } from "next";
 import { Inter } from "next/font/google";
 
-import { i18n } from "../../i18n-config";
-import { getScopedI18n } from "@/dictionaries/serwer";
 import { ActiveLink } from "@/ui/atoms/ActiveLink";
 const inter = Inter({ subsets: ["latin"] });
-
-export async function generateStaticParams() {
-	return i18n.locales.map((locale) => ({ lang: locale }));
-}
 
 export const metadata: Metadata = {
 	title: "Sklep",
@@ -24,19 +18,16 @@ export default async function RootLayout({
 	children: React.ReactNode;
 	params: { lang: string };
 }) {
-	const tHome = await getScopedI18n("Home");
-	const tNav = await getScopedI18n("Navigation");
-
 	return (
 		<html lang={params.lang}>
 			<body className={inter.className}>
 				<nav>
 					<ul className="flex justify-center gap-4 p-4">
 						<li>
-							<ActiveLink href={`/` as Route<"/">}>{tNav("home")}</ActiveLink>
+							<ActiveLink href={`/` as Route<"/">}>home</ActiveLink>
 						</li>
 						<li>
-							<ActiveLink href={`/products`}>{tNav("products")}</ActiveLink>
+							<ActiveLink href={`/products`}>all</ActiveLink>
 						</li>
 					</ul>
 				</nav>
@@ -44,9 +35,7 @@ export default async function RootLayout({
 				<section className="sm :max-w-6xl mx-auto max-w-md p-12 sm:max-w-7xl ">{children}</section>
 
 				<footer>
-					<p className="text-center text-sm text-gray-500">
-						© {new Date().getFullYear()} {tHome("header")}
-					</p>
+					<p className="text-center text-sm text-gray-500">© {new Date().getFullYear()} Sklep</p>
 				</footer>
 			</body>
 		</html>
