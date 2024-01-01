@@ -8,7 +8,7 @@ export default async function ProductsPage() {
 	const t = await getScopedI18n("Home");
 
 	const products = await getProductList();
-	// const scopedT = await getScopedI18n("hello");
+
 
 	return (
 		<>

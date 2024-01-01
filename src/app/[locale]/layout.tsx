@@ -24,7 +24,8 @@ export default async function RootLayout({
 	children: React.ReactNode;
 	params: { lang: string };
 }) {
-	const t = await getScopedI18n("Home");
+	const tHome = await getScopedI18n("Home");
+	const tNav = await getScopedI18n("Navigation");
 
 	return (
 		<html lang={params.lang}>
@@ -32,10 +33,10 @@ export default async function RootLayout({
 				<nav>
 					<ul className="flex justify-center gap-4 p-4">
 						<li>
-							<ActiveLink href={`/` as Route<"/">}>Home</ActiveLink>
+							<ActiveLink href={`/` as Route<"/">}>{tNav("home")}</ActiveLink>
 						</li>
 						<li>
-							<ActiveLink href={`/products`}>All</ActiveLink>
+							<ActiveLink href={`/products`}>{tNav("products")}</ActiveLink>
 						</li>
 					</ul>
 				</nav>
@@ -44,7 +45,7 @@ export default async function RootLayout({
 
 				<footer>
 					<p className="text-center text-sm text-gray-500">
-						© {new Date().getFullYear()} {t("header")}
+						© {new Date().getFullYear()} {tHome("header")}
 					</p>
 				</footer>
 			</body>

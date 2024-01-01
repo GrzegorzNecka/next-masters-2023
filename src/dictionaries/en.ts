@@ -3,4 +3,8 @@ export default {
 	Home: {
 		header: "fabric store",
 	},
+	Navigation: {
+		home: "home",
+		products: "products",
+	}
 } as const;
