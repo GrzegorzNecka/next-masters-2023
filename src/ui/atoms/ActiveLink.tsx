@@ -1,30 +1,51 @@
 "use client";
 
-import Link from "next/link";
+import { type UrlObject } from "url";
 import clsx from "clsx";
+
+import type { Route } from "next";
+import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
-//https://nextjs.org/docs/app/building-your-application/configuring/typescript#statically-typed-links
 
-type ActiveLinkProps = {
-	slug: { pathname: string };
+interface UrlObjectWithNextRoute<T extends string> extends UrlObject {
+	pathname: Route<T>;
+}
+
+interface ActiveLinkProps<T extends string> {
+	href: Route<T> | UrlObjectWithNextRoute<T>;
 	children: React.ReactNode;
-};
+	exact?: boolean;
+	className?: string;
+	activeClassName?: string;
+}
 
-export const ActiveLink = ({ slug, children }: ActiveLinkProps) => {
-	const pathname = usePathname();
-	const params = useParams();
+export function ActiveLink<T extends string>({
+	href,
+	children,
+	exact = false,
+	className = "",
+	activeClassName = "text-blue-900 underline",
+}: ActiveLinkProps<T>) {
+	const matchedPathName = (typeof href === "string" ? href : href.pathname) ?? null;
 
-	const location = params?.locale as string;
+	const { locale } = useParams();
+	const localeAsString = Array.isArray(locale) ? locale[0] : locale;
 
-	const isHome = slug.pathname === "/";
+	const currentPathname = usePathname();
 
-	const url = isHome ? `/${location}` : `/${location}${slug.pathname}`;
+	const isHome = currentPathname === `/${localeAsString}`;
 
-	const isActive = url === pathname;
+	const currentPathnameWithoutLocale = isHome
+		? currentPathname.replace(`/${localeAsString}`, "/")
+		: currentPathname.replace(`/${localeAsString}`, "");
+
+	const isActive = exact
+		? currentPathnameWithoutLocale.startsWith(matchedPathName)
+		: currentPathnameWithoutLocale === matchedPathName;
 
 	return (
-		<Link className={clsx("", isActive && "text-blue-900 underline")} href={slug}>
+		<Link className={clsx(className, { [activeClassName]: isActive })} href={matchedPathName}>
 			{children}
 		</Link>
 	);
-};
+}

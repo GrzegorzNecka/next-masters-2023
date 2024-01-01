@@ -1,10 +1,11 @@
 import "../globals.css";
-import type { Metadata } from "next";
+
+import type { Metadata, Route } from "next";
 import { Inter } from "next/font/google";
+
 import { i18n } from "../../i18n-config";
 import { getScopedI18n } from "@/dictionaries/serwer";
 import { ActiveLink } from "@/ui/atoms/ActiveLink";
-
 const inter = Inter({ subsets: ["latin"] });
 
 export async function generateStaticParams() {
@@ -31,10 +32,10 @@ export default async function RootLayout({
 				<nav>
 					<ul className="flex justify-center gap-4 p-4">
 						<li>
-							<ActiveLink slug={{ pathname: `/` }}>Home</ActiveLink>
+							<ActiveLink href={`/` as Route<"/">}>Home</ActiveLink>
 						</li>
 						<li>
-							<ActiveLink slug={{ pathname: `/products` }}>Products</ActiveLink>
+							<ActiveLink href={`/products`}>All</ActiveLink>
 						</li>
 					</ul>
 				</nav>
