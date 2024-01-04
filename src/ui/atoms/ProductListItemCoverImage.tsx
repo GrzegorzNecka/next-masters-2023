@@ -8,8 +8,8 @@ export const ProductListItemCoverImage = ({ coverImage }: ProductListItemCoverIm
 	return (
 		<div className="aspect-square overflow-hidden rounded-md border border-stone-200 bg-stone-300">
 			<Image
-				width={420}
-				height={420}
+				width={300}
+				height={300}
 				className="h-full w-full  object-cover object-center p-3 transition-transform hover:scale-105"
 				alt={coverImage.alt}
 				src={coverImage.src}

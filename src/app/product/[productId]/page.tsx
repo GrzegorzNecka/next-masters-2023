@@ -1,9 +1,11 @@
 import { Suspense } from "react";
 import { type Metadata } from "next";
 import { getProductById, getProductList } from "@/api/products";
-import { ProductListItemCoverImage } from "@/ui/atoms/ProductListItemCoverImage";
-import { ProductListItemDescription } from "@/ui/atoms/ProductListItemDescription";
 import { SugestedProductsList } from "@/ui/organisms/SugestedProductsList";
+import { Typography } from "@/ui/atoms/Typography";
+
+import { ProductSingleDescription } from "@/ui/atoms/ProductSingleDescription";
+import { ProductSingleImage } from "@/ui/atoms/ProductSingleImage";
 
 export async function generateStaticParams() {
 	const products = await getProductList();
@@ -35,30 +37,28 @@ export const generateMetadata = async ({
 
 export default async function SingleProductPage({
 	params,
-	searchParams,
+	// searchParams,
 }: {
 	params: { productId: string };
 	searchParams: { [key: string]: string | string[] | undefined };
 }) {
 	// const product = await getProductById(params.productId);
-	const referral = searchParams?.referral?.toString();
+	// const referral = searchParams?.referral?.toString();
 	const product = await getProductById(params.productId);
 
 	return (
 		<>
-			<div>
-				<h1>Single product page</h1>
-				<article className="w-1/3 ">
-					<ProductListItemCoverImage coverImage={product.coverImage} />
-					<ProductListItemDescription product={product} />
-				</article>
-
-				{params.productId}
-				<p>Referral: {referral}</p>
-			</div>
+			<section className="flex gap-10">
+				<ProductSingleImage coverImage={product.coverImage} />
+				<ProductSingleDescription product={product} />
+			</section>
 
 			<aside>
-				sugerowane
+				<hr className="my-10" />
+				<Typography className="mb-10 text-xl font-semibold" isUppercase={true} as="h2">
+					sugerowane
+				</Typography>
+
 				<Suspense fallback={"ładownienie"}>
 					<SugestedProductsList />
 				</Suspense>
