@@ -1,4 +1,3 @@
-import { type UrlObject } from "url";
 import Link from "next/link";
 
 import { ProductListItemCoverImage } from "../atoms/ProductListItemCoverImage";
@@ -8,13 +7,11 @@ import { type ProductItemType } from "../types";
 type ProductListItemProps = {
 	product: ProductItemType;
 };
-//https://nextjs.org/docs/app/building-your-application/configuring/typescript#statically-typed-links
-export const ProductListItem = ({ product }: ProductListItemProps) => {
-	const href: UrlObject = { pathname: `/product/${product.id}` };
 
+export const ProductListItem = ({ product }: ProductListItemProps) => {
 	return (
 		<li>
-			<Link href={href}>
+			<Link href={{ pathname: `/product/${product.id}` }}>
 				<article className="cursor-pointer">
 					<ProductListItemCoverImage coverImage={product.coverImage} />
 					<ProductListItemDescription product={product} />

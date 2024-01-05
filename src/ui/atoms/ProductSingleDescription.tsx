@@ -1,6 +1,6 @@
 import { type ProductItemType } from "../types";
-import { Article } from "./Article";
-import { Typography } from "./Typography";
+import { Article } from "../neutrons/Article";
+import { Typography } from "../neutrons/Typography";
 import { formatMoney } from "@/utils/product";
 
 type ProductListItemDescriptionProps = {

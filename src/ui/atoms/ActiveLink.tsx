@@ -44,7 +44,11 @@ export function ActiveLink<T extends string>({
 		: currentPathnameWithoutLocale === matchedPathName;
 
 	return (
-		<Link className={clsx(className, { [activeClassName]: isActive })} href={matchedPathName}>
+		<Link
+			aria-current={isActive ? "page" : false}
+			className={clsx(className, { [activeClassName]: isActive })}
+			href={matchedPathName}
+		>
 			{children}
 		</Link>
 	);

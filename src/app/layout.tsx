@@ -1,9 +1,9 @@
 import "./globals.css";
 
-import type { Metadata, Route } from "next";
+import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
-import { ActiveLink } from "@/ui/atoms/ActiveLink";
+import { NavigationTop } from "@/ui/molecules/NavigationTop";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -21,17 +21,7 @@ export default async function RootLayout({
 	return (
 		<html lang={params.lang}>
 			<body className={inter.className}>
-				<nav>
-					<ul className="flex justify-center gap-4 p-4">
-						<li>
-							<ActiveLink href={`/` as Route<"/">}>home</ActiveLink>
-						</li>
-						<li>
-							<ActiveLink href={`/products`}>all</ActiveLink>
-						</li>
-					</ul>
-				</nav>
-
+				<NavigationTop />
 				<section className="sm :max-w-6xl mx-auto max-w-md p-12 sm:max-w-7xl ">{children}</section>
 
 				<footer>

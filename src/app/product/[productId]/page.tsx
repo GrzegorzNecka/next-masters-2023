@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import { type Metadata } from "next";
 import { getProductById, getProductList } from "@/api/products";
 import { SugestedProductsList } from "@/ui/organisms/SugestedProductsList";
-import { Typography } from "@/ui/atoms/Typography";
+import { Typography } from "@/ui/neutrons/Typography";
 
 import { ProductSingleDescription } from "@/ui/atoms/ProductSingleDescription";
 import { ProductSingleImage } from "@/ui/atoms/ProductSingleImage";
