@@ -1,6 +1,13 @@
+import { type Metadata } from "next/types";
 import { ProductList } from "@/ui/organisms/ProductList";
 
 import { getProductList } from "@/api/products";
+import { Pagination } from "@/ui/atoms/Pagination";
+
+export const metadata: Metadata = {
+	title: "produkty",
+	description: "produkty opis",
+};
 
 // export default async function Home({ params: { lang } }: { params: { lang: Locale } }) {
 export default async function ProductsPage() {
@@ -14,6 +21,8 @@ export default async function ProductsPage() {
 				</h1>
 			</header>
 			<ProductList products={products} />
+
+			<Pagination />
 		</>
 	);
 }
