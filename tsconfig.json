@@ -36,7 +36,7 @@
 		"**/*.tsx",
 		".next/types/**/*.ts",
 		"tailwind.config.ts",
-		"www.js"
+		".graphqlrc.ts"
 	],
 	"exclude": ["node_modules"]
 }
