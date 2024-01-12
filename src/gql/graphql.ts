@@ -1,4 +1,5 @@
 /* eslint-disable */
+import type { DocumentTypeDecoration } from '@graphql-typed-document-node/core';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -10795,6 +10796,11 @@ export enum _SystemDateTimeFieldVariation {
   Localization = 'localization'
 }
 
+export type ProductGetListQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ProductGetListQuery = { products: Array<{ id: string, name: string, description: string, price: number, categories: Array<{ name: string }>, images: Array<{ url: string }> }> };
+
 export class TypedDocumentString<TResult, TVariables>
   extends String
   implements DocumentTypeDecoration<TResult, TVariables>
@@ -10809,3 +10815,20 @@ export class TypedDocumentString<TResult, TVariables>
     return this.value;
   }
 }
+
+export const ProductGetListDocument = new TypedDocumentString(`
+    query ProductGetList {
+  products(first: 10) {
+    id
+    name
+    description
+    categories {
+      name
+    }
+    images {
+      url
+    }
+    price
+  }
+}
+    `) as unknown as TypedDocumentString<ProductGetListQuery, ProductGetListQueryVariables>;

@@ -9,7 +9,8 @@
 		"start": "next start",
 		"lint": "next lint --fix --dir src",
 		"beauty": "prettier --write .",
-		"codegen": "graphql-codegen --config .graphqlrc.ts"
+		"codegen": "graphql-codegen --config .graphqlrc.ts",
+		"cwatch": "graphql-codegen --config .graphqlrc.ts --watch"
 	},
 	"dependencies": {
 		"@formatjs/intl-localematcher": "^0.4.2",
@@ -18,6 +19,7 @@
 		"@mdx-js/react": "^3.0.0",
 		"@next/env": "^14.0.4",
 		"@next/mdx": "^14.0.4",
+		"@parcel/watcher": "^2.3.0",
 		"@tailwindcss/typography": "^0.5.10",
 		"@types/mdx": "^2.0.10",
 		"@types/node": "20.5.9",
