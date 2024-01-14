@@ -1,3 +1,8 @@
+import { notFound } from "next/navigation";
+
+import { ProductList } from "@/ui/organisms/ProductList";
+import { getProductsByCategorySlug } from "@/api/products";
+
 export const generateStaticParams = async ({ params }: { params: { category: string } }) => {
 	//tu powinienem zapytać api o page number categorie
 	if (params.category === "shirts") {
@@ -7,19 +12,24 @@ export const generateStaticParams = async ({ params }: { params: { category: str
 	} else {
 		return [{ pageNumber: "1" }];
 	}
-
-	return [];
 };
 
-export default function CategoryProductPage({
+export default async function CategoryProductPage({
 	params,
 }: {
 	params: { category: string; pageNumber: string };
 }) {
+	const products = await getProductsByCategorySlug(params.pageNumber);
+
+	if (!products) {
+		notFound();
+	}
+
 	return (
 		<>
 			<h1>Category: {params.category}</h1>
 			<p>page: {params.pageNumber}</p>
+			<ProductList products={products} />
 		</>
 	);
 }

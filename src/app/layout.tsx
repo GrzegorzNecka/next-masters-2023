@@ -3,7 +3,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
-import { NavigationTop } from "@/ui/molecules/NavigationTop";
+import { NavBar } from "@/ui/molecules/NavBar";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -21,7 +21,7 @@ export default async function RootLayout({
 	return (
 		<html lang={params.lang}>
 			<body className={inter.className}>
-				<NavigationTop />
+				<NavBar />
 				<section className="sm :max-w-6xl mx-auto max-w-md p-12 sm:max-w-7xl ">{children}</section>
 
 				<footer>

@@ -15,6 +15,7 @@
 	"dependencies": {
 		"@formatjs/intl-localematcher": "^0.4.2",
 		"@graphql-codegen/client-preset": "^4.1.0",
+		"@graphql-typed-document-node/core": "^3.2.0",
 		"@mdx-js/loader": "^3.0.0",
 		"@mdx-js/react": "^3.0.0",
 		"@next/env": "^14.0.4",
@@ -30,6 +31,7 @@
 		"eslint": "8.48.0",
 		"eslint-config-next": "14.0.4",
 		"graphql": "^16.8.1",
+		"lucide-react": "^0.309.0",
 		"negotiator": "^0.6.3",
 		"next": "14.0.4",
 		"next-intl": "^3.4.0",

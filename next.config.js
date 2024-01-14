@@ -24,6 +24,15 @@ const nextConfig = {
 			},
 		],
 	},
+	// async redirects() {
+	// 	return [
+	// 		{
+	// 			source: "/products/category/:pageNumber",
+	// 			destination: "/products/:pageNumber",
+	// 			permanent: true,
+	// 		},
+	// 	];
+	// },
 };
 
 module.exports = withMDX(nextConfig);
