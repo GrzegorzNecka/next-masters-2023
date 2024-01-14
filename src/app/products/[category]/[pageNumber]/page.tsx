@@ -21,6 +21,8 @@ export default async function CategoryProductPage({
 }) {
 	const products = await getProductsByCategorySlug(params.pageNumber);
 
+	console.log(products);
+
 	if (!products) {
 		notFound();
 	}

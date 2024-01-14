@@ -1,14 +1,14 @@
-import { type ProductItemType } from "../types";
 import { Article } from "../neutrons/Article";
 import { Typography } from "../neutrons/Typography";
+import { type ProductListItemFragment } from "@/gql/graphql";
 import { formatMoney } from "@/utils/product";
 
 type ProductListItemDescriptionProps = {
-	product: ProductItemType;
+	product: ProductListItemFragment;
 };
 
 export const ProductSingleDescription = ({
-	product: { name, category, price },
+	product: { name, categories, price },
 }: ProductListItemDescriptionProps) => {
 	return (
 		<Article className="mt-2 flex flex-col">
@@ -17,7 +17,7 @@ export const ProductSingleDescription = ({
 			</Typography>
 			<Typography as="p">
 				<Typography as="span">Kategoria: </Typography>
-				<Typography as="span">{category}</Typography>
+				<Typography as="span">{categories.at(0)?.name}</Typography>
 			</Typography>
 			<Typography as="p">
 				<Typography as="span">Cena: </Typography>

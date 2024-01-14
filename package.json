@@ -10,7 +10,8 @@
 		"lint": "next lint --fix --dir src",
 		"beauty": "prettier --write .",
 		"codegen": "graphql-codegen --config .graphqlrc.ts",
-		"cwatch": "graphql-codegen --config .graphqlrc.ts --watch"
+		"cwatch": "graphql-codegen --config .graphqlrc.ts --watch",
+		"tstest": "tsc --noEmit"
 	},
 	"dependencies": {
 		"@formatjs/intl-localematcher": "^0.4.2",

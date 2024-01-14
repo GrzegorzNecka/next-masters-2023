@@ -2,18 +2,25 @@ import Link from "next/link";
 
 import { ProductListItemCoverImage } from "../atoms/ProductListItemCoverImage";
 import { ProductListItemDescription } from "../atoms/ProductListItemDescription";
-import { type ProductItemType } from "../types";
+
+import { type ProductListItemFragment } from "@/gql/graphql";
 
 type ProductListItemProps = {
-	product: ProductItemType;
+	product: ProductListItemFragment;
 };
 
 export const ProductListItem = ({ product }: ProductListItemProps) => {
+	const image = product.images?.at(0);
+
+	if (!image) {
+		return null;
+	}
+
 	return (
 		<li>
 			<Link href={{ pathname: `/product/${product.id}` }}>
 				<article className="cursor-pointer">
-					{product.coverImage && <ProductListItemCoverImage coverImage={product.coverImage} />}
+					<ProductListItemCoverImage image={image} alt="" />
 					<ProductListItemDescription product={product} />
 				</article>
 			</Link>
