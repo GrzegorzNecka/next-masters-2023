@@ -18,7 +18,7 @@ export const ProductListItem = ({ product }: ProductListItemProps) => {
 
 	return (
 		<li>
-			<Link href={{ pathname: `/product/${product.id}` }}>
+			<Link href={{ pathname: `/product/${product.slug}` }}>
 				<article className="cursor-pointer">
 					<ProductListItemCoverImage image={image} alt="" />
 					<ProductListItemDescription product={product} />

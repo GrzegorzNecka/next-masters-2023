@@ -1,0 +1,6 @@
+query ProductsGetSlugs {
+	products(first: 10) {
+		id
+		slug
+	}
+}

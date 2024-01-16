@@ -8,6 +8,10 @@ type ProductListItemDescriptionProps = {
 export const ProductListItemDescription = ({
 	product: { name, categories, price },
 }: ProductListItemDescriptionProps) => {
+	// if (!categories.at(0)) {
+	// 	return;
+	// }
+
 	return (
 		<div className="mt-2 flex justify-between">
 			<h3 className="text-sm font-semibold text-gray-700">{name}</h3>

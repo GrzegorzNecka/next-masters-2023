@@ -1,0 +1,6 @@
+query ProductSingleGetBySlug($slug: String!) {
+	products(where: { slug: $slug }, first: 1) {
+		...ProductListItem
+		description
+	}
+}
