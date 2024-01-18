@@ -29,7 +29,7 @@ export const getProductsConnectionByCategorySlug = async ({
 	currentPage: string;
 }) => {
 	if (isNaN(Number(currentPage))) {
-		throw TypeError("currentPage should be convert to a number type");
+		throw TypeError("currentPage should be able to convert to a number type");
 	}
 
 	const graphQlResponse = await executeGraphql(ProductsConnectionGetByCategorySlugDocument, {

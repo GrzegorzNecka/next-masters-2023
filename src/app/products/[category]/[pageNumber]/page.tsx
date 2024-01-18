@@ -1,12 +1,15 @@
 // import { notFound } from "next/navigation";
 
 import { ProductList } from "@/ui/organisms/ProductList";
-import { getProductsByCategorySlug, getProductsConnectionByCategorySlug } from "@/api/products";
+import { getProductsConnectionByCategorySlug } from "@/api/products";
 import { getCategoriesAggregate } from "@/api/categories";
 import { countPages } from "@/utils/product";
+import { Pagination } from "@/ui/atoms/Pagination";
 
 export const generateStaticParams = async ({ params }: { params: { category: string } }) => {
 	const totalProducts = await getCategoriesAggregate(params.category);
+
+	console.log(countPages(totalProducts));
 	return countPages(totalProducts);
 };
 
@@ -15,12 +18,18 @@ export default async function CategoryProductPage({
 }: {
 	params: { category: string; pageNumber: string };
 }) {
-	const products = await getProductsByCategorySlug(params.category);
+	// const products = await getProductsByCategorySlug(params.category);
 
-	const connections = await getProductsConnectionByCategorySlug({
+	const { edges, aggregate, pageInfo } = await getProductsConnectionByCategorySlug({
 		currentPage: params.pageNumber,
 		slug: params.category,
 	});
+
+	const products = edges.map(({ node }) => node);
+
+	//---------------------
+
+	//---------------------
 
 	// console.log(products);
 
@@ -32,7 +41,10 @@ export default async function CategoryProductPage({
 		<>
 			<h1>Category: {params.category}</h1>
 			<p>page: {params.pageNumber}</p>
-			<pre>{JSON.stringify(connections, null, 2)}</pre>
+			{/* <pre>{JSON.stringify(edges, null, 2)}</pre> */}
+
+			<Pagination pageInfo={pageInfo} aggregate={aggregate} />
+
 			{products && <ProductList products={products} />}
 		</>
 	);
