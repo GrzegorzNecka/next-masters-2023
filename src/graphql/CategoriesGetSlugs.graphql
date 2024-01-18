@@ -1,0 +1,6 @@
+query CategoriesGetSlugs {
+	categories(first: 10) {
+		id
+		slug
+	}
+}

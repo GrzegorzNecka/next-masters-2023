@@ -1,6 +1,8 @@
 import { executeGraphql } from "./graphql";
+import { PRODUCTS_PER_PAGE } from "@/globalConsts";
 import {
 	ProductGetListDocument,
+	ProductsConnectionGetByCategorySlugDocument,
 	ProductsGetByCategorySlugDocument,
 	ProductsGetSlugsDocument,
 	ProductSingleGetBySlugDocument,
@@ -17,6 +19,26 @@ export const getProductsByCategorySlug = async (slug: string) => {
 		slug: slug,
 	});
 	return graphQlResponse.categories.at(0)?.products;
+};
+
+export const getProductsConnectionByCategorySlug = async ({
+	slug,
+	currentPage,
+}: {
+	slug: string;
+	currentPage: string;
+}) => {
+	if (isNaN(Number(currentPage))) {
+		throw TypeError("currentPage should be convert to a number type");
+	}
+
+	const graphQlResponse = await executeGraphql(ProductsConnectionGetByCategorySlugDocument, {
+		slug: slug,
+		perPage: PRODUCTS_PER_PAGE,
+		skipPages: (Number(currentPage) - 1) * PRODUCTS_PER_PAGE,
+	});
+
+	return graphQlResponse.productsConnection;
 };
 
 export const getProductsSlugList = async () => {

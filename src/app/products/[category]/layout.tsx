@@ -1,11 +1,11 @@
+import { getCategoriesSlugList } from "@/api/categories";
+
 export async function generateStaticParams() {
-	return [
-		{ category: "shirts" },
-		{ category: "boots" },
-		{ category: "pants" },
-		{ category: "shoes" },
-		{ category: "jackets" },
-	];
+	const categories = await getCategoriesSlugList();
+
+	return categories.map((category) => {
+		return { category: category.slug };
+	});
 }
 
 export default function CategoryProductLAyout({ children }: { children: React.ReactNode }) {

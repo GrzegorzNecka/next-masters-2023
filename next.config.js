@@ -24,15 +24,21 @@ const nextConfig = {
 			},
 		],
 	},
-	// async redirects() {
-	// 	return [
-	// 		{
-	// 			source: "/products/category/:pageNumber",
-	// 			destination: "/products/:pageNumber",
-	// 			permanent: true,
-	// 		},
-	// 	];
-	// },
+
+	logging: {
+		fetches: {
+			fullUrl: true,
+		},
+	},
+	async redirects() {
+		return [
+			{
+				source: "/products/category/t-shirts",
+				destination: "/products/t-shirts/1",
+				permanent: true,
+			},
+		];
+	},
 };
 
 module.exports = withMDX(nextConfig);

@@ -1,0 +1,25 @@
+query ProductsConnectionGetByCategorySlug($perPage: Int!, $skipPages: Int!, $slug: String!) {
+	productsConnection(
+		where: { categories_some: { slug: $slug } }
+		first: $perPage
+		skip: $skipPages
+		orderBy: publishedAt_ASC
+	) {
+		edges {
+			cursor
+			node {
+				...ProductListItem
+			}
+		}
+		pageInfo {
+			hasNextPage
+			hasPreviousPage
+			startCursor
+			endCursor
+			pageSize
+		}
+		aggregate {
+			count
+		}
+	}
+}
