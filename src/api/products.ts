@@ -32,10 +32,12 @@ export const getProductsConnectionByCategorySlug = async ({
 		throw TypeError("currentPage should be able to convert to a number type");
 	}
 
+	const pageNumber = Number(currentPage) - 1;
+
 	const graphQlResponse = await executeGraphql(ProductsConnectionGetByCategorySlugDocument, {
 		slug: slug,
 		perPage: PRODUCTS_PER_PAGE,
-		skipPages: (Number(currentPage) - 1) * PRODUCTS_PER_PAGE,
+		skipPages: pageNumber * PRODUCTS_PER_PAGE,
 	});
 
 	return graphQlResponse.productsConnection;

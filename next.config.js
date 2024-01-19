@@ -33,10 +33,21 @@ const nextConfig = {
 	async redirects() {
 		return [
 			{
-				source: "/products/category/t-shirts",
-				destination: "/products/t-shirts/1",
+				source: "/products/category/:category",
+				destination: "/products/:category/1",
 				permanent: true,
 			},
+			{
+				source: "/products/:category",
+				destination: "/products/:category/1",
+				permanent: true,
+			},
+
+			// {
+			// 	source: "/products/category/t-shirts",
+			// 	destination: "/products/t-shirts/1",
+			// 	permanent: true,
+			// },
 		];
 	},
 };
