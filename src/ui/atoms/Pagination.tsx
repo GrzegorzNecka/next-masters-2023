@@ -6,19 +6,13 @@ import { countPages } from "@/utils/product";
 import { convertCountIntoArray } from "@/utils/common";
 
 type PaginationProps = Omit<AssetConnection, "edges"> & {
-	params: { category: string; pageNumber: string };
+	params: { category: string; pageNumber: number };
 };
 
 export function Pagination({ pageInfo, aggregate, params }: PaginationProps) {
 	const { hasNextPage, hasPreviousPage } = pageInfo;
 	const pages = countPages(aggregate.count);
 	const pageArray = convertCountIntoArray(pages.length);
-
-	if (isNaN(Number(params.pageNumber))) {
-		throw TypeError("params.pageNumber should be able to convert to a number type");
-	}
-
-	const pageNumber = Number(params.pageNumber);
 
 	if (pages.length === 1) {
 		return null;
@@ -32,7 +26,7 @@ export function Pagination({ pageInfo, aggregate, params }: PaginationProps) {
 						className={clsx("pr-3", {
 							"cursor-default text-slate-300 ": !hasPreviousPage,
 						})}
-						href={hasPreviousPage ? `/products/${params.category}/${pageNumber - 1}` : "#"}
+						href={hasPreviousPage ? `/products/${params.category}/${params.pageNumber - 1}` : "#"}
 					>
 						prev
 					</Link>
@@ -44,7 +38,7 @@ export function Pagination({ pageInfo, aggregate, params }: PaginationProps) {
 							className={clsx(
 								"flex cursor-pointer items-center justify-center border-b-2 px-3 hover:border-black",
 								{
-									"border-black": Number(params.pageNumber) === pageNumber,
+									"border-black": params.pageNumber === pageNumber,
 								},
 							)}
 							href={`/products/${params.category}/${pageNumber}`}
@@ -59,7 +53,7 @@ export function Pagination({ pageInfo, aggregate, params }: PaginationProps) {
 						className={clsx("pl-3", {
 							"cursor-default text-slate-300 ": !hasNextPage,
 						})}
-						href={hasNextPage ? `/products/${params.category}/${pageNumber + 1}` : "#"}
+						href={hasNextPage ? `/products/${params.category}/${params.pageNumber + 1}` : "#"}
 					>
 						next
 					</Link>

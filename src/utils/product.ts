@@ -6,8 +6,8 @@ const formatMoney = (amount: number) => {
 
 type PageNumbers = { pageNumber: string }[];
 
-const countPages = (totalProducts: number): PageNumbers => {
-	const totalPages = Math.ceil(totalProducts / PRODUCTS_PER_PAGE);
+const countPages = (aggregateCount: number): PageNumbers => {
+	const totalPages = Math.ceil(aggregateCount / PRODUCTS_PER_PAGE);
 	const pageNumbers: PageNumbers = [];
 
 	for (let number = 1; number <= totalPages; number++) {

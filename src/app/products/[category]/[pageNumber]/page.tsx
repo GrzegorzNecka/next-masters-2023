@@ -7,8 +7,8 @@ import { Pagination } from "@/ui/atoms/Pagination";
 import { Typography } from "@/ui/neutrons/Typography";
 
 export const generateStaticParams = async ({ params }: { params: { category: string } }) => {
-	const totalProducts = await getCategoriesAggregate(params.category);
-	return countPages(totalProducts);
+	const aggregateCount = await getCategoriesAggregate(params.category);
+	return countPages(aggregateCount);
 };
 
 export default async function CategoryProductPage({
@@ -16,12 +16,14 @@ export default async function CategoryProductPage({
 }: {
 	params: { category: string; pageNumber: string };
 }) {
-	if (isNaN(Number(params.pageNumber))) {
+	if (isNaN(Number(params.pageNumber)) || Number(params.pageNumber) <= 0) {
 		notFound();
 	}
 
+	const currentPage = Number(params.pageNumber);
+
 	const { edges, aggregate, pageInfo } = await getProductsConnectionByCategorySlug({
-		currentPage: params.pageNumber,
+		currentPage: currentPage,
 		slug: params.category,
 	});
 
@@ -41,7 +43,11 @@ export default async function CategoryProductPage({
 				<ProductList products={products} />
 			</div>
 
-			<Pagination pageInfo={pageInfo} aggregate={aggregate} params={params} />
+			<Pagination
+				pageInfo={pageInfo}
+				aggregate={aggregate}
+				params={{ ...params, pageNumber: currentPage }}
+			/>
 		</>
 	);
 }
