@@ -4,7 +4,7 @@ import { getProductsConnectionByCategorySlug } from "@/api/products";
 import { getCategoriesAggregate } from "@/api/categories";
 import { countPages } from "@/utils/product";
 import { Pagination } from "@/ui/atoms/Pagination";
-import { Typography } from "@/ui/neutrons/Typography";
+import { Typography } from "@/ui/atoms/Typography";
 
 export const generateStaticParams = async ({ params }: { params: { category: string } }) => {
 	const aggregateCount = await getCategoriesAggregate(params.category);

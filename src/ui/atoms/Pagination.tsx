@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import clsx from "clsx";
+import { ActiveLink } from "./ActiveLink";
 import { type AssetConnection } from "@/gql/graphql";
 import { countPages } from "@/utils/product";
 import { convertCountIntoArray } from "@/utils/common";
@@ -24,7 +25,7 @@ export function Pagination({ pageInfo, aggregate, params }: PaginationProps) {
 				<li>
 					<Link
 						className={clsx("pr-3", {
-							"cursor-default text-slate-300 ": !hasPreviousPage,
+							"cursor-default text-slate-300": !hasPreviousPage,
 						})}
 						href={hasPreviousPage ? `/products/${params.category}/${params.pageNumber - 1}` : "#"}
 					>
@@ -34,17 +35,13 @@ export function Pagination({ pageInfo, aggregate, params }: PaginationProps) {
 
 				{pageArray.map((pageNumber) => (
 					<li key={pageNumber}>
-						<Link
-							className={clsx(
-								"flex cursor-pointer items-center justify-center border-b-2 px-3 hover:border-black",
-								{
-									"border-black": params.pageNumber === pageNumber,
-								},
-							)}
+						<ActiveLink
+							exact={true}
+							className="px-2"
 							href={`/products/${params.category}/${pageNumber}`}
 						>
 							{pageNumber}
-						</Link>
+						</ActiveLink>
 					</li>
 				))}
 

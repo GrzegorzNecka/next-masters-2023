@@ -1,27 +1,23 @@
-import { type Route } from "next";
 import { ActiveLink } from "../atoms/ActiveLink";
 
-// type NavLinks = {
-// 	 href: Route<string> | UrlObjectWithNextRoute<string>;
-// 	label: string;
-// };
-
 const navLinks = [
-	{ href: "/", label: "Home" },
-	{ href: "/products", label: "All" },
-	{ href: "/products/category/t-shirts", label: "T-shirts" },
-	{ href: "/products/category/hoodies", label: "Hoodies" },
-	{ href: "/products/category/accessories", label: "Accessories" },
+	{ href: "/" as const, label: "Home" },
+	{ href: "/products" as const, label: "All" },
+	{ href: "/products/t-shirts" as const, label: "T-shirts", exact: true },
+	{ href: "/products/hoodies" as const, label: "Hoodies", exact: true },
+	{ href: "/products/accessories" as const, label: "Accessories", exact: true },
+	{ href: "/collections" as const, label: "Collections", exact: true },
 ];
 
 export const NavBar = () => {
-	//TODO: do naprawy -> href={link.href}
 	return (
 		<nav>
 			<ul className="flex justify-center gap-4 p-4">
-				{navLinks.map(({ href, label }) => (
+				{navLinks.map(({ href, label, exact }) => (
 					<li key={href}>
-						<ActiveLink href={href as Route}>{label}</ActiveLink>
+						<ActiveLink exact={exact ? exact : false} href={href}>
+							{label}
+						</ActiveLink>
 					</li>
 				))}
 			</ul>

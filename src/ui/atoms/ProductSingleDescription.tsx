@@ -1,5 +1,5 @@
-import { Article } from "../neutrons/Article";
-import { Typography } from "../neutrons/Typography";
+import { Article } from "./Article";
+import { Typography } from "./Typography";
 import { type ProductListItemFragment } from "@/gql/graphql";
 import { formatMoney } from "@/utils/product";
 

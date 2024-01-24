@@ -4,6 +4,7 @@ import {
 	ProductGetListDocument,
 	ProductsConnectionGetByCategorySlugDocument,
 	ProductsGetByCategorySlugDocument,
+	ProductsGetByCollectionSlugDocument,
 	ProductsGetSlugsDocument,
 	ProductSingleGetBySlugDocument,
 } from "@/gql/graphql";
@@ -19,6 +20,16 @@ export const getProductsByCategorySlug = async (slug: string) => {
 		slug: slug,
 	});
 	return graphQlResponse.categories.at(0)?.products;
+};
+
+export const getProductsByCollectionSlug = async (slug: string) => {
+	const graphQlResponse = await executeGraphql(ProductsGetByCollectionSlugDocument, {
+		slug: slug,
+	});
+	return {
+		collectionName: graphQlResponse.collections.at(0)?.name,
+		products: graphQlResponse.collections.at(0)?.products,
+	};
 };
 
 export const getProductsConnectionByCategorySlug = async ({

@@ -1,0 +1,13 @@
+query CollectionsGetList {
+	collections {
+		id
+		name
+		slug
+		description
+		image {
+			url
+			height
+			width
+		}
+	}
+}

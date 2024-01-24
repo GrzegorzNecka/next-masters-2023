@@ -24,8 +24,9 @@ export function ActiveLink<T extends string>({
 	children,
 	exact = false,
 	className = "",
-	activeClassName = "text-blue-900 underline",
+	activeClassName = "border-black",
 }: ActiveLinkProps<T>) {
+	const defaultClassName = `${className} border-b-2 hover:border-black`;
 	const matchedPathName = (typeof href === "string" ? href : href.pathname) ?? null;
 
 	const currentPathname = usePathname();
@@ -37,7 +38,10 @@ export function ActiveLink<T extends string>({
 	return (
 		<Link
 			aria-current={isActive ? "page" : false}
-			className={clsx(className, { [activeClassName]: isActive })}
+			className={clsx(defaultClassName, {
+				[activeClassName]: isActive,
+				"border-transparent": !isActive,
+			})}
 			href={matchedPathName}
 			// href={'/blokg/'}
 		>
