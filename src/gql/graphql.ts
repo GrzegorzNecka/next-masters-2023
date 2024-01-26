@@ -10827,6 +10827,8 @@ export type ProductSingleGetBySlugQueryVariables = Exact<{
 
 export type ProductSingleGetBySlugQuery = { products: Array<{ description: string, id: string, slug: string, name: string, price: number, categories: Array<{ name: string }>, images: Array<{ url: string }> }> };
 
+export type ProductVariantListFragment = { id: string, variants: Array<{ id: string, name: string, color: ProductColor } | { id: string, name: string, color: ProductColor, size: ProductSize } | { id: string, name: string, size: ProductSize }> };
+
 export type ProductsConnectionGetByCategorySlugQueryVariables = Exact<{
   perPage: Scalars['Int']['input'];
   skipPages: Scalars['Int']['input'];
@@ -10888,6 +10890,29 @@ export const ProductListItemFragmentDoc = new TypedDocumentString(`
   price
 }
     `, {"fragmentName":"ProductListItem"}) as unknown as TypedDocumentString<ProductListItemFragment, unknown>;
+export const ProductVariantListFragmentDoc = new TypedDocumentString(`
+    fragment ProductVariantList on Product {
+  id
+  variants {
+    ... on ProductSizeColorVariant {
+      id
+      name
+      color
+      size
+    }
+    ... on ProductColorVariant {
+      id
+      name
+      color
+    }
+    ... on ProductSizeVariant {
+      id
+      name
+      size
+    }
+  }
+}
+    `, {"fragmentName":"ProductVariantList"}) as unknown as TypedDocumentString<ProductVariantListFragment, unknown>;
 export const CategoriesGetAggregateDocument = new TypedDocumentString(`
     query CategoriesGetAggregate($slug: String!) {
   productsConnection(where: {categories_some: {slug: $slug}}) {
