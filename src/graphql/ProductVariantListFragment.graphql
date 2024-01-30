@@ -1,4 +1,4 @@
-fragment ProductVariantList on Product {
+fragment ProductVariants on Product {
 	id
 	variants {
 		... on ProductSizeColorVariant {
@@ -6,16 +6,25 @@ fragment ProductVariantList on Product {
 			name
 			color
 			size
+			product {
+				...ProductListItem
+			}
 		}
 		... on ProductColorVariant {
 			id
 			name
 			color
+			product {
+				...ProductListItem
+			}
 		}
 		... on ProductSizeVariant {
 			id
 			name
 			size
+			product {
+				...ProductListItem
+			}
 		}
 	}
 }

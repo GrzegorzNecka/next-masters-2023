@@ -10827,7 +10827,14 @@ export type ProductSingleGetBySlugQueryVariables = Exact<{
 
 export type ProductSingleGetBySlugQuery = { products: Array<{ description: string, id: string, slug: string, name: string, price: number, categories: Array<{ name: string }>, images: Array<{ url: string }> }> };
 
-export type ProductVariantListFragment = { id: string, variants: Array<{ id: string, name: string, color: ProductColor } | { id: string, name: string, color: ProductColor, size: ProductSize } | { id: string, name: string, size: ProductSize }> };
+export type ProductVariantGetByIdQueryVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type ProductVariantGetByIdQuery = { product?: { variants: Array<{ id: string, name: string, color: ProductColor } | { id: string, name: string, color: ProductColor, size: ProductSize } | { id: string, name: string, size: ProductSize }> } | null };
+
+export type ProductVariantsFragment = { id: string, variants: Array<{ id: string, name: string, color: ProductColor, product?: { id: string, slug: string, name: string, price: number, categories: Array<{ name: string }>, images: Array<{ url: string }> } | null } | { id: string, name: string, color: ProductColor, size: ProductSize, product?: { id: string, slug: string, name: string, price: number, categories: Array<{ name: string }>, images: Array<{ url: string }> } | null } | { id: string, name: string, size: ProductSize, product?: { id: string, slug: string, name: string, price: number, categories: Array<{ name: string }>, images: Array<{ url: string }> } | null }> };
 
 export type ProductsConnectionGetByCategorySlugQueryVariables = Exact<{
   perPage: Scalars['Int']['input'];
@@ -10890,8 +10897,8 @@ export const ProductListItemFragmentDoc = new TypedDocumentString(`
   price
 }
     `, {"fragmentName":"ProductListItem"}) as unknown as TypedDocumentString<ProductListItemFragment, unknown>;
-export const ProductVariantListFragmentDoc = new TypedDocumentString(`
-    fragment ProductVariantList on Product {
+export const ProductVariantsFragmentDoc = new TypedDocumentString(`
+    fragment ProductVariants on Product {
   id
   variants {
     ... on ProductSizeColorVariant {
@@ -10899,20 +10906,40 @@ export const ProductVariantListFragmentDoc = new TypedDocumentString(`
       name
       color
       size
+      product {
+        ...ProductListItem
+      }
     }
     ... on ProductColorVariant {
       id
       name
       color
+      product {
+        ...ProductListItem
+      }
     }
     ... on ProductSizeVariant {
       id
       name
       size
+      product {
+        ...ProductListItem
+      }
     }
   }
 }
-    `, {"fragmentName":"ProductVariantList"}) as unknown as TypedDocumentString<ProductVariantListFragment, unknown>;
+    fragment ProductListItem on Product {
+  id
+  slug
+  name
+  categories(first: 1) {
+    name
+  }
+  images(first: 1) {
+    url
+  }
+  price
+}`, {"fragmentName":"ProductVariants"}) as unknown as TypedDocumentString<ProductVariantsFragment, unknown>;
 export const CategoriesGetAggregateDocument = new TypedDocumentString(`
     query CategoriesGetAggregate($slug: String!) {
   productsConnection(where: {categories_some: {slug: $slug}}) {
@@ -10972,6 +10999,30 @@ export const ProductSingleGetBySlugDocument = new TypedDocumentString(`
   }
   price
 }`) as unknown as TypedDocumentString<ProductSingleGetBySlugQuery, ProductSingleGetBySlugQueryVariables>;
+export const ProductVariantGetByIdDocument = new TypedDocumentString(`
+    query ProductVariantGetById($id: ID!) {
+  product(where: {id: $id}) {
+    variants {
+      ... on ProductSizeColorVariant {
+        id
+        name
+        color
+        size
+      }
+      ... on ProductColorVariant {
+        id
+        name
+        color
+      }
+      ... on ProductSizeVariant {
+        id
+        name
+        size
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<ProductVariantGetByIdQuery, ProductVariantGetByIdQueryVariables>;
 export const ProductsConnectionGetByCategorySlugDocument = new TypedDocumentString(`
     query ProductsConnectionGetByCategorySlug($perPage: Int!, $skipPages: Int!, $slug: String!) {
   productsConnection(
