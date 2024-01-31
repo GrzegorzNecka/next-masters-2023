@@ -1,9 +1,10 @@
 import { Suspense } from "react";
 // import { type Metadata } from "next";
-import Link from "next/link";
+// import Link from "next/link";
 import { redirect } from "next/navigation";
-import { revalidatePath } from "next/cache";
+// import { revalidatePath } from "next/cache";
 import { type Route } from "next";
+import clsx from "clsx";
 import {
 	getProductBySlug,
 	getProductsSlugList,
@@ -13,6 +14,7 @@ import { SugestedProductsList } from "@/ui/organisms/SugestedProductsList";
 import { Typography } from "@/ui/atoms/Typography";
 import { ProductSingleDescription } from "@/ui/atoms/ProductSingleDescription";
 import { ProductSingleCoverImage } from "@/ui/atoms/ProductSingleCoverImage";
+import { ActiveLink } from "@/ui/atoms/ActiveLink";
 // import {
 // 	type ProductColorVariant,
 // 	type ProductSizeColorVariant,
@@ -60,23 +62,22 @@ export default async function SingleProductPage({
 	}
 
 	const variantQueryParam = searchParams?.variant?.toString();
-	const variants = await getVariantProductByProductId(product.id);
+	const variantsFromDataBase = await getVariantProductByProductId(product.id);
 
-	if (variants?.length && !searchParams?.variant) {
-		console.log(variants);
-		console.log(variants?.length && !searchParams.variant);
-		revalidatePath(`/${product.slug}`); // Update cached posts
-		redirect(`${product.slug}?variant=${12}`); // Navigate to the new post page
+	const productURL = `${process.env.NEXT_PUBLIC_HOST}/product/${product.slug}` as const;
+
+	if (variantsFromDataBase?.length && !searchParams?.variant) {
+		// revalidatePath(`/${product.slug}`);
+		redirect(
+			`${product.slug}?variant=${encodeURIComponent(`${variantsFromDataBase.at(0)?.name}`)}`,
+		);
 	}
-	// variants.map((v) => v.name)
-	// const variant = product?.variants as VariantsType;
-	// const color = searchParams?.color?.toString();
 
 	return (
 		<>
 			<p>
-				<pre>{JSON.stringify(searchParams, null, 2)}</pre>
-				<pre>{JSON.stringify(typeof searchParams, null, 2)}</pre>
+				{/* <pre>{JSON.stringify(searchParams, null, 2)}</pre>
+				<pre>{JSON.stringify(typeof searchParams, null, 2)}</pre> */}
 				{variantQueryParam && variantQueryParam}
 			</p>
 			<section className="flex gap-10">
@@ -84,20 +85,19 @@ export default async function SingleProductPage({
 				<div>
 					<ProductSingleDescription product={product} />
 					<ul>
-						{Array.isArray(variants) &&
-							variants.map((variant) => {
+						{Array.isArray(variantsFromDataBase) &&
+							variantsFromDataBase.map((variant) => {
 								return (
 									<li key={variant.id}>
 										{process.env.NEXT_PUBLIC_HOST && (
-											<Link
-												href={
-													`${process.env.NEXT_PUBLIC_HOST}/product/${
-														product.slug
-													}?variant=${variant.name.toLowerCase()}` as Route
-												}
+											<ActiveLink
+												className={clsx("pr-3", {
+													"cursor-default text-red-700": variant.name === variantQueryParam,
+												})}
+												href={`${productURL}?variant=${encodeURIComponent(variant.name)}` as Route}
 											>
 												{variant.name}
-											</Link>
+											</ActiveLink>
 										)}
 
 										{/* {variant.name} */}

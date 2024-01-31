@@ -5774,6 +5774,7 @@ export type ProductColorVariant = Entity & Node & {
   /** User that last published this document */
   publishedBy?: Maybe<User>;
   scheduledIn: Array<ScheduledOperation>;
+  slug?: Maybe<Scalars['String']['output']>;
   /** System stage field */
   stage: Stage;
   /** The time the document was updated */
@@ -5877,12 +5878,15 @@ export type ProductColorVariantCreateInput = {
   /** name input for default locale (en) */
   name: Scalars['String']['input'];
   product?: InputMaybe<ProductCreateOneInlineInput>;
+  /** slug input for default locale (en) */
+  slug?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
 };
 
 export type ProductColorVariantCreateLocalizationDataInput = {
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   name: Scalars['String']['input'];
+  slug?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
 };
 
@@ -6023,6 +6027,8 @@ export enum ProductColorVariantOrderByInput {
   NameDesc = 'name_DESC',
   PublishedAtAsc = 'publishedAt_ASC',
   PublishedAtDesc = 'publishedAt_DESC',
+  SlugAsc = 'slug_ASC',
+  SlugDesc = 'slug_DESC',
   UpdatedAtAsc = 'updatedAt_ASC',
   UpdatedAtDesc = 'updatedAt_DESC'
 }
@@ -6034,10 +6040,13 @@ export type ProductColorVariantUpdateInput = {
   /** name input for default locale (en) */
   name?: InputMaybe<Scalars['String']['input']>;
   product?: InputMaybe<ProductUpdateOneInlineInput>;
+  /** slug input for default locale (en) */
+  slug?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type ProductColorVariantUpdateLocalizationDataInput = {
   name?: InputMaybe<Scalars['String']['input']>;
+  slug?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type ProductColorVariantUpdateLocalizationInput = {
@@ -6243,6 +6252,25 @@ export type ProductColorVariantWhereInput = {
   scheduledIn_every?: InputMaybe<ScheduledOperationWhereInput>;
   scheduledIn_none?: InputMaybe<ScheduledOperationWhereInput>;
   scheduledIn_some?: InputMaybe<ScheduledOperationWhereInput>;
+  slug?: InputMaybe<Scalars['String']['input']>;
+  /** All values containing the given string. */
+  slug_contains?: InputMaybe<Scalars['String']['input']>;
+  /** All values ending with the given string. */
+  slug_ends_with?: InputMaybe<Scalars['String']['input']>;
+  /** All values that are contained in given list. */
+  slug_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  /** Any other value that exists and is not equal to the given value. */
+  slug_not?: InputMaybe<Scalars['String']['input']>;
+  /** All values not containing the given string. */
+  slug_not_contains?: InputMaybe<Scalars['String']['input']>;
+  /** All values not ending with the given string */
+  slug_not_ends_with?: InputMaybe<Scalars['String']['input']>;
+  /** All values that are not contained in given list. */
+  slug_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  /** All values not starting with the given string. */
+  slug_not_starts_with?: InputMaybe<Scalars['String']['input']>;
+  /** All values starting with the given string. */
+  slug_starts_with?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values greater than the given value. */
   updatedAt_gt?: InputMaybe<Scalars['DateTime']['input']>;
@@ -6514,6 +6542,7 @@ export type ProductSizeColorVariant = Entity & Node & {
   publishedBy?: Maybe<User>;
   scheduledIn: Array<ScheduledOperation>;
   size: ProductSize;
+  slug?: Maybe<Scalars['String']['output']>;
   /** System stage field */
   stage: Stage;
   /** The time the document was updated */
@@ -6618,12 +6647,15 @@ export type ProductSizeColorVariantCreateInput = {
   name: Scalars['String']['input'];
   product?: InputMaybe<ProductCreateOneInlineInput>;
   size: ProductSize;
+  /** slug input for default locale (en) */
+  slug?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
 };
 
 export type ProductSizeColorVariantCreateLocalizationDataInput = {
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   name: Scalars['String']['input'];
+  slug?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
 };
 
@@ -6773,6 +6805,8 @@ export enum ProductSizeColorVariantOrderByInput {
   PublishedAtDesc = 'publishedAt_DESC',
   SizeAsc = 'size_ASC',
   SizeDesc = 'size_DESC',
+  SlugAsc = 'slug_ASC',
+  SlugDesc = 'slug_DESC',
   UpdatedAtAsc = 'updatedAt_ASC',
   UpdatedAtDesc = 'updatedAt_DESC'
 }
@@ -6785,10 +6819,13 @@ export type ProductSizeColorVariantUpdateInput = {
   name?: InputMaybe<Scalars['String']['input']>;
   product?: InputMaybe<ProductUpdateOneInlineInput>;
   size?: InputMaybe<ProductSize>;
+  /** slug input for default locale (en) */
+  slug?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type ProductSizeColorVariantUpdateLocalizationDataInput = {
   name?: InputMaybe<Scalars['String']['input']>;
+  slug?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type ProductSizeColorVariantUpdateLocalizationInput = {
@@ -7002,6 +7039,25 @@ export type ProductSizeColorVariantWhereInput = {
   size_not?: InputMaybe<ProductSize>;
   /** All values that are not contained in given list. */
   size_not_in?: InputMaybe<Array<InputMaybe<ProductSize>>>;
+  slug?: InputMaybe<Scalars['String']['input']>;
+  /** All values containing the given string. */
+  slug_contains?: InputMaybe<Scalars['String']['input']>;
+  /** All values ending with the given string. */
+  slug_ends_with?: InputMaybe<Scalars['String']['input']>;
+  /** All values that are contained in given list. */
+  slug_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  /** Any other value that exists and is not equal to the given value. */
+  slug_not?: InputMaybe<Scalars['String']['input']>;
+  /** All values not containing the given string. */
+  slug_not_contains?: InputMaybe<Scalars['String']['input']>;
+  /** All values not ending with the given string */
+  slug_not_ends_with?: InputMaybe<Scalars['String']['input']>;
+  /** All values that are not contained in given list. */
+  slug_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  /** All values not starting with the given string. */
+  slug_not_starts_with?: InputMaybe<Scalars['String']['input']>;
+  /** All values starting with the given string. */
+  slug_starts_with?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values greater than the given value. */
   updatedAt_gt?: InputMaybe<Scalars['DateTime']['input']>;
@@ -7062,6 +7118,7 @@ export type ProductSizeVariant = Entity & Node & {
   publishedBy?: Maybe<User>;
   scheduledIn: Array<ScheduledOperation>;
   size: ProductSize;
+  slug?: Maybe<Scalars['String']['output']>;
   /** System stage field */
   stage: Stage;
   /** The time the document was updated */
@@ -7165,12 +7222,15 @@ export type ProductSizeVariantCreateInput = {
   name: Scalars['String']['input'];
   product?: InputMaybe<ProductCreateOneInlineInput>;
   size: ProductSize;
+  /** slug input for default locale (en) */
+  slug?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
 };
 
 export type ProductSizeVariantCreateLocalizationDataInput = {
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   name: Scalars['String']['input'];
+  slug?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
 };
 
@@ -7311,6 +7371,8 @@ export enum ProductSizeVariantOrderByInput {
   PublishedAtDesc = 'publishedAt_DESC',
   SizeAsc = 'size_ASC',
   SizeDesc = 'size_DESC',
+  SlugAsc = 'slug_ASC',
+  SlugDesc = 'slug_DESC',
   UpdatedAtAsc = 'updatedAt_ASC',
   UpdatedAtDesc = 'updatedAt_DESC'
 }
@@ -7322,10 +7384,13 @@ export type ProductSizeVariantUpdateInput = {
   name?: InputMaybe<Scalars['String']['input']>;
   product?: InputMaybe<ProductUpdateOneInlineInput>;
   size?: InputMaybe<ProductSize>;
+  /** slug input for default locale (en) */
+  slug?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type ProductSizeVariantUpdateLocalizationDataInput = {
   name?: InputMaybe<Scalars['String']['input']>;
+  slug?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type ProductSizeVariantUpdateLocalizationInput = {
@@ -7531,6 +7596,25 @@ export type ProductSizeVariantWhereInput = {
   size_not?: InputMaybe<ProductSize>;
   /** All values that are not contained in given list. */
   size_not_in?: InputMaybe<Array<InputMaybe<ProductSize>>>;
+  slug?: InputMaybe<Scalars['String']['input']>;
+  /** All values containing the given string. */
+  slug_contains?: InputMaybe<Scalars['String']['input']>;
+  /** All values ending with the given string. */
+  slug_ends_with?: InputMaybe<Scalars['String']['input']>;
+  /** All values that are contained in given list. */
+  slug_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  /** Any other value that exists and is not equal to the given value. */
+  slug_not?: InputMaybe<Scalars['String']['input']>;
+  /** All values not containing the given string. */
+  slug_not_contains?: InputMaybe<Scalars['String']['input']>;
+  /** All values not ending with the given string */
+  slug_not_ends_with?: InputMaybe<Scalars['String']['input']>;
+  /** All values that are not contained in given list. */
+  slug_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  /** All values not starting with the given string. */
+  slug_not_starts_with?: InputMaybe<Scalars['String']['input']>;
+  /** All values starting with the given string. */
+  slug_starts_with?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values greater than the given value. */
   updatedAt_gt?: InputMaybe<Scalars['DateTime']['input']>;
