@@ -15,11 +15,6 @@ import { Typography } from "@/ui/atoms/Typography";
 import { ProductSingleDescription } from "@/ui/atoms/ProductSingleDescription";
 import { ProductSingleCoverImage } from "@/ui/atoms/ProductSingleCoverImage";
 import { ActiveLink } from "@/ui/atoms/ActiveLink";
-// import {
-// 	type ProductColorVariant,
-// 	type ProductSizeColorVariant,
-// 	type ProductSizeVariant,
-// } from "@/gql/graphql";
 
 export async function generateStaticParams() {
 	const products = await getProductsSlugList();
@@ -28,25 +23,6 @@ export async function generateStaticParams() {
 		return { productSlug: product.slug };
 	});
 }
-
-// export const generateMetadata = async ({
-// 	params,
-// }: {
-// 	params: { productSlug: string };
-// }): Promise<Metadata> => {
-// 	const product = await getProductBySlug(params.productSlug);
-// 	console.log("🚀 ~ product:", product);
-
-// 	return {
-// 		title: product?.name || "",
-// 		description: product?.description || "",
-// 		openGraph: {
-// 			title: `${product?.name}`,
-// 			description: product?.description || "",
-// 			images: product?.images || "",
-// 		},
-// 	};
-// };
 
 export default async function SingleProductPage({
 	params,
@@ -59,6 +35,11 @@ export default async function SingleProductPage({
 
 	if (!product) {
 		return <p>produkt chwilowo niedostępny</p>;
+	}
+
+	if (searchParams) {
+		// const params = new URLSearchParams(searchParams as string);
+		console.log("🚀 ~ params:", params);
 	}
 
 	const variantQueryParam = searchParams?.variant?.toString();

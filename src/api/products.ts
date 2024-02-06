@@ -7,6 +7,7 @@ import {
 	ProductsGetByCollectionSlugDocument,
 	ProductsGetSlugsDocument,
 	ProductSingleGetBySlugDocument,
+	ProductsSearchByNameDocument,
 	ProductVariantGetByIdDocument,
 } from "@/gql/graphql";
 
@@ -61,6 +62,14 @@ export const getProductBySlug = async (slug: string) => {
 	});
 
 	return graphQlResponse.products.at(0);
+};
+
+export const searchProductsBySlug = async (name: string) => {
+	const graphQlResponse = await executeGraphql(ProductsSearchByNameDocument, {
+		name: name,
+	});
+
+	return graphQlResponse.products;
 };
 
 export const getVariantProductByProductId = async (id: string) => {
