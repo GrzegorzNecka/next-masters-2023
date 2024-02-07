@@ -1,5 +1,6 @@
 "use client";
 
+import { useDebouncedCallback } from "use-debounce";
 import { type Route } from "next";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 
@@ -8,11 +9,7 @@ export const ProductSearchInput = ({ placeholder }: { placeholder: string }) => 
 	const pathname = usePathname();
 	const router = useRouter();
 
-	if (pathname !== "/products") {
-		return null;
-	}
-
-	function handleSearch(term: string) {
+	const handleSearch = useDebouncedCallback((term: string) => {
 		const params = new URLSearchParams(searchParams);
 
 		if (term) {
@@ -22,6 +19,10 @@ export const ProductSearchInput = ({ placeholder }: { placeholder: string }) => 
 		}
 
 		router.replace(`${pathname}?${params.toString()}` as Route);
+	}, 500);
+
+	if (pathname !== "/products") {
+		return null;
 	}
 
 	return (

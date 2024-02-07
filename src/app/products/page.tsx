@@ -1,5 +1,6 @@
 import { type Metadata } from "next/types";
 
+import { Suspense } from "react";
 import { ProductList } from "@/ui/organisms/ProductList";
 
 import { getProductList, searchProductsByName } from "@/api/products";
@@ -27,8 +28,9 @@ export default async function ProductsPage({
 					<p>sklep</p>
 				</h1>
 			</header>
-
-			<ProductList products={products} />
+			<Suspense fallback={"ładownienie"}>
+				<ProductList products={products} />
+			</Suspense>
 		</>
 	);
 }

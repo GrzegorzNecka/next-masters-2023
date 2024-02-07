@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import { type Route } from "next";
+// import { redirect } from "next/navigation";
 import { redirect } from "next/navigation";
 import { ActiveLink } from "./ActiveLink";
 import { getVariantProductByProductId } from "@/api/products";
