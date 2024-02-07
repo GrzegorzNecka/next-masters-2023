@@ -1,4 +1,5 @@
 import { ActiveLink } from "../atoms/ActiveLink";
+import { ProductSearchInput } from "../atoms/ProductSearchInput";
 
 const navLinks = [
 	{ href: "/" as const, label: "Home" },
@@ -12,7 +13,7 @@ const navLinks = [
 export const NavBar = () => {
 	return (
 		<nav>
-			<ul className="flex justify-center gap-4 p-4">
+			<ul className="flex items-center justify-center gap-4 p-4">
 				{navLinks.map(({ href, label, exact }) => (
 					<li key={href}>
 						<ActiveLink exact={exact ? exact : false} href={href}>
@@ -20,6 +21,9 @@ export const NavBar = () => {
 						</ActiveLink>
 					</li>
 				))}
+				<li>
+					<ProductSearchInput placeholder="wyszukaj produkt" />
+				</li>
 			</ul>
 		</nav>
 	);

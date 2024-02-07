@@ -8,6 +8,10 @@ export const ProductSearchInput = ({ placeholder }: { placeholder: string }) => 
 	const pathname = usePathname();
 	const router = useRouter();
 
+	if (pathname !== "/products") {
+		return null;
+	}
+
 	function handleSearch(term: string) {
 		const params = new URLSearchParams(searchParams);
 

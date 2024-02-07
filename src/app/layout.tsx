@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
 import { NavBar } from "@/ui/molecules/NavBar";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -22,8 +23,8 @@ export default async function RootLayout({
 		<html lang={params.lang}>
 			<body className={inter.className}>
 				<NavBar />
-				<section className="sm :max-w-6xl mx-auto max-w-md p-12 sm:max-w-7xl ">{children}</section>
 
+				<section className="sm :max-w-6xl mx-auto max-w-md p-12 sm:max-w-7xl ">{children}</section>
 				<footer>
 					<p className="text-center text-sm text-gray-500">© {new Date().getFullYear()} Sklep</p>
 				</footer>

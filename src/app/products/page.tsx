@@ -1,19 +1,24 @@
 import { type Metadata } from "next/types";
+
 import { ProductList } from "@/ui/organisms/ProductList";
 
-import { getProductList, searchProductsBySlug } from "@/api/products";
-import { ProductSearchInput } from "@/ui/atoms/ProductSearchInput";
+import { getProductList, searchProductsByName } from "@/api/products";
 
 export const metadata: Metadata = {
 	title: "produkty",
 	description: "produkty opis",
 };
 
-// export default async function Home({ params: { lang } }: { params: { lang: Locale } }) {
-export default async function ProductsPage() {
-	const products = await getProductList();
+export default async function ProductsPage({
+	searchParams,
+}: {
+	searchParams: { [key: string]: string | string[] | undefined };
+}) {
+	let products = await getProductList();
 
-	const searchProducts = await searchProductsBySlug("uni");
+	if (searchParams?.search) {
+		products = await searchProductsByName(`${searchParams.search.toString()}`);
+	}
 
 	return (
 		<>
@@ -23,11 +28,7 @@ export default async function ProductsPage() {
 				</h1>
 			</header>
 
-			<ProductSearchInput placeholder="ss" />
-			<pre>{JSON.stringify(searchProducts, null, 2)}</pre>
 			<ProductList products={products} />
 		</>
 	);
 }
-
-//https://nextjs.org/learn/dashboard-app/adding-search-and-pagination

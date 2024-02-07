@@ -64,7 +64,7 @@ export const getProductBySlug = async (slug: string) => {
 	return graphQlResponse.products.at(0);
 };
 
-export const searchProductsBySlug = async (name: string) => {
+export const searchProductsByName = async (name: string) => {
 	const graphQlResponse = await executeGraphql(ProductsSearchByNameDocument, {
 		name: name,
 	});
