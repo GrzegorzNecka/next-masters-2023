@@ -3,23 +3,15 @@ import { type Metadata } from "next/types";
 import { Suspense } from "react";
 import { ProductList } from "@/ui/organisms/ProductList";
 
-import { getProductList, searchProductsByName } from "@/api/products";
+import { getProductList } from "@/api/products";
 
 export const metadata: Metadata = {
 	title: "produkty",
 	description: "produkty opis",
 };
 
-export default async function ProductsPage({
-	searchParams,
-}: {
-	searchParams: { [key: string]: string | string[] | undefined };
-}) {
-	let products = await getProductList();
-
-	if (searchParams?.search) {
-		products = await searchProductsByName(`${searchParams.search.toString()}`);
-	}
+export default async function ProductsPage() {
+	const products = await getProductList();
 
 	return (
 		<>

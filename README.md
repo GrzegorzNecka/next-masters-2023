@@ -1,19 +1,9 @@
 ## vscode - extensions:
 
-- sequential number
-
-# taski
-
-- oglądnij spotkania
-
-# do nadrobienia:
-
-- [i18n](https://nextjs.org/docs/app/building-your-application/routing/internationalization)
-- [next-international](https://next-international.vercel.app/docs/testing)
-- (e02 17:25)[https://www.youtube.com/watch?v=18H-LuL0ZDg]
-- (checkly)[https://www.checklyhq.com/docs/browser-checks/playwright-test/]
-
-/\*\*
+- [wzór sklepu](https://storefront.saleor.io/default-channel/products/balance-trail-720?variant=UHJvZHVjdFZhcmlhbnQ6MzQw)
+- [cms](https://app-eu-central-1-shared-euc1-02.hygraph.com/8a9ae9ef-a24b-4387-a122-b0510696c0cb/master)
+- [platforma kursowa](https://lms.hyperfunctor.com/courses/nextjsmasters/next13-zadania-3)
+  /\*\*
 
 - To learn more about Playwright Test visit:
 - https://www.checklyhq.com/docs/browser-checks/playwright-test/

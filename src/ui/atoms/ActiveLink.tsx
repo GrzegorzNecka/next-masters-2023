@@ -17,6 +17,7 @@ interface ActiveLinkProps<T extends string> {
 	exact?: boolean;
 	className?: string;
 	activeClassName?: string;
+	isActiveRule?: boolean;
 }
 
 export function ActiveLink<T extends string>({
@@ -25,15 +26,18 @@ export function ActiveLink<T extends string>({
 	exact = false,
 	className = "",
 	activeClassName = "border-black",
+	isActiveRule = false,
 }: ActiveLinkProps<T>) {
 	const defaultClassName = `${className} border-b-2 hover:border-black`;
 	const matchedPathName = (typeof href === "string" ? href : href.pathname) ?? null;
 
 	const currentPathname = usePathname();
 
-	const isActive = exact
-		? currentPathname.startsWith(matchedPathName)
-		: currentPathname === matchedPathName;
+	const isActive = isActiveRule
+		? isActiveRule
+		: exact
+			? currentPathname.startsWith(matchedPathName)
+			: currentPathname === matchedPathName;
 
 	return (
 		<Link
@@ -43,7 +47,6 @@ export function ActiveLink<T extends string>({
 				"border-transparent": !isActive,
 			})}
 			href={matchedPathName}
-			// href={'/blokg/'}
 		>
 			{children}
 		</Link>

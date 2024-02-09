@@ -1,29 +1,31 @@
 "use client";
 
 import { useDebouncedCallback } from "use-debounce";
-import { type Route } from "next";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 
 export const ProductSearchInput = ({ placeholder }: { placeholder: string }) => {
 	const searchParams = useSearchParams();
 	const pathname = usePathname();
 	const router = useRouter();
+	const searchPagePathname = "/search";
 
-	const handleSearch = useDebouncedCallback((term: string) => {
+	const handleSearch = useDebouncedCallback((input: string) => {
 		const params = new URLSearchParams(searchParams);
 
-		if (term) {
-			params.set("search", term);
+		if (input) {
+			params.set("query", input);
 		} else {
-			params.delete("search");
+			params.delete("query");
 		}
 
-		router.replace(`${pathname}?${params.toString()}` as Route);
-	}, 500);
+		const query = `query=${params.get("query")}`;
 
-	if (pathname !== "/products") {
-		return null;
-	}
+		if (pathname === searchPagePathname) {
+			router.replace(`${pathname}?${query}`);
+		} else {
+			router.push(`${searchPagePathname}?${query}`);
+		}
+	}, 500);
 
 	return (
 		<div className="relative flex flex-1 flex-shrink-0">
