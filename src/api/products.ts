@@ -1,8 +1,10 @@
 import { executeGraphql } from "./graphql";
 import { PRODUCTS_PER_PAGE } from "@/globalConsts";
 import {
+	PorductListGetAggregateDocument,
 	ProductGetListDocument,
 	ProductsConnectionGetByCategorySlugDocument,
+	ProductsConnectionGetListDocument,
 	ProductsGetByCategorySlugDocument,
 	ProductsGetByCollectionSlugDocument,
 	ProductsGetSlugsDocument,
@@ -50,6 +52,15 @@ export const getProductsConnectionByCategorySlug = async ({
 	return graphQlResponse.productsConnection;
 };
 
+export const getProductsConnectionList = async ({ currentPage }: { currentPage: number }) => {
+	const graphQlResponse = await executeGraphql(ProductsConnectionGetListDocument, {
+		perPage: PRODUCTS_PER_PAGE,
+		skipPages: (currentPage - 1) * PRODUCTS_PER_PAGE,
+	});
+
+	return graphQlResponse.productsConnection;
+};
+
 export const getProductsSlugList = async () => {
 	const graphQlResponse = await executeGraphql(ProductsGetSlugsDocument, {});
 
@@ -78,4 +89,10 @@ export const getVariantProductByProductId = async (id: string) => {
 	});
 
 	return graphQlResponse.product?.variants;
+};
+
+export const getProductListAggregate = async () => {
+	const graphQlResponse = await executeGraphql(PorductListGetAggregateDocument, {});
+
+	return graphQlResponse.productsConnection.aggregate.count;
 };

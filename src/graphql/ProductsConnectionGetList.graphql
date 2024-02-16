@@ -1,0 +1,20 @@
+query ProductsConnectionGetList($perPage: Int!, $skipPages: Int!) {
+	productsConnection(first: $perPage, skip: $skipPages, orderBy: publishedAt_ASC) {
+		edges {
+			cursor
+			node {
+				...ProductListItem
+			}
+		}
+		pageInfo {
+			hasNextPage
+			hasPreviousPage
+			startCursor
+			endCursor
+			pageSize
+		}
+		aggregate {
+			count
+		}
+	}
+}

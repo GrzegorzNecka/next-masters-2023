@@ -10902,6 +10902,11 @@ export type CollectionsGetSlugsQueryVariables = Exact<{ [key: string]: never; }>
 
 export type CollectionsGetSlugsQuery = { collections: Array<{ id: string, slug: string }> };
 
+export type PorductListGetAggregateQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type PorductListGetAggregateQuery = { productsConnection: { aggregate: { count: number } } };
+
 export type ProductListItemFragment = { id: string, slug: string, name: string, price: number, categories: Array<{ name: string }>, images: Array<{ url: string }> };
 
 export type ProductSingleGetBySlugQueryVariables = Exact<{
@@ -10928,6 +10933,14 @@ export type ProductsConnectionGetByCategorySlugQueryVariables = Exact<{
 
 
 export type ProductsConnectionGetByCategorySlugQuery = { productsConnection: { edges: Array<{ cursor: string, node: { id: string, slug: string, name: string, price: number, categories: Array<{ name: string }>, images: Array<{ url: string }> } }>, pageInfo: { hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null, endCursor?: string | null, pageSize?: number | null }, aggregate: { count: number } } };
+
+export type ProductsConnectionGetListQueryVariables = Exact<{
+  perPage: Scalars['Int']['input'];
+  skipPages: Scalars['Int']['input'];
+}>;
+
+
+export type ProductsConnectionGetListQuery = { productsConnection: { edges: Array<{ cursor: string, node: { id: string, slug: string, name: string, price: number, categories: Array<{ name: string }>, images: Array<{ url: string }> } }>, pageInfo: { hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null, endCursor?: string | null, pageSize?: number | null }, aggregate: { count: number } } };
 
 export type ProductsGetByCategorySlugQueryVariables = Exact<{
   slug: Scalars['String']['input'];
@@ -11071,6 +11084,15 @@ export const CollectionsGetSlugsDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<CollectionsGetSlugsQuery, CollectionsGetSlugsQueryVariables>;
+export const PorductListGetAggregateDocument = new TypedDocumentString(`
+    query PorductListGetAggregate {
+  productsConnection {
+    aggregate {
+      count
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<PorductListGetAggregateQuery, PorductListGetAggregateQueryVariables>;
 export const ProductSingleGetBySlugDocument = new TypedDocumentString(`
     query ProductSingleGetBySlug($slug: String!) {
   products(where: {slug: $slug}, first: 1) {
@@ -11152,6 +11174,39 @@ export const ProductsConnectionGetByCategorySlugDocument = new TypedDocumentStri
   }
   price
 }`) as unknown as TypedDocumentString<ProductsConnectionGetByCategorySlugQuery, ProductsConnectionGetByCategorySlugQueryVariables>;
+export const ProductsConnectionGetListDocument = new TypedDocumentString(`
+    query ProductsConnectionGetList($perPage: Int!, $skipPages: Int!) {
+  productsConnection(first: $perPage, skip: $skipPages, orderBy: publishedAt_ASC) {
+    edges {
+      cursor
+      node {
+        ...ProductListItem
+      }
+    }
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+      pageSize
+    }
+    aggregate {
+      count
+    }
+  }
+}
+    fragment ProductListItem on Product {
+  id
+  slug
+  name
+  categories(first: 1) {
+    name
+  }
+  images(first: 1) {
+    url
+  }
+  price
+}`) as unknown as TypedDocumentString<ProductsConnectionGetListQuery, ProductsConnectionGetListQueryVariables>;
 export const ProductsGetByCategorySlugDocument = new TypedDocumentString(`
     query ProductsGetByCategorySlug($slug: String!) {
   categories(where: {slug: $slug}) {

@@ -7,7 +7,7 @@ import { countPages } from "@/utils/product";
 import { convertCountIntoArray } from "@/utils/common";
 
 type PaginationProps = Omit<AssetConnection, "edges"> & {
-	params: { category: string; pageNumber: number };
+	params: { category?: string; pageNumber: number };
 };
 
 export function Pagination({ pageInfo, aggregate, params }: PaginationProps) {
