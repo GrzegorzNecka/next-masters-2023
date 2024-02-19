@@ -50,6 +50,12 @@
 		"no-empty-pattern": "off",
 		"@typescript-eslint/no-empty-interface": "off",
 
+		"@typescript-eslint/no-misused-promises": [
+			"error",
+			{
+				"checksVoidReturn": false
+			}
+		],
 		// we allow empty functions
 		"@typescript-eslint/no-empty-function": "off",
 
