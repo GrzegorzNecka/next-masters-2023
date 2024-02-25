@@ -1,11 +1,14 @@
 import { Suspense } from "react";
 
+import { cookies } from "next/headers";
 import { getProductBySlug, getProductsSlugList } from "@/api/products";
 import { SugestedProductsList } from "@/ui/organisms/SugestedProductsList";
 import { Typography } from "@/ui/atoms/Typography";
 import { ProductSingleDescription } from "@/ui/atoms/ProductSingleDescription";
 import { ProductSingleCoverImage } from "@/ui/atoms/ProductSingleCoverImage";
 import { ProductVariantsList } from "@/ui/atoms/ProductVariantsList";
+import { executeGraphql } from "@/api/graphql";
+import { CartCreateDocument, type CartFragment, CartGetByIdDocument } from "@/gql/graphql";
 
 export async function generateStaticParams() {
 	const products = await getProductsSlugList();
@@ -30,6 +33,12 @@ export default async function SingleProductPage({
 
 	async function addToCartAction(formData: FormData) {
 		"use server";
+
+		const cart = await getOrCreateCart();
+		cookies().set("cartId", cart.id);
+
+		// await addToCart(cart.id, params.productId);
+
 		console.log(formData);
 	}
 
@@ -63,3 +72,31 @@ export default async function SingleProductPage({
 		</>
 	);
 }
+async function getOrCreateCart(): Promise<CartFragment> {
+	const cartId = cookies().get("cartId")?.value;
+
+	if (cartId) {
+		const cart = await getCartById(cartId);
+		if (cart.order) {
+			return cart.order;
+		}
+	}
+	const cart = await createCart();
+
+	if (!cart.createOrder) {
+		throw new Error("Failed to create cart");
+	}
+
+	return cart.createOrder;
+}
+function getCartById(cartId: string) {
+	return executeGraphql(CartGetByIdDocument, { id: cartId });
+}
+function createCart() {
+	return executeGraphql(CartCreateDocument, {});
+}
+// function addToCart(orderId: string, productId: any) {
+// 	throw new Error("Function not implemented.");
+// }
+
+//4.2  - 14.14
