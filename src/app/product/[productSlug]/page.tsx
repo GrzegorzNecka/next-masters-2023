@@ -52,7 +52,7 @@ export default async function SingleProductPage({
 			// secure: true
 		});
 		// 2 - zapisujemy  id koszyka w cookies
-		// cookies.set - odbywa się na serwerze -
+		// cookies.set - odbywa się na serwerze - product.id
 		// i modyfikuje nagłówek, kóry po wykonaniu akcji zostanie zwrócony z serwera do klienta (setCookie)
 
 		// 3 - dodajemy produkt do koszyka
