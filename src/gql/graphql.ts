@@ -10881,6 +10881,15 @@ export enum _SystemDateTimeFieldVariation {
   Localization = 'localization'
 }
 
+export type CartAddProductMutationVariables = Exact<{
+  orderId: Scalars['ID']['input'];
+  total: Scalars['Int']['input'];
+  productId: Scalars['ID']['input'];
+}>;
+
+
+export type CartAddProductMutation = { createOrderItem?: { id: string } | null };
+
 export type CartCreateMutationVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -10916,6 +10925,13 @@ export type CollectionsGetSlugsQueryVariables = Exact<{ [key: string]: never; }>
 
 
 export type CollectionsGetSlugsQuery = { collections: Array<{ id: string, slug: string }> };
+
+export type ProductGetByIdQueryVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type ProductGetByIdQuery = { product?: { id: string, name: string, price: number } | null };
 
 export type PorductListGetAggregateQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -11064,6 +11080,15 @@ export const ProductVariantsFragmentDoc = new TypedDocumentString(`
   }
   price
 }`, {"fragmentName":"ProductVariants"}) as unknown as TypedDocumentString<ProductVariantsFragment, unknown>;
+export const CartAddProductDocument = new TypedDocumentString(`
+    mutation CartAddProduct($orderId: ID!, $total: Int!, $productId: ID!) {
+  createOrderItem(
+    data: {quantity: 1, total: $total, product: {connect: {id: $productId}}, order: {connect: {id: $orderId}}}
+  ) {
+    id
+  }
+}
+    `) as unknown as TypedDocumentString<CartAddProductMutation, CartAddProductMutationVariables>;
 export const CartCreateDocument = new TypedDocumentString(`
     mutation CartCreate {
   createOrder(data: {total: 0}) {
@@ -11122,6 +11147,15 @@ export const CollectionsGetSlugsDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<CollectionsGetSlugsQuery, CollectionsGetSlugsQueryVariables>;
+export const ProductGetByIdDocument = new TypedDocumentString(`
+    query ProductGetById($id: ID!) {
+  product(where: {id: $id}) {
+    id
+    name
+    price
+  }
+}
+    `) as unknown as TypedDocumentString<ProductGetByIdQuery, ProductGetByIdQueryVariables>;
 export const PorductListGetAggregateDocument = new TypedDocumentString(`
     query PorductListGetAggregate {
   productsConnection {

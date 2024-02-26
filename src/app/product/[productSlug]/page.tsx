@@ -8,7 +8,13 @@ import { ProductSingleDescription } from "@/ui/atoms/ProductSingleDescription";
 import { ProductSingleCoverImage } from "@/ui/atoms/ProductSingleCoverImage";
 import { ProductVariantsList } from "@/ui/atoms/ProductVariantsList";
 import { executeGraphql } from "@/api/graphql";
-import { CartCreateDocument, type CartFragment, CartGetByIdDocument } from "@/gql/graphql";
+import {
+	CartCreateDocument,
+	type CartFragment,
+	CartGetByIdDocument,
+	CartAddProductDocument,
+	ProductGetByIdDocument,
+} from "@/gql/graphql";
 
 export async function generateStaticParams() {
 	const products = await getProductsSlugList();
@@ -34,10 +40,23 @@ export default async function SingleProductPage({
 	async function addToCartAction(formData: FormData) {
 		"use server";
 
-		const cart = await getOrCreateCart();
-		cookies().set("cartId", cart.id);
+		if (!product?.id) {
+			return;
+		}
 
-		// await addToCart(cart.id, params.productId);
+		// 1 - tworzymy koszyk lub go pobieramy
+		const cart = await getOrCreateCart();
+		cookies().set("cartId", cart.id, {
+			httpOnly: true,
+			sameSite: "lax",
+			// secure: true
+		});
+		// 2 - zapisujemy  id koszyka w cookies
+		// cookies.set - odbywa się na serwerze -
+		// i modyfikuje nagłówek, kóry po wykonaniu akcji zostanie zwrócony z serwera do klienta (setCookie)
+
+		// 3 - dodajemy produkt do koszyka
+		await addToCart(cart.id, product.id);
 
 		console.log(formData);
 	}
@@ -89,14 +108,25 @@ async function getOrCreateCart(): Promise<CartFragment> {
 
 	return cart.createOrder;
 }
+
 function getCartById(cartId: string) {
 	return executeGraphql(CartGetByIdDocument, { id: cartId });
 }
+
 function createCart() {
 	return executeGraphql(CartCreateDocument, {});
 }
-// function addToCart(orderId: string, productId: any) {
-// 	throw new Error("Function not implemented.");
-// }
 
-//4.2  - 14.14
+async function addToCart(orderId: string, productId: string) {
+	const { product } = await executeGraphql(ProductGetByIdDocument, { id: productId });
+
+	if (!product) {
+		throw new Error("Product not found");
+	}
+
+	await executeGraphql(CartAddProductDocument, {
+		orderId: orderId,
+		productId: productId,
+		total: product.price,
+	});
+}
