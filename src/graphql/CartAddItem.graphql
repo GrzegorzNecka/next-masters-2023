@@ -1,4 +1,4 @@
-mutation CartAddProduct($orderId: ID!, $total: Int!, $productId: ID!) {
+mutation CartAddItem($orderId: ID!, $total: Int!, $productId: ID!) {
 	createOrderItem(
 		data: {
 			quantity: 1
@@ -10,4 +10,3 @@ mutation CartAddProduct($orderId: ID!, $total: Int!, $productId: ID!) {
 		id
 	}
 }
-# zamien upsert
