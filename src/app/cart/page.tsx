@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { getCartByIdFromCookies } from "@/api/cart";
 import { formatMoney } from "@/utils/product";
+import { IncrementProductQuantity } from "@/ui/atoms/IncrementProductQuantity";
 
 export default async function CartPage() {
 	const cart = await getCartByIdFromCookies();
@@ -20,13 +21,21 @@ export default async function CartPage() {
 					</tr>
 				</thead>
 				<tbody>
-					{cart.orderItems.map((item) => (
-						<tr key={item.id}>
-							<td>{item.product?.name}</td>
-							<td>{item.quantity}</td>
-							<td>{item.product?.price && formatMoney(item.product.price / 100)}</td>
-						</tr>
-					))}
+					{cart.orderItems.map((item) => {
+						if (!item.product) {
+							return null;
+						}
+						return (
+							<tr key={item.product.id}>
+								<td>{item.product.name}</td>
+								<td>{item.quantity}</td>
+								<td>
+									<IncrementProductQuantity quantity={item.quantity} />{" "}
+								</td>
+								<td>{formatMoney(item.product.price / 100)}</td>
+							</tr>
+						);
+					})}
 				</tbody>
 			</table>
 		</div>

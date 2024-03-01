@@ -29,20 +29,6 @@ export async function getOrCreateCart(): Promise<CartFragment> {
 	return newCart;
 }
 
-export async function getCartByIdFromCookies() {
-	const cartId = cookies().get("cartId")?.value;
-
-	if (cartId) {
-		const cart = await executeGraphql(CartGetByIdDocument, { id: cartId });
-
-		// if (cart.order) {
-		// 	return cart.order;
-		// }
-
-		return cart.order;
-	}
-}
-
 export async function addProductToCart(orderId: string, productId: string) {
 	const { product } = await executeGraphql(ProductGetByIdDocument, { id: productId });
 
@@ -54,4 +40,14 @@ export async function addProductToCart(orderId: string, productId: string) {
 		productId: productId,
 		total: product.price,
 	});
+}
+
+export async function getCartByIdFromCookies() {
+	const cartId = cookies().get("cartId")?.value;
+
+	if (cartId) {
+		const cart = await executeGraphql(CartGetByIdDocument, { id: cartId });
+
+		return cart.order;
+	}
 }

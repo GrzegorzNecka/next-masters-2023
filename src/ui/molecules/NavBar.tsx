@@ -8,6 +8,7 @@ const navLinks = [
 	{ href: "/products/hoodies" as const, label: "Hoodies", exact: true },
 	{ href: "/products/accessories" as const, label: "Accessories", exact: true },
 	{ href: "/collections" as const, label: "Collections", exact: true },
+	{ href: "/cart" as const, label: "Cart", exact: true },
 ];
 
 export const NavBar = () => {
