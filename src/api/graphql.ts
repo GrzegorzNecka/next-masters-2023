@@ -3,7 +3,10 @@ import { type TypedDocumentString } from "@/gql/graphql";
 export const executeGraphql = async <TResult, TVariables>(
 	query: TypedDocumentString<TResult, TVariables>,
 	variables: TVariables,
+	next?:  NextFetchRequestConfig | undefined,
+
 ): Promise<TResult> => {
+	
 	if (!process.env.GRAPHQL_URL) {
 		throw TypeError("env GRAPHQL_URL is not defined");
 	}
@@ -14,7 +17,12 @@ export const executeGraphql = async <TResult, TVariables>(
 			query,
 			variables,
 		}),
+		next: next 
 	});
+
+	// {tags: ['cart']}
+
+// NextFetchRequestConfig
 
 	type GraphQLResponse<T> =
 		| { data?: undefined; errors: { message: string }[] }

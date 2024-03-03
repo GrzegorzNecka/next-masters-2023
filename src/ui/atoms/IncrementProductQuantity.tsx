@@ -11,20 +11,36 @@ export const IncrementProductQuantity = ({
 	itemId: string;
 }) => {
 	const [optimisticQuantity, setOptimisticQuantity] = useOptimistic(
-		quantity,
-		(_state, newQuantity: number) => newQuantity,
+		{ quantity },
+		(state, action: "INREACSE" | "DECREASE") => {
+			if (action === "INREACSE") {
+				return { quantity: state.quantity + 1 };
+			} else {
+				return { quantity: state.quantity - 1 };
+			}
+		},
 	);
 
 	return (
 		<>
 			<form className="flex">
-				<span className="w-8 text-center">{optimisticQuantity}</span>
 				<button
 					className="h-6 w-6 border"
 					type="submit"
 					formAction={async () => {
-						setOptimisticQuantity(optimisticQuantity + 1);
-						await changeItemQuantity(itemId, optimisticQuantity + 1);
+						setOptimisticQuantity("DECREASE");
+						await changeItemQuantity(itemId, optimisticQuantity.quantity - 1);
+					}}
+				>
+					-
+				</button>
+				<span className="w-8 text-center">{optimisticQuantity.quantity}</span>
+				<button
+					className="h-6 w-6 border"
+					type="submit"
+					formAction={async () => {
+						setOptimisticQuantity("INREACSE");
+						await changeItemQuantity(itemId, optimisticQuantity.quantity + 1);
 					}}
 				>
 					+

@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 
+import { revalidateTag } from "next/cache";
 import { getProductBySlug, getProductsSlugList } from "@/api/products";
 import { SugestedProductsList } from "@/ui/organisms/SugestedProductsList";
 import { Typography } from "@/ui/atoms/Typography";
@@ -9,6 +10,7 @@ import { ProductVariantsList } from "@/ui/atoms/ProductVariantsList";
 
 import { AddToCartButton } from "@/ui/atoms/AddToCartButton";
 import { getOrCreateCart, addProductToCart } from "@/api/cart";
+import { sleep } from "@/utils/common";
 
 export async function generateStaticParams() {
 	const products = await getProductsSlugList();
@@ -40,6 +42,9 @@ export default async function SingleProductPage({
 
 		const cart = await getOrCreateCart();
 		await addProductToCart(cart.id, product.id);
+		await sleep(1000);
+
+		revalidateTag("cart");
 	}
 
 	return (

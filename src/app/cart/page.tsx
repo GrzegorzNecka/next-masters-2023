@@ -1,10 +1,12 @@
 import { redirect } from "next/navigation";
+// import { revalidateTag } from "next/cache";
 import { getCartByIdFromCookies } from "@/api/cart";
 import { formatMoney } from "@/utils/product";
 import { IncrementProductQuantity } from "@/ui/atoms/IncrementProductQuantity";
 
 export default async function CartPage() {
 	const cart = await getCartByIdFromCookies();
+	// revalidateTag('cart');
 
 	if (!cart) {
 		redirect("/");

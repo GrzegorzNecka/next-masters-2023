@@ -9,24 +9,25 @@ import {
 } from "@/gql/graphql";
 
 export async function getOrCreateCart(): Promise<CartFragment> {
-	const cart = await getCartByIdFromCookies();
-	if (cart) {
-		return cart;
+	const existingCart = await getCartByIdFromCookies();
+
+	if (existingCart) {
+		return existingCart;
 	}
 
-	const { createOrder: newCart } = await executeGraphql(CartCreateDocument, {});
+	const { createOrder: cart } = await executeGraphql(CartCreateDocument, {});
 
-	if (!newCart) {
+	if (!cart) {
 		throw new Error("Failed to create cart");
 	}
 
-	cookies().set("cartId", newCart.id, {
+	cookies().set("cartId", cart.id, {
 		httpOnly: true,
 		sameSite: "lax",
 		// secure: true
 	});
 
-	return newCart;
+	return cart;
 }
 
 export async function addProductToCart(orderId: string, productId: string) {
