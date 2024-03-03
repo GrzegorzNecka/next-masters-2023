@@ -15,7 +15,7 @@ export async function getOrCreateCart(): Promise<CartFragment> {
 		return existingCart;
 	}
 
-	const { createOrder: cart } = await executeGraphql(CartCreateDocument, {});
+	const { createOrder: cart } = await executeGraphql({ query: CartCreateDocument });
 
 	if (!cart) {
 		throw new Error("Failed to create cart");
@@ -31,15 +31,21 @@ export async function getOrCreateCart(): Promise<CartFragment> {
 }
 
 export async function addProductToCart(orderId: string, productId: string) {
-	const { product } = await executeGraphql(ProductGetByIdDocument, { id: productId });
+	const { product } = await executeGraphql({
+		query: ProductGetByIdDocument,
+		variables: { id: productId },
+	});
 
 	if (!product) {
 		throw new Error(`Product with id ${productId} not found`);
 	}
-	await executeGraphql(CartAddItemDocument, {
-		orderId: orderId,
-		productId: productId,
-		total: product.price,
+	await executeGraphql({
+		query: CartAddItemDocument,
+		variables: {
+			orderId: orderId,
+			productId: productId,
+			total: product.price,
+		},
 	});
 }
 
@@ -47,7 +53,11 @@ export async function getCartByIdFromCookies() {
 	const cartId = cookies().get("cartId")?.value;
 
 	if (cartId) {
-		const cart = await executeGraphql(CartGetByIdDocument, { id: cartId });
+		const cart = await executeGraphql({
+			query: CartGetByIdDocument,
+			variables: { id: cartId },
+			next: { tags: ["cart"] },
+		});
 
 		return cart.order;
 	}
