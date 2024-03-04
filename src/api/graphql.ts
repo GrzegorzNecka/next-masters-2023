@@ -44,13 +44,3 @@ export const executeGraphql = async <TResult, TVariables>({
 
 	return graphqlResponse.data;
 };
-
-// export const throttledFetch = throttle(async (...args) => {
-// 	const [query, vars] = args
-
-// 	const data = await hygraphClient.request(query, vars)
-
-// 	return data
-// })
-
-// const product = await throttledFetch(query, { slug: params.slug });

@@ -1,7 +1,7 @@
 "use client";
 
 import { useOptimistic } from "react";
-import { changeItemQuantity } from "@/app/cart/actions";
+import { changeItemQuantity } from "@/api/actions";
 
 export const IncrementProductQuantity = ({
 	quantity,

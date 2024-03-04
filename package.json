@@ -6,6 +6,7 @@
 		"dev": "next dev",
 		"ninja": "console-ninja next dev",
 		"build": "next build",
+		"buildfast": "next build --no-lint --no-mangling",
 		"start": "next start",
 		"lint": "next lint --fix --dir src",
 		"beauty": "prettier --write .",
