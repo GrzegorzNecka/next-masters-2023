@@ -1,5 +1,5 @@
 query ProductsGetSlugs {
-	products(first: 10) {
+	products(first: 4) {
 		id
 		slug
 	}

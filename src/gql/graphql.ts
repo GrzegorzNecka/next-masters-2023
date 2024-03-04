@@ -11187,7 +11187,7 @@ export const CategoriesGetAggregateDocument = new TypedDocumentString(`
     `) as unknown as TypedDocumentString<CategoriesGetAggregateQuery, CategoriesGetAggregateQueryVariables>;
 export const CategoriesGetSlugsDocument = new TypedDocumentString(`
     query CategoriesGetSlugs {
-  categories(first: 10) {
+  categories(first: 4) {
     id
     slug
   }
@@ -11195,7 +11195,7 @@ export const CategoriesGetSlugsDocument = new TypedDocumentString(`
     `) as unknown as TypedDocumentString<CategoriesGetSlugsQuery, CategoriesGetSlugsQueryVariables>;
 export const CollectionsGetListDocument = new TypedDocumentString(`
     query CollectionsGetList {
-  collections {
+  collections(first: 5) {
     id
     name
     slug
@@ -11210,7 +11210,7 @@ export const CollectionsGetListDocument = new TypedDocumentString(`
     `) as unknown as TypedDocumentString<CollectionsGetListQuery, CollectionsGetListQueryVariables>;
 export const CollectionsGetSlugsDocument = new TypedDocumentString(`
     query CollectionsGetSlugs {
-  collections(first: 10) {
+  collections(first: 4) {
     id
     slug
   }
@@ -11351,7 +11351,7 @@ export const ProductsConnectionGetListDocument = new TypedDocumentString(`
 export const ProductsGetByCategorySlugDocument = new TypedDocumentString(`
     query ProductsGetByCategorySlug($slug: String!) {
   categories(where: {slug: $slug}) {
-    products(first: 10) {
+    products(first: 4) {
       ...ProductListItem
     }
   }
@@ -11391,7 +11391,7 @@ export const ProductsGetByCollectionSlugDocument = new TypedDocumentString(`
 }`) as unknown as TypedDocumentString<ProductsGetByCollectionSlugQuery, ProductsGetByCollectionSlugQueryVariables>;
 export const ProductGetListDocument = new TypedDocumentString(`
     query ProductGetList {
-  products(first: 10) {
+  products(first: 4) {
     ...ProductListItem
   }
 }
@@ -11409,7 +11409,7 @@ export const ProductGetListDocument = new TypedDocumentString(`
 }`) as unknown as TypedDocumentString<ProductGetListQuery, ProductGetListQueryVariables>;
 export const ProductsGetSlugsDocument = new TypedDocumentString(`
     query ProductsGetSlugs {
-  products(first: 10) {
+  products(first: 4) {
     id
     slug
   }

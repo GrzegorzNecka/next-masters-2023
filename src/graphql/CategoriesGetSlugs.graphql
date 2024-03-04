@@ -1,5 +1,5 @@
 query CategoriesGetSlugs {
-	categories(first: 10) {
+	categories(first: 4) {
 		id
 		slug
 	}

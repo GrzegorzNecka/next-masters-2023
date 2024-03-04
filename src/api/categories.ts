@@ -4,7 +4,6 @@ import { CategoriesGetAggregateDocument, CategoriesGetSlugsDocument } from "@/gq
 export const getCategoriesSlugList = async () => {
 	const graphQlResponse = await executeGraphql({
 		query: CategoriesGetSlugsDocument,
-		 ,
 	});
 
 	return graphQlResponse.categories;

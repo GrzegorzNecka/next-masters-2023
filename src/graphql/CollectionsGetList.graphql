@@ -1,5 +1,5 @@
 query CollectionsGetList {
-	collections {
+	collections(first: 5) {
 		id
 		name
 		slug
