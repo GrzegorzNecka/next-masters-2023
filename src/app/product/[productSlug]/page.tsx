@@ -10,7 +10,7 @@ import { ProductVariantsList } from "@/ui/atoms/ProductVariantsList";
 
 import { AddToCartButton } from "@/ui/atoms/AddToCartButton";
 import { getOrCreateCart, addProductToCart } from "@/api/cart";
-import { sleep } from "@/utils/common";
+// import { sleep } from "@/utils/common";
 
 export async function generateStaticParams() {
 	const products = await getProductsSlugList();
@@ -42,7 +42,7 @@ export default async function SingleProductPage({
 
 		const cart = await getOrCreateCart();
 		await addProductToCart(cart.id, product.id);
-		await sleep(1000);
+		// await sleep(1000);
 
 		revalidateTag("cart");
 	}

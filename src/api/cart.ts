@@ -15,7 +15,10 @@ export async function getOrCreateCart(): Promise<CartFragment> {
 		return existingCart;
 	}
 
-	const { createOrder: cart } = await executeGraphql({ query: CartCreateDocument });
+	const { createOrder: cart } = await executeGraphql({
+		query: CartCreateDocument,
+		cache: "no-cache",
+	});
 
 	if (!cart) {
 		throw new Error("Failed to create cart");
@@ -34,6 +37,7 @@ export async function addProductToCart(orderId: string, productId: string) {
 	const { product } = await executeGraphql({
 		query: ProductGetByIdDocument,
 		variables: { id: productId },
+		cache: "no-cache",
 	});
 
 	if (!product) {
@@ -46,6 +50,7 @@ export async function addProductToCart(orderId: string, productId: string) {
 			productId: productId,
 			total: product.price,
 		},
+		cache: "no-store",
 	});
 }
 
@@ -56,6 +61,7 @@ export async function getCartByIdFromCookies() {
 		const cart = await executeGraphql({
 			query: CartGetByIdDocument,
 			variables: { id: cartId },
+			cache: "no-store",
 			next: { tags: ["cart"] },
 		});
 

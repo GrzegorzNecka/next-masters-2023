@@ -12,11 +12,20 @@ import {
 	ProductsSearchByNameDocument,
 	ProductVariantGetByIdDocument,
 } from "@/gql/graphql";
+import { throttleFetch } from "@/utils/common";
 
 export const getProductList = async () => {
-	const graphQlResponse = await executeGraphql({
-		query: ProductGetListDocument,
-	});
+	// const graphQlResponse = await executeGraphql({
+	// 	query: ProductGetListDocument,
+	// });
+
+	const graphQlResponse = await throttleFetch(async () => {
+		const graphQlResponse = await executeGraphql({
+			query: ProductGetListDocument,
+			next: { revalidate: 15 },
+		});
+		return graphQlResponse;
+	})();
 
 	return graphQlResponse.products;
 };
@@ -87,6 +96,7 @@ export const getProductBySlug = async (slug: string) => {
 		variables: {
 			slug: slug,
 		},
+		next: { revalidate: 1 },
 	});
 
 	return graphQlResponse.products.at(0);
@@ -109,6 +119,7 @@ export const getVariantProductByProductId = async (id: string) => {
 		variables: {
 			id: id,
 		},
+		next: { revalidate: 1 },
 	});
 
 	return graphQlResponse.product?.variants;

@@ -11405,7 +11405,7 @@ export const ProductsGetByCollectionSlugDocument = new TypedDocumentString(`
 }`) as unknown as TypedDocumentString<ProductsGetByCollectionSlugQuery, ProductsGetByCollectionSlugQueryVariables>;
 export const ProductGetListDocument = new TypedDocumentString(`
     query ProductGetList {
-  products(first: 4) {
+  products(first: 10) {
     ...ProductListItem
   }
 }
