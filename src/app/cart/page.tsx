@@ -1,7 +1,8 @@
 import { redirect } from "next/navigation";
 // import { revalidateTag } from "next/cache";
+
 import { RemoveButton } from "./RemoveButton";
-import { getCartByIdFromCookies } from "@/api/cart";
+import { getCartByIdFromCookies, handlePaymentAction } from "@/api/cart";
 import { formatMoney } from "@/utils/product";
 import { IncrementProductQuantity } from "@/ui/atoms/IncrementProductQuantity";
 
@@ -12,6 +13,8 @@ export default async function CartPage() {
 	if (!cart) {
 		redirect("/");
 	}
+
+	
 
 	return (
 		<div className="mt-10">
@@ -44,6 +47,11 @@ export default async function CartPage() {
 					})}
 				</tbody>
 			</table>
+			<form action={handlePaymentAction}>
+				<button className="rounded-smpy-2  mt-4 w-full bg-slate-950 text-white shadow-sm">
+					Zapłać
+				</button>
+			</form>
 		</div>
 	);
 }
