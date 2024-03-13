@@ -14,8 +14,6 @@ export default async function CartPage() {
 		redirect("/");
 	}
 
-	
-
 	return (
 		<div className="mt-10">
 			<table>
@@ -38,7 +36,9 @@ export default async function CartPage() {
 								<td>
 									<IncrementProductQuantity quantity={item.quantity} itemId={item.id} />
 								</td>
+
 								<td>{formatMoney(item.product.price / 100)}</td>
+
 								<td>
 									<RemoveButton itemId={item.id} />
 								</td>
