@@ -1,4 +1,5 @@
 import { ShoppingBag } from "lucide-react";
+import Link from "next/link";
 import { ActiveLink } from "../atoms/ActiveLink";
 import { ProductSearchInput } from "../atoms/ProductSearchInput";
 import { getCartByIdFromCookies } from "@/api/cart";
@@ -38,7 +39,9 @@ export const NavBar = async () => {
 				<div className="flex items-center gap-2">
 					<span className="ml-2 text-sm font-medium">{quantity}</span>
 					<span className="sr-only">items in cart, view bag</span>
-					<ShoppingBag />
+					<Link href="/cart">
+						<ShoppingBag />
+					</Link>
 				</div>
 			</div>
 		</nav>

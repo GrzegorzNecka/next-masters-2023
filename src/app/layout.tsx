@@ -14,10 +14,12 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({
 	children,
+	modal,
 	params,
 }: {
 	children: React.ReactNode;
 	params: { lang: string };
+	modal: React.ReactNode;
 }) {
 	return (
 		<html lang={params.lang}>
@@ -28,6 +30,7 @@ export default async function RootLayout({
 				<footer>
 					<p className="text-center text-sm text-gray-500">© {new Date().getFullYear()} Sklep</p>
 				</footer>
+				{modal}
 			</body>
 		</html>
 	);
