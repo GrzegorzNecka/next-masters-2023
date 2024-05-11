@@ -10,6 +10,21 @@ import {
 	type CartFragment,
 } from "@/gql/graphql";
 
+export async function getCartByIdFromCookies() {
+	const cartId = cookies().get("cartId")?.value;
+
+	if (cartId) {
+		const cart = await executeGraphql({
+			query: CartGetByIdDocument,
+			variables: { id: cartId },
+			cache: "no-store",
+			next: { tags: ["cart"] },
+		});
+
+		return cart.order;
+	}
+}
+
 export async function getOrCreateCart(): Promise<CartFragment> {
 	const existingCart = await getCartByIdFromCookies();
 
@@ -54,21 +69,6 @@ export async function addProductToCart(orderId: string, productId: string) {
 		},
 		cache: "no-store",
 	});
-}
-
-export async function getCartByIdFromCookies() {
-	const cartId = cookies().get("cartId")?.value;
-
-	if (cartId) {
-		const cart = await executeGraphql({
-			query: CartGetByIdDocument,
-			variables: { id: cartId },
-			cache: "no-store",
-			next: { tags: ["cart"] },
-		});
-
-		return cart.order;
-	}
 }
 
 export const handlePaymentAction = async () => {
