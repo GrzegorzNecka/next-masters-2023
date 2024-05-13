@@ -43,6 +43,8 @@ export default async function SingleProductPage({
 
 		const cart = await getOrCreateCart();
 
+		//todo - dodaj + i -
+
 		await addProductToCart({
 			orderId: cart.id,
 			productId: product.id,

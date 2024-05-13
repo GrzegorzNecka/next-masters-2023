@@ -41,6 +41,7 @@ export const IncrementProductQuantity = ({
 					formAction={async () => {
 						setOptimisticQuantity("INREACSE");
 						await changeItemQuantity(itemId, optimisticQuantity.quantity + 1);
+						// TODO  - tutaj teżpowinien byćaktualizowany total
 					}}
 				>
 					+

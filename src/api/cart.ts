@@ -80,6 +80,7 @@ export async function addProductToCart({
 	});
 
 	const orderItem = cartItemId.order?.orderItems?.at(0);
+	const currentQuantity = orderItem?.quantity ? orderItem?.quantity + quantity : quantity;
 
 	await executeGraphql({
 		query: CartAddOrUpdateItemDocument,
@@ -87,8 +88,8 @@ export async function addProductToCart({
 			orderItemId: orderItem?.id,
 			orderId: orderId,
 			productId: productId,
-			total: product.price,
-			quantity: orderItem?.quantity ? orderItem?.quantity + quantity : quantity,
+			total: product.price * currentQuantity,
+			quantity: currentQuantity,
 		},
 		cache: "no-store",
 	});

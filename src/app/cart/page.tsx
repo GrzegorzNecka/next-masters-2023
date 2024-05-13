@@ -22,6 +22,7 @@ export default async function CartPage() {
 						<th>Produkt</th>
 						<th>Ilość</th>
 						<th>Cena</th>
+						<th>Razem</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -38,6 +39,8 @@ export default async function CartPage() {
 								</td>
 
 								<td>{formatMoney(item.product.price / 100)}</td>
+
+								<td>{formatMoney(item.total / 100)}</td>
 
 								<td>
 									<RemoveButton itemId={item.id} />
