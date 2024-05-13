@@ -5,7 +5,7 @@ import { getProductBySlug, getProductsSlugList } from "@/api/products";
 import { SugestedProductsList } from "@/ui/organisms/SugestedProductsList";
 import { ProductSingleDescription } from "@/ui/atoms/ProductSingleDescription";
 import { ProductSingleCoverImage } from "@/ui/atoms/ProductSingleCoverImage";
-import { ProductVariantsList } from "@/ui/atoms/ProductVariantsList";
+// import { ProductVariantsList } from "@/ui/atoms/ProductVariantsList";
 
 import { AddToCartButton } from "@/ui/atoms/AddToCartButton";
 import { getOrCreateCart, addProductToCart } from "@/api/cart";
@@ -23,10 +23,10 @@ export async function generateStaticParams() {
 
 export default async function SingleProductPage({
 	params,
-	searchParams,
+	// searchParams,
 }: {
 	params: { productSlug: string };
-	searchParams: { [key: string]: string | string[] | undefined };
+	// searchParams: { [key: string]: string | string[] | undefined };
 }) {
 	const product = await getProductBySlug(params.productSlug);
 
@@ -42,7 +42,12 @@ export default async function SingleProductPage({
 		}
 
 		const cart = await getOrCreateCart();
-		await addProductToCart(cart.id, product.id);
+
+		await addProductToCart({
+			orderId: cart.id,
+			productId: product.id,
+			quantity: 1,
+		});
 		// await sleep(1000);
 
 		revalidateTag("cart");
@@ -54,7 +59,7 @@ export default async function SingleProductPage({
 				<ProductSingleCoverImage image={product.images.at(0)} alt={product.name} />
 				<div>
 					<ProductSingleDescription product={product} />
-					<ProductVariantsList searchParams={searchParams} product={product} />
+					{/* <ProductVariantsList searchParams={searchParams} product={product} /> */}
 					<p className="ml-1 text-sm font-semibold text-slate-500">in stock</p>
 					<form action={addProductToCartAction}>
 						<input type="hidden" name="productId" value={product.id} />

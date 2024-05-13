@@ -3,26 +3,29 @@ import Stripe from "stripe";
 import { redirect } from "next/navigation";
 import { executeGraphql } from "./graphql";
 import {
-	CartAddItemDocument,
 	CartCreateDocument,
 	CartGetByIdDocument,
 	ProductGetByIdDocument,
 	type CartFragment,
+	CartItemGetIdByProductIdDocument,
+	CartAddOrUpdateItemDocument,
 } from "@/gql/graphql";
 
 export async function getCartByIdFromCookies() {
 	const cartId = cookies().get("cartId")?.value;
 
-	if (cartId) {
-		const cart = await executeGraphql({
-			query: CartGetByIdDocument,
-			variables: { id: cartId },
-			cache: "no-store",
-			next: { tags: ["cart"] },
-		});
-
-		return cart.order;
+	if (!cartId) {
+		return;
 	}
+
+	const cart = await executeGraphql({
+		query: CartGetByIdDocument,
+		variables: { id: cartId },
+		cache: "no-store",
+		next: { tags: ["cart"] },
+	});
+
+	return cart.order;
 }
 
 export async function getOrCreateCart(): Promise<CartFragment> {
@@ -38,7 +41,8 @@ export async function getOrCreateCart(): Promise<CartFragment> {
 	});
 
 	if (!cart) {
-		throw new Error("Failed to create cart");
+		throw new Error("unexpected failed to create cart");
+		//TODO - inna forma powiadomienia
 	}
 
 	cookies().set("cartId", cart.id, {
@@ -50,7 +54,15 @@ export async function getOrCreateCart(): Promise<CartFragment> {
 	return cart;
 }
 
-export async function addProductToCart(orderId: string, productId: string) {
+export async function addProductToCart({
+	orderId,
+	productId,
+	quantity,
+}: {
+	orderId: string;
+	productId: string;
+	quantity: number;
+}) {
 	const { product } = await executeGraphql({
 		query: ProductGetByIdDocument,
 		variables: { id: productId },
@@ -60,12 +72,23 @@ export async function addProductToCart(orderId: string, productId: string) {
 	if (!product) {
 		throw new Error(`Product with id ${productId} not found`);
 	}
+
+	const cartItemId = await executeGraphql({
+		query: CartItemGetIdByProductIdDocument,
+		variables: { orderId: orderId, productId: productId },
+		cache: "no-cache",
+	});
+
+	const orderItem = cartItemId.order?.orderItems?.at(0);
+
 	await executeGraphql({
-		query: CartAddItemDocument,
+		query: CartAddOrUpdateItemDocument,
 		variables: {
+			orderItemId: orderItem?.id,
 			orderId: orderId,
 			productId: productId,
 			total: product.price,
+			quantity: orderItem?.quantity ? orderItem?.quantity + quantity : quantity,
 		},
 		cache: "no-store",
 	});

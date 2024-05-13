@@ -1,0 +1,27 @@
+mutation CartAddOrUpdateItem(
+	$orderId: ID!
+	$orderItemId: ID
+	$productId: ID!
+	$quantity: Int!
+	$total: Int!
+) {
+	upsertOrderItem(
+		where: { id: $orderItemId }
+		upsert: {
+			create: {
+				quantity: $quantity
+				total: $total
+				product: { connect: { id: $productId } }
+				order: { connect: { id: $orderId } }
+			}
+			update: {
+				quantity: $quantity
+				total: $total
+				product: { connect: { id: $productId } }
+				order: { connect: { id: $orderId } }
+			}
+		}
+	) {
+		id
+	}
+}
