@@ -4,6 +4,7 @@ import Stripe from "stripe";
 
 export async function POST(request: NextRequest): Promise<Response> {
 	const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+
 	if (!webhookSecret) {
 		return new Response("No webhook secret", { status: 500 });
 	}
@@ -31,22 +32,27 @@ export async function POST(request: NextRequest): Promise<Response> {
 	switch (event.type) {
 		case "payment_intent.created": {
 			event.data.object.metadata.cartId;
+
 			// console.log("payment_intent.created", event.data.object);
 		}
 		case "checkout.session.completed": {
+			//TODO mutacja
 			event.data.object;
 			console.log("checkout.session.completed", event.data.object);
 		}
 		case "checkout.session.expired": {
+			//TODO mutacja
 			event.data.object;
 			// console.log("checkout.session.expired", event.data.object);
 		}
 
 		case "checkout.session.async_payment_failed": {
+			//TODO mutacja
 			event.data.object;
 			// console.log("checkout.session.async_payment_failed", event.data.object);
 		}
 		case "checkout.session.async_payment_succeeded": {
+			//TODO mutacja
 			event.data.object;
 			// console.log("checkout.session.async_payment_succeeded", event.data.object);
 		}

@@ -2,9 +2,10 @@ import { redirect } from "next/navigation";
 // import { revalidateTag } from "next/cache";
 
 import { RemoveButton } from "./RemoveButton";
-import { getCartByIdFromCookies, handlePaymentAction } from "@/api/cart";
+import { getCartByIdFromCookies } from "@/api/cart";
 import { formatMoney } from "@/utils/product";
 import { IncrementProductQuantity } from "@/ui/atoms/IncrementProductQuantity";
+import { handlePaymentAction } from "@/api/actions";
 
 export default async function CartPage() {
 	const cart = await getCartByIdFromCookies();
@@ -51,7 +52,7 @@ export default async function CartPage() {
 				</tbody>
 			</table>
 			<form action={handlePaymentAction}>
-				<button className="rounded-smpy-2  mt-4 w-full bg-slate-950 text-white shadow-sm">
+				<button className="rounded-smpy-2 mt-4 w-full bg-slate-950 text-white shadow-sm">
 					Zapłać
 				</button>
 			</form>
