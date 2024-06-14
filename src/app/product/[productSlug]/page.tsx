@@ -13,6 +13,19 @@ import { Typography } from "@/ui/atoms/Typography";
 
 // import { sleep } from "@/utils/common";
 
+export async function generateMetadata({ params }: { params: { productSlug: string } }) {
+	const product = await getProductBySlug(params.productSlug);
+
+	return {
+		title: product?.name,
+		description: product?.description,
+		openGraph: {
+			title: product?.name,
+			description: product?.description,
+		},
+	};
+}
+
 export async function generateStaticParams() {
 	const products = await getProductsSlugList();
 

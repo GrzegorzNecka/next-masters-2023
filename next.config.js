@@ -8,7 +8,6 @@ const nextConfig = {
 		mdxRs: true,
 	},
 	images: {
-		// domains: ["naszsklep-api.vercel.app"],
 		remotePatterns: [
 			{
 				protocol: "https",
