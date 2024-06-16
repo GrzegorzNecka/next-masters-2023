@@ -11,6 +11,11 @@ import {
 	ProductSingleGetBySlugDocument,
 	ProductsSearchByNameDocument,
 	ProductVariantGetByIdDocument,
+	ReviewCreateByProductIdDocument,
+	type ReviewCreateByProductIdMutationVariables,
+	ReviewsGetByProductIdDocument,
+	ReviewPublishByIdDocument,
+	type ReviewPublishByIdMutationVariables,
 } from "@/gql/graphql";
 import { throttleFetch } from "@/utils/common";
 
@@ -131,4 +136,49 @@ export const getProductListAggregate = async () => {
 	});
 
 	return graphQlResponse.productsConnection.aggregate.count;
+};
+
+export const getReviesByProductId = async (id: string) => {
+	const graphQlResponse = await executeGraphql({
+		query: ReviewsGetByProductIdDocument,
+		variables: {
+			productId: id,
+		},
+	});
+
+	return graphQlResponse.product?.reviews;
+};
+
+export const createReviewByProductId = async ({
+	productId,
+	name,
+	email,
+	headline,
+	content,
+	rating,
+}: ReviewCreateByProductIdMutationVariables) => {
+	const graphQlResponse = await executeGraphql({
+		query: ReviewCreateByProductIdDocument,
+		variables: {
+			productId,
+			name,
+			email,
+			headline,
+			content,
+			rating,
+		},
+	});
+
+	return graphQlResponse.createReview?.id;
+};
+
+export const publishReviewById = async ({ id }: ReviewPublishByIdMutationVariables) => {
+	const graphQlResponse = await executeGraphql({
+		query: ReviewPublishByIdDocument,
+		variables: {
+			id,
+		},
+	});
+
+	return graphQlResponse.publishReview;
 };

@@ -1,7 +1,12 @@
 import { Suspense } from "react";
 
 import { revalidateTag } from "next/cache";
-import { getProductBySlug, getProductsSlugList } from "@/api/products";
+import {
+	createReviewByProductId,
+	getProductBySlug,
+	getProductsSlugList,
+	publishReviewById,
+} from "@/api/products";
 import { SugestedProductsList } from "@/ui/organisms/SugestedProductsList";
 import { ProductSingleDescription } from "@/ui/atoms/ProductSingleDescription";
 import { ProductSingleCoverImage } from "@/ui/atoms/ProductSingleCoverImage";
@@ -9,7 +14,7 @@ import { ProductSingleCoverImage } from "@/ui/atoms/ProductSingleCoverImage";
 
 import { AddToCartButton } from "@/ui/atoms/AddToCartButton";
 import { getOrCreateCart, addProductToCart } from "@/api/cart";
-import { Typography } from "@/ui/atoms/Typography";
+import { ReviewList } from "@/ui/molecules/ReviewList";
 
 // import { sleep } from "@/utils/common";
 
@@ -68,6 +73,64 @@ export default async function SingleProductPage({
 		revalidateTag("cart");
 	}
 
+	async function addReviewAction(formData: FormData) {
+		"use server";
+
+		const productId = formData.get("productId");
+		const name = formData.get("name");
+		const email = formData.get("email");
+		const headline = formData.get("headline");
+		const content = formData.get("content");
+		const rating = formData.get("rating");
+		const parsedRating = Number(rating);
+
+		if (isNaN(parsedRating)) {
+			console.error("Rating must be a number");
+			return;
+		}
+
+		console.log(
+			typeof productId,
+			typeof name,
+			typeof email,
+			typeof headline,
+			typeof content,
+			typeof parsedRating,
+		);
+
+		if (
+			typeof productId !== "string" ||
+			typeof name !== "string" ||
+			typeof email !== "string" ||
+			typeof headline !== "string" ||
+			typeof content !== "string" ||
+			typeof parsedRating !== "number"
+		) {
+			console.error("Invalid form data");
+			return;
+		}
+
+		const reviewId = await createReviewByProductId({
+			productId,
+			name,
+			email,
+			content,
+			rating: parsedRating,
+			headline,
+		});
+
+		console.log("reviewId", reviewId);
+
+		if (!reviewId) {
+			console.error("Invalid review id");
+			return;
+		}
+
+		const review = await publishReviewById({ id: reviewId });
+
+		console.log("review", review);
+	}
+
 	return (
 		<>
 			<section className="flex gap-10">
@@ -83,11 +146,29 @@ export default async function SingleProductPage({
 				</div>
 			</section>
 
+			<section>
+				<hr className="my-10" />
+				<Suspense fallback={"ładownienie"}>
+					<ReviewList productId={product.id} />
+				</Suspense>
+				<form action={addReviewAction}>
+					<input type="hidden" name="productId" value={product.id} required />
+					<input type="text" name="name" placeholder="imię" required />
+					<input type="email" name="email" placeholder="email" required />
+					<input type="text" name="headline" placeholder="tytuł" required />
+					<input type="text" name="content" placeholder="treść" required />
+					<input type="number" name="rating" placeholder="ocena" min="1" max="5" required />
+					<button
+						className="rounded-sm border bg-slate-100 px-6 py-2 shadow-sm disabled:cursor-wait disabled:bg-slate-800"
+						type="submit"
+					>
+						Dodaj do recenzję
+					</button>
+				</form>
+			</section>
+
 			<aside>
 				<hr className="my-10" />
-				<Typography className="mb-10 mt-4 text-xl font-semibold" isUppercase={true} as="h2">
-					sugerowane
-				</Typography>
 
 				<Suspense fallback={"ładownienie"}>
 					<SugestedProductsList />

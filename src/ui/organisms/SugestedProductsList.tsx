@@ -1,3 +1,4 @@
+import { Typography } from "../atoms/Typography";
 import { ProductList } from "./ProductList";
 import { getProductList } from "@/api/products";
 
@@ -8,5 +9,12 @@ export const SugestedProductsList = async () => {
 
 	// await sleep(5000);
 
-	return <ProductList products={products.slice(-4)} />;
+	return (
+		<>
+			<Typography className="mb-10 mt-4 text-xl font-semibold" isUppercase={true} as="h2">
+				sugerowane
+			</Typography>
+			<ProductList products={products.slice(-4)} />;
+		</>
+	);
 };

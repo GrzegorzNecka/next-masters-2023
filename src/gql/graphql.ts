@@ -11038,6 +11038,34 @@ export type ProductsSearchByNameQueryVariables = Exact<{
 
 export type ProductsSearchByNameQuery = { products: Array<{ id: string, slug: string, name: string, price: number, categories: Array<{ name: string }>, images: Array<{ url: string }> }> };
 
+export type ReviewCreateByProductIdMutationVariables = Exact<{
+  productId: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
+  email: Scalars['String']['input'];
+  headline: Scalars['String']['input'];
+  content: Scalars['String']['input'];
+  rating: Scalars['Int']['input'];
+}>;
+
+
+export type ReviewCreateByProductIdMutation = { createReview?: { id: string } | null };
+
+export type ReviewFragmentFragment = { id: string, name: string, rating: number, content: string, email: string, headline: string };
+
+export type ReviewPublishByIdMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type ReviewPublishByIdMutation = { publishReview?: { id: string, name: string, rating: number, content: string, email: string, headline: string } | null };
+
+export type ReviewsGetByProductIdQueryVariables = Exact<{
+  productId: Scalars['ID']['input'];
+}>;
+
+
+export type ReviewsGetByProductIdQuery = { product?: { reviews: Array<{ id: string, name: string, rating: number, content: string, email: string, headline: string }> } | null };
+
 export class TypedDocumentString<TResult, TVariables>
   extends String
   implements DocumentTypeDecoration<TResult, TVariables>
@@ -11124,6 +11152,16 @@ export const ProductVariantsFragmentDoc = new TypedDocumentString(`
   }
   price
 }`, {"fragmentName":"ProductVariants"}) as unknown as TypedDocumentString<ProductVariantsFragment, unknown>;
+export const ReviewFragmentFragmentDoc = new TypedDocumentString(`
+    fragment ReviewFragment on Review {
+  id
+  name
+  rating
+  content
+  email
+  headline
+}
+    `, {"fragmentName":"ReviewFragment"}) as unknown as TypedDocumentString<ReviewFragmentFragment, unknown>;
 export const CartAddOrUpdateItemDocument = new TypedDocumentString(`
     mutation CartAddOrUpdateItem($orderId: ID!, $orderItemId: ID, $productId: ID!, $quantity: Int!, $total: Int!) {
   upsertOrderItem(
@@ -11468,3 +11506,42 @@ export const ProductsSearchByNameDocument = new TypedDocumentString(`
   }
   price
 }`) as unknown as TypedDocumentString<ProductsSearchByNameQuery, ProductsSearchByNameQueryVariables>;
+export const ReviewCreateByProductIdDocument = new TypedDocumentString(`
+    mutation ReviewCreateByProductId($productId: ID!, $name: String!, $email: String!, $headline: String!, $content: String!, $rating: Int!) {
+  createReview(
+    data: {product: {connect: {id: $productId}}, name: $name, email: $email, headline: $headline, content: $content, rating: $rating}
+  ) {
+    id
+  }
+}
+    `) as unknown as TypedDocumentString<ReviewCreateByProductIdMutation, ReviewCreateByProductIdMutationVariables>;
+export const ReviewPublishByIdDocument = new TypedDocumentString(`
+    mutation ReviewPublishById($id: ID!) {
+  publishReview(where: {id: $id}) {
+    ...ReviewFragment
+  }
+}
+    fragment ReviewFragment on Review {
+  id
+  name
+  rating
+  content
+  email
+  headline
+}`) as unknown as TypedDocumentString<ReviewPublishByIdMutation, ReviewPublishByIdMutationVariables>;
+export const ReviewsGetByProductIdDocument = new TypedDocumentString(`
+    query ReviewsGetByProductId($productId: ID!) {
+  product(where: {id: $productId}) {
+    reviews {
+      ...ReviewFragment
+    }
+  }
+}
+    fragment ReviewFragment on Review {
+  id
+  name
+  rating
+  content
+  email
+  headline
+}`) as unknown as TypedDocumentString<ReviewsGetByProductIdQuery, ReviewsGetByProductIdQueryVariables>;
