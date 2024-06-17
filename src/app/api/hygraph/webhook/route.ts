@@ -9,7 +9,7 @@ import { type NextRequest } from "next/server";
 import { revalidatePath } from "next/cache";
 import { type WebhookProductData } from "./types";
 import { VALIDATOR_PRODUCT_WEBHOOKS } from "@/validator/methods";
-import { validator } from "@/validator/validator";
+import { validateWebhook } from "@/validator/validator";
 
 export async function POST(request: NextRequest): Promise<Response> {
 	const body = (await request.json()) as WebhookProductData;
@@ -19,7 +19,7 @@ export async function POST(request: NextRequest): Promise<Response> {
 		return new Response("Invalid signature", { status: 401 });
 	}
 
-	if (validator(VALIDATOR_PRODUCT_WEBHOOKS, body)) {
+	if (validateWebhook(VALIDATOR_PRODUCT_WEBHOOKS, body)) {
 		body.data.localizations.forEach((localization) => {
 			revalidatePath(`/product/${localization.slug}`);
 		});
