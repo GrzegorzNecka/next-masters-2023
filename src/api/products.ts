@@ -17,20 +17,12 @@ import {
 	ReviewPublishByIdDocument,
 	type ReviewPublishByIdMutationVariables,
 } from "@/gql/graphql";
-import { throttleFetch } from "@/utils/common";
 
 export const getProductList = async () => {
-	// const graphQlResponse = await executeGraphql({
-	// 	query: ProductGetListDocument,
-	// });
-
-	const graphQlResponse = await throttleFetch(async () => {
-		const graphQlResponse = await executeGraphql({
-			query: ProductGetListDocument,
-			next: { revalidate: 15 },
-		});
-		return graphQlResponse;
-	})();
+	const graphQlResponse = await executeGraphql({
+		query: ProductGetListDocument,
+		next: { revalidate: 15 },
+	});
 
 	return graphQlResponse.products;
 };
@@ -144,6 +136,7 @@ export const getReviesByProductId = async (id: string) => {
 		variables: {
 			productId: id,
 		},
+		next: { tags: [`review-product-id-${id}`] },
 	});
 
 	return graphQlResponse.product?.reviews;
@@ -167,6 +160,7 @@ export const createReviewByProductId = async ({
 			content,
 			rating,
 		},
+		authToken: process.env.HYGRAPH_MUTATION_TOKEN,
 	});
 
 	return graphQlResponse.createReview?.id;
@@ -178,6 +172,7 @@ export const publishReviewById = async ({ id }: ReviewPublishByIdMutationVariabl
 		variables: {
 			id,
 		},
+		authToken: process.env.HYGRAPH_MUTATION_TOKEN,
 	});
 
 	return graphQlResponse.publishReview;

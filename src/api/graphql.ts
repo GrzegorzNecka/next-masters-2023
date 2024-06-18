@@ -6,11 +6,13 @@ export const executeGraphql = async <TResult, TVariables>({
 	cache,
 	next,
 	headers,
+	authToken,
 }: {
 	query: TypedDocumentString<TResult, TVariables>;
 	cache?: RequestCache;
 	headers?: HeadersInit;
 	next?: NextFetchRequestConfig | undefined;
+	authToken?: string;
 } & (TVariables extends { [key: string]: never }
 	? { variables?: never }
 	: { variables: TVariables })): Promise<TResult> => {
@@ -29,6 +31,7 @@ export const executeGraphql = async <TResult, TVariables>({
 		headers: {
 			...headers,
 			"Content-Type": "application/json",
+			...(authToken ? { Authorization: `Bearer ${authToken}` } : {}),
 		},
 	});
 
