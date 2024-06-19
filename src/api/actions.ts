@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 import { getCartByIdFromCookies } from "./cart";
+import { createReviewByProductId, publishReviewById } from "./products";
 import { executeGraphql } from "@/api/graphql";
 import { CartRemoveProductDocument, CartSetProductQuantityDocument } from "@/gql/graphql";
 
@@ -77,3 +78,45 @@ export const handlePaymentAction = async () => {
 	cookies().set("cartId", "");
 	redirect(checkoutSession.url);
 };
+
+export async function handleProductReviewSubmissionAction(payload: {
+	productId: string;
+	name: string;
+	email: string;
+	headline: string;
+	content: string;
+	rating: number;
+}) {
+	try {
+		const { productId, name, email, headline, content, rating } = payload;
+
+		if (
+			typeof productId !== "string" ||
+			typeof name !== "string" ||
+			typeof email !== "string" ||
+			typeof headline !== "string" ||
+			typeof content !== "string" ||
+			!Number.isInteger(Number(rating))
+		) {
+			throw new Error("Invalid form data");
+		}
+
+		const id = await createReviewByProductId({
+			productId,
+			name,
+			email,
+			content,
+			rating: Number(rating),
+			headline,
+		});
+
+		if (!id) {
+			throw new Error("Invalid review id");
+		}
+
+		await publishReviewById({ id });
+		revalidateTag(`review-product-id-${productId}`);
+	} catch (error) {
+		throw new Error("something went wrong with Hygraph connection");
+	}
+}

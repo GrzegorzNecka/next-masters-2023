@@ -10,7 +10,8 @@ import { ProductSingleCoverImage } from "@/ui/atoms/ProductSingleCoverImage";
 import { AddToCartButton } from "@/ui/atoms/AddToCartButton";
 import { getOrCreateCart, addProductToCart } from "@/api/cart";
 
-import { ReviewForm } from "@/ui/molecules/ReviewForm";
+import { Reviews } from "@/ui/molecules/Reviews";
+// import { ReviewList } from "@/ui/molecules/ReviewList";
 
 // import { sleep } from "@/utils/common";
 
@@ -86,7 +87,8 @@ export default async function SingleProductPage({
 
 			<section>
 				<hr className="my-10" />
-				<ReviewForm productId={product.id} />
+
+				<Reviews productId={product.id} />
 			</section>
 
 			<aside>
