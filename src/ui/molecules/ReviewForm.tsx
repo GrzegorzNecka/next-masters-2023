@@ -1,6 +1,6 @@
 "use client";
 
-import { useOptimistic, useState } from "react";
+import { startTransition, useEffect, useOptimistic, useRef } from "react";
 import { handleProductReviewSubmissionAction } from "@/api/actions";
 
 import type { ReviewsGetByProductIdQuery } from "@/gql/graphql";
@@ -10,25 +10,21 @@ type Review = NonNullable<ReviewsGetByProductIdQuery["product"]>["reviews"][numb
 };
 
 export const ReviewForm = ({ reviews, productId }: { reviews: Review[]; productId: string }) => {
-	const [name, setName] = useState("");
-	const [email, setEmail] = useState("");
-	const [headline, setHeadline] = useState("");
-	const [content, setContent] = useState("");
-	const [rating, setRating] = useState(1);
+	const formRef = useRef<HTMLFormElement>(null);
 
 	const [optimisticReviews, addOptimisticReview] = useOptimistic(
 		reviews,
-		(state, action: "SUBMIT") => {
-			if (action === "SUBMIT") {
+		(state, action: { review: Review; type: "SUBMIT" }) => {
+			if (action.type === "SUBMIT") {
 				return [
 					...state,
 					{
 						id: productId,
-						name,
-						email,
-						headline,
-						content,
-						rating,
+						name: action.review.name,
+						email: action.review.email,
+						headline: action.review.headline,
+						content: action.review.content,
+						rating: action.review.rating,
 						sending: true,
 					},
 				];
@@ -37,6 +33,33 @@ export const ReviewForm = ({ reviews, productId }: { reviews: Review[]; productI
 			}
 		},
 	);
+
+	useEffect(() => {
+		const allSent = optimisticReviews.every((review) => !review.sending);
+		if (allSent && formRef.current) {
+			formRef.current.reset();
+		}
+	}, [optimisticReviews]);
+
+	const updateOptimisticReview = (e: React.FormEvent<HTMLFormElement>) => {
+		const formData = new FormData(e.currentTarget);
+
+		const review = {
+			id: productId,
+			name: formData.get("name") as string,
+			email: formData.get("email") as string,
+			headline: formData.get("headline") as string,
+			content: formData.get("content") as string,
+			rating: Number(formData.get("rating")),
+		};
+
+		startTransition(() => {
+			addOptimisticReview({
+				type: "SUBMIT",
+				review,
+			});
+		});
+	};
 
 	return (
 		<>
@@ -61,61 +84,16 @@ export const ReviewForm = ({ reviews, productId }: { reviews: Review[]; productI
 			</ul>
 
 			<form
-				action={async () => {
-					addOptimisticReview("SUBMIT");
-					await handleProductReviewSubmissionAction({
-						productId,
-						name,
-						email,
-						headline,
-						content,
-						rating,
-					});
-				}}
+				ref={formRef}
+				action={handleProductReviewSubmissionAction}
+				onSubmit={(e) => updateOptimisticReview(e)}
 			>
 				<input type="hidden" name="productId" value={productId} />
-				<input
-					type="text"
-					name="name"
-					placeholder="imię"
-					required
-					value={name}
-					onChange={(e) => setName(e.target.value)}
-				/>
-				<input
-					type="email"
-					name="email"
-					placeholder="email"
-					required
-					value={email}
-					onChange={(e) => setEmail(e.target.value)}
-				/>
-				<input
-					type="text"
-					name="headline"
-					placeholder="tytuł"
-					required
-					value={headline}
-					onChange={(e) => setHeadline(e.target.value)}
-				/>
-				<input
-					type="text"
-					name="content"
-					placeholder="treść"
-					required
-					value={content}
-					onChange={(e) => setContent(e.target.value)}
-				/>
-				<input
-					type="number"
-					name="rating"
-					placeholder="ocena"
-					min="1"
-					max="5"
-					required
-					value={rating}
-					onChange={(e) => setRating(parseInt(e.target.value, 10))}
-				/>
+				<input type="text" name="name" placeholder="imię" required />
+				<input type="email" name="email" placeholder="email" required />
+				<input type="text" name="headline" placeholder="tytuł" required />
+				<input type="text" name="content" placeholder="treść" required />
+				<input type="number" name="rating" placeholder="ocena" min="1" max="5" required />
 				<button
 					className="rounded-sm border bg-slate-100 px-6 py-2 shadow-sm disabled:cursor-wait disabled:bg-slate-800"
 					type="submit"

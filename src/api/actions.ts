@@ -79,16 +79,11 @@ export const handlePaymentAction = async () => {
 	redirect(checkoutSession.url);
 };
 
-export async function handleProductReviewSubmissionAction(payload: {
-	productId: string;
-	name: string;
-	email: string;
-	headline: string;
-	content: string;
-	rating: number;
-}) {
+export async function handleProductReviewSubmissionAction(formData: FormData) {
 	try {
-		const { productId, name, email, headline, content, rating } = payload;
+		const { productId, name, email, headline, content, rating } = Object.fromEntries(
+			formData.entries(),
+		);
 
 		if (
 			typeof productId !== "string" ||
@@ -116,6 +111,11 @@ export async function handleProductReviewSubmissionAction(payload: {
 
 		await publishReviewById({ id });
 		revalidateTag(`review-product-id-${productId}`);
+
+		// Reset the form here
+		formData.forEach((_, key) => {
+			formData.set(key, "");
+		});
 	} catch (error) {
 		throw new Error("something went wrong with Hygraph connection");
 	}
