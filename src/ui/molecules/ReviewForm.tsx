@@ -1,6 +1,8 @@
 "use client";
 
-import { startTransition, useEffect, useOptimistic, useRef } from "react";
+import { Suspense, useEffect, useOptimistic, useRef, useTransition } from "react";
+import clsx from "clsx";
+import { Button } from "../atoms/Button";
 import { handleProductReviewSubmissionAction } from "@/api/actions";
 
 import type { ReviewsGetByProductIdQuery } from "@/gql/graphql";
@@ -11,7 +13,7 @@ type Review = NonNullable<ReviewsGetByProductIdQuery["product"]>["reviews"][numb
 
 export const ReviewForm = ({ reviews, productId }: { reviews: Review[]; productId: string }) => {
 	const formRef = useRef<HTMLFormElement>(null);
-
+	const [isPending, startTransition] = useTransition();
 	const [optimisticReviews, addOptimisticReview] = useOptimistic(
 		reviews,
 		(state, action: { review: Review; type: "SUBMIT" }) => {
@@ -63,27 +65,34 @@ export const ReviewForm = ({ reviews, productId }: { reviews: Review[]; productI
 
 	return (
 		<>
-			<ul>
-				{optimisticReviews &&
-					optimisticReviews.map((review) => {
-						return (
-							<li
-								key={review.id}
-								className={
-									review.sending
-										? `border- flex flex-col gap-2 border border-gray-500 bg-slate-200 p-2`
-										: `border- flex flex-col gap-2 border border-gray-500 p-2`
-								}
-							>
-								<p>kupujący: {review.name}</p>
-								<p>gwiazdki: {review.rating}</p>
-								<p>opinia: {review.content}</p>
-							</li>
-						);
-					})}
-			</ul>
+			<Suspense fallback={<div>Loading...</div>}>
+				<ul className="mb-10 grid grid-cols-3 gap-2">
+					{optimisticReviews &&
+						optimisticReviews.map((review) => {
+							return (
+								<li
+									key={review.id}
+									className={clsx(
+										"rounded-md border border-white p-6",
+										review.sending ? "bg-stone-300 text-stone-700" : "bg-stone-200 text-stone-900",
+									)}
+								>
+									<div className="flex justify-between border-b border-white pb-3 uppercase">
+										<span className="text-xs font-bold"> {review.name}</span>
+										<span className="text-xs font-bold"> {review.rating}</span>
+									</div>
 
+									<div className="flex-col pt-3">
+										<h2 className="text-m font-bold">{review.headline}</h2>
+										<p className="text-sm"> {review.content}</p>
+									</div>
+								</li>
+							);
+						})}
+				</ul>
+			</Suspense>
 			<form
+				className="grid grid-cols-2 gap-2"
 				ref={formRef}
 				action={handleProductReviewSubmissionAction}
 				onSubmit={(e) => updateOptimisticReview(e)}
@@ -93,13 +102,36 @@ export const ReviewForm = ({ reviews, productId }: { reviews: Review[]; productI
 				<input type="email" name="email" placeholder="email" required />
 				<input type="text" name="headline" placeholder="tytuł" required />
 				<input type="text" name="content" placeholder="treść" required />
-				<input type="number" name="rating" placeholder="ocena" min="1" max="5" required />
-				<button
-					className="rounded-sm border bg-slate-100 px-6 py-2 shadow-sm disabled:cursor-wait disabled:bg-slate-800"
+
+				<div>
+					<input type="radio" id="star5" name="rating" value="5" />
+					<label htmlFor="star5" title="5 stars">
+						★
+					</label>
+					<input type="radio" id="star4" name="rating" value="4" />
+					<label htmlFor="star4" title="4 stars">
+						★
+					</label>
+					<input type="radio" id="star3" name="rating" value="3" />
+					<label htmlFor="star3" title="3 stars">
+						★
+					</label>
+					<input type="radio" id="star2" name="rating" value="2" />
+					<label htmlFor="star2" title="2 stars">
+						★
+					</label>
+					<input type="radio" id="star1" name="rating" value="1" />
+					<label htmlFor="star1" title="1 star">
+						★
+					</label>
+				</div>
+				<Button
 					type="submit"
+					isDisabled={isPending}
+					className="rounded-sm border bg-slate-100 px-6 py-2 shadow-sm disabled:cursor-wait disabled:bg-slate-800"
 				>
 					Dodaj do recenzję
-				</button>
+				</Button>
 			</form>
 		</>
 	);

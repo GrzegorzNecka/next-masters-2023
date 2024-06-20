@@ -5,6 +5,7 @@
 - [platforma kursowa](https://lms.hyperfunctor.com/courses/nextjsmasters/next13-zadania-3)
   /\*\*
 
+- zainstauj: https://ui.shadcn.com/docs/installation
 - To learn more about Playwright Test visit:
 - https://www.checklyhq.com/docs/browser-checks/playwright-test/
 - https://playwright.dev/docs/writing-tests
