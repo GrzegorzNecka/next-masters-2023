@@ -1,16 +1,17 @@
 "use client";
 
-import React, { Suspense, useEffect, useOptimistic, useRef, useState, useTransition } from "react";
-import clsx from "clsx";
+import React, { useEffect, useOptimistic, useRef, useState, useTransition } from "react";
+// import clsx from "clsx";
 
 import { Button } from "../atoms/Button";
 import { ActiveRates } from "../atoms/ActiveRates";
-import { OutputRates } from "../atoms/OutputRates";
+// import { OutputRates } from "../atoms/OutputRates";
+import { ReviewList } from "./ReviewList";
 import { handleProductReviewSubmissionAction } from "@/api/actions";
 
 import type { ReviewsGetByProductIdQuery } from "@/gql/graphql";
 
-type Review = NonNullable<ReviewsGetByProductIdQuery["product"]>["reviews"][number] & {
+export type Review = NonNullable<ReviewsGetByProductIdQuery["product"]>["reviews"][number] & {
 	sending?: boolean;
 };
 
@@ -70,32 +71,8 @@ export const ReviewForm = ({ reviews, productId }: { reviews: Review[]; productI
 
 	return (
 		<>
-			<Suspense fallback={<div>Loading...</div>}>
-				<ul className="mb-10 grid grid-cols-3 gap-2">
-					{optimisticReviews &&
-						optimisticReviews.map((review) => {
-							return (
-								<li
-									key={review.id}
-									className={clsx(
-										"rounded-md border border-white p-6",
-										review.sending ? "bg-stone-300 text-stone-700" : "bg-stone-200 text-stone-900",
-									)}
-								>
-									<div className="flex justify-between border-b border-white pb-3 uppercase">
-										<span className="text-xs font-bold"> {review.name}</span>
-										<OutputRates count={review.rating} />
-									</div>
+			{optimisticReviews && <ReviewList reviews={optimisticReviews} />}
 
-									<div className="flex-col pt-3">
-										<h2 className="text-m font-bold">{review.headline}</h2>
-										<p className="text-sm"> {review.content} </p>
-									</div>
-								</li>
-							);
-						})}
-				</ul>
-			</Suspense>
 			<form
 				className="grid-row grid w-1/2 gap-2"
 				ref={formRef}

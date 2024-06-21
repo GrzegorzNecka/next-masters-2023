@@ -7,9 +7,7 @@ import { getReviesByProductId } from "@/api/products";
 export async function Reviews({ productId }: { productId: string }) {
 	const reviews = await getReviesByProductId(productId);
 
-	// if (!reviews) return;
-
-	const averageReviews = reviews
+	const averageRating = reviews
 		? reviews.reduce((acc, review) => acc + review.rating, 0) / reviews.length
 		: 0;
 
@@ -20,10 +18,10 @@ export async function Reviews({ productId }: { productId: string }) {
 					Recenzje
 				</Typography>
 				{reviews && (
-					<p>
-						średnia ocen: {Math.ceil(averageReviews)}{" "}
-						<OutputRates count={Math.ceil(averageReviews)} />
-					</p>
+					<div>
+						średnia ocen: {Math.ceil(averageRating)}{" "}
+						<OutputRates count={Math.ceil(averageRating)} />
+					</div>
 				)}
 			</div>
 			{reviews ? <ReviewForm productId={productId} reviews={reviews} /> : <p>brak komentarzy</p>}
