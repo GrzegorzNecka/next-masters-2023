@@ -40,10 +40,12 @@ export const Button = ({
 }: ButtonProps) => {
 	const T = as;
 
+	const defaultClassName = `bg-stone-200 hover:bg-stone-300 text-stone-800 font-semibold py-2 px-4 border border-stone-400 rounded `;
+
 	return (
 		<T
 			{...rest}
-			className={clsx({ uppercase: isUppercase }, className)}
+			className={clsx({ uppercase: isUppercase }, defaultClassName, className)}
 			onClick={onClick}
 			disabled={isDisabled}
 			type={type}
