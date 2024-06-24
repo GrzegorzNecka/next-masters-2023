@@ -1,7 +1,7 @@
 "use client";
 
 import clsx from "clsx";
-import { OutputRates } from "../atoms/OutputRates";
+import { StaticRates } from "../atoms/StaticRates";
 import { type Review } from "./ReviewForm";
 
 export const ReviewList = ({ reviews }: { reviews: Review[] }) => {
@@ -11,13 +11,20 @@ export const ReviewList = ({ reviews }: { reviews: Review[] }) => {
 				<li
 					key={review.id}
 					className={clsx(
-						"rounded-md border border-white p-6",
-						review.sending ? "bg-stone-300 text-stone-700" : "bg-stone-200 text-stone-900",
+						"rounded-md border p-6",
+						review.sending
+							? "border-stone-3000 bg-stone-50 text-stone-300"
+							: "border-stone-300 bg-white text-stone-900",
 					)}
 				>
-					<div className="flex justify-between border-b border-white pb-3 uppercase">
+					<div
+						className={clsx(
+							"flex justify-between border-b pb-3 uppercase",
+							review.sending ? "border-stone-300" : "border-stone-900",
+						)}
+					>
 						<span className="text-xs font-bold">{review.name}</span>
-						<OutputRates count={review.rating} />
+						<StaticRates count={review.rating} />
 					</div>
 					<div className="flex-col pt-3">
 						<h2 className="text-m font-bold">{review.headline}</h2>

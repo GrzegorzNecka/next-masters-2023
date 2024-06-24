@@ -2,7 +2,7 @@
 
 import { Star } from "lucide-react";
 
-export const OutputRates = ({ count }: { count: number }) => {
+export const StaticRates = ({ count }: { count: number }) => {
 	return (
 		<div className="flex">
 			{Array.from({ length: 5 }, (_, index) => (

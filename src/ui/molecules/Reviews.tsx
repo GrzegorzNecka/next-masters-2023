@@ -1,4 +1,4 @@
-import { OutputRates } from "../atoms/OutputRates";
+import { StaticRates } from "../atoms/StaticRates";
 import { Typography } from "../atoms/Typography";
 import { type Review, ReviewForm } from "./ReviewForm";
 
@@ -25,7 +25,7 @@ export async function Reviews({ productId }: { productId: string }) {
 				{averageRating && (
 					<div>
 						średnia ocen: {averageRating}
-						<OutputRates count={Math.ceil(averageRating)} />
+						<StaticRates count={Math.ceil(averageRating)} />
 					</div>
 				)}
 			</div>
