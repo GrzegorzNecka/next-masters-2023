@@ -3,7 +3,7 @@
 import { useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { removeItem } from "@/api/actions";
-import { Button } from "@/ui/atoms/Button";
+import { Button } from "@/ui/atoms/_Button";
 
 export const RemoveButton = ({ itemId }: { itemId: string }) => {
 	const [isPending, startTransition] = useTransition();

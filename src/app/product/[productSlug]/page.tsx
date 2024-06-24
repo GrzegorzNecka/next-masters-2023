@@ -49,10 +49,11 @@ export default async function SingleProductPage({
 		return <p>produkt chwilowo niedostępny</p>;
 	}
 
-	async function addProductToCartAction() {
+	async function addProductToCartAction(formData: FormData) {
 		"use server";
 
-		if (!product?.id) {
+		const quantity = formData.get("quantity") as string;
+		if (!product?.id || !quantity) {
 			return;
 		}
 
@@ -63,7 +64,7 @@ export default async function SingleProductPage({
 		await addProductToCart({
 			orderId: cart.id,
 			productId: product.id,
-			quantity: 1,
+			quantity: parseInt(quantity),
 		});
 		// await sleep(1000);
 
@@ -77,9 +78,10 @@ export default async function SingleProductPage({
 				<div>
 					<ProductSingleDescription product={product} />
 					{/* <ProductVariantsList searchParams={searchParams} product={product} /> */}
-					<p className="ml-1 text-sm font-semibold text-slate-500">in stock</p>
+					<p className="ml-1 text-sm font-semibold text-slate-500">in stock - zostało ... </p>
 					<form action={addProductToCartAction}>
 						<input type="hidden" name="productId" value={product.id} />
+						<input type="number" name="quantity" min={1} max={10} />
 						<AddToCartButton />
 					</form>
 				</div>
@@ -87,7 +89,6 @@ export default async function SingleProductPage({
 
 			<section>
 				<hr className="my-10" />
-
 				<Reviews productId={product.id} />
 			</section>
 
