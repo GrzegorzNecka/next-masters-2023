@@ -16,7 +16,8 @@
 		"update": "update -L",
 		"stripe": "./stripe",
 		"stripe:webhook": "./stripe listen --forward-to localhost:3000/api/stripe/webhook --api-key sk_test_51OsYCBJfCKGhKadPC9S0cxHcuI52olsFqjxyQr8DrbVyg52R27GBHaoJddfXkNXb68evUnJX6ducD3rwoXbtY8XF00IGlc0XK4",
-		"stripe:trigger-compleated": "./stripe trigger checkout.session.completed --add checkout_session:metadata.cartId=123"
+		"stripe:trigger-compleated": "./stripe trigger checkout.session.completed --add checkout_session:metadata.cartId=123",
+		"shadow": "pnpm dlx shadcn-ui@latest add"
 	},
 	"dependencies": {
 		"@formatjs/intl-localematcher": "^0.5.4",
@@ -27,6 +28,7 @@
 		"@next/env": "^14.2.3",
 		"@next/mdx": "^14.2.3",
 		"@parcel/watcher": "^2.4.1",
+		"@radix-ui/react-slot": "^1.1.0",
 		"@tailwindcss/typography": "^0.5.13",
 		"@tanstack/react-query": "^5.40.0",
 		"@types/mdx": "^2.0.13",
@@ -34,6 +36,7 @@
 		"@types/react": "18.2.60",
 		"@types/react-dom": "18.2.19",
 		"autoprefixer": "10.4.17",
+		"class-variance-authority": "^0.7.0",
 		"clsx": "^2.1.1",
 		"crypto": "^1.0.1",
 		"eslint": "8.57.0",
@@ -50,7 +53,9 @@
 		"server-only": "^0.0.1",
 		"stripe": "^14.25.0",
 		"stripe-event-types": "^3.1.0",
+		"tailwind-merge": "^2.3.0",
 		"tailwindcss": "3.4.1",
+		"tailwindcss-animate": "^1.0.7",
 		"use-debounce": "^10.0.1"
 	},
 	"devDependencies": {

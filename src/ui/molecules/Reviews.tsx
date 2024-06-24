@@ -1,15 +1,20 @@
 import { OutputRates } from "../atoms/OutputRates";
 import { Typography } from "../atoms/Typography";
-import { ReviewForm } from "./ReviewForm";
+import { type Review, ReviewForm } from "./ReviewForm";
 
 import { getReviesByProductId } from "@/api/products";
 
+function calculateAverageRating(reviews: Review[] | undefined | null) {
+	if (!reviews || reviews.length === 0) {
+		return null;
+	}
+	const totalRating = reviews.reduce((acc, review) => acc + review.rating, 0);
+	return totalRating === 0 ? null : Math.ceil(totalRating / reviews.length);
+}
+
 export async function Reviews({ productId }: { productId: string }) {
 	const reviews = await getReviesByProductId(productId);
-
-	const averageRating = reviews
-		? reviews.reduce((acc, review) => acc + review.rating, 0) / reviews.length
-		: 0;
+	const averageRating = calculateAverageRating(reviews);
 
 	return (
 		<>
@@ -17,9 +22,9 @@ export async function Reviews({ productId }: { productId: string }) {
 				<Typography className="mb-10 mt-4 text-xl font-semibold" isUppercase={true} as="h2">
 					Recenzje
 				</Typography>
-				{reviews && (
+				{averageRating && (
 					<div>
-						średnia ocen: {Math.ceil(averageRating)}{" "}
+						średnia ocen: {averageRating}
 						<OutputRates count={Math.ceil(averageRating)} />
 					</div>
 				)}

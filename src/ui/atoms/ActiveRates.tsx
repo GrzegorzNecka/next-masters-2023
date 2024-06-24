@@ -10,7 +10,7 @@ export const ActiveRates = ({ selectedRating, setSelectedRating }: ActiveRatesPr
 	const [hoverRating, setHoverRating] = useState<number>(0);
 
 	return (
-		<>
+		<div className="flex gap-2 ">
 			{[1, 2, 3, 4, 5].map((val) => (
 				<React.Fragment key={val}>
 					<input
@@ -33,16 +33,12 @@ export const ActiveRates = ({ selectedRating, setSelectedRating }: ActiveRatesPr
 							fill={selectedRating >= val ? "gold" : "white"}
 							strokeWidth={1}
 							stroke={
-								hoverRating >= val
-									? "orange"
-									: "white" && selectedRating >= val
-										? "orange"
-										: "white"
+								hoverRating >= val ? "orange" : "#000" && selectedRating >= val ? "orange" : "#000"
 							}
 						/>
 					</label>
 				</React.Fragment>
 			))}
-		</>
+		</div>
 	);
 };

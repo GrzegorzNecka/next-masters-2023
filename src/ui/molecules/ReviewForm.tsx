@@ -3,13 +3,17 @@
 import React, { useEffect, useOptimistic, useRef, useState, useTransition } from "react";
 // import clsx from "clsx";
 
-import { Button } from "../atoms/Button";
+import { Loader2 } from "lucide-react";
 import { ActiveRates } from "../atoms/ActiveRates";
 // import { OutputRates } from "../atoms/OutputRates";
+
 import { ReviewList } from "./ReviewList";
 import { handleProductReviewSubmissionAction } from "@/api/actions";
 
 import type { ReviewsGetByProductIdQuery } from "@/gql/graphql";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 
 export type Review = NonNullable<ReviewsGetByProductIdQuery["product"]>["reviews"][number] & {
 	sending?: boolean;
@@ -80,39 +84,27 @@ export const ReviewForm = ({ reviews, productId }: { reviews: Review[]; productI
 				onSubmit={(e) => updateOptimisticReview(e)}
 			>
 				<input type="hidden" name="productId" value={productId} />
-				<input
-					className="rounded border border-b-stone-300 bg-stone-100 p-4"
-					type="text"
-					name="name"
-					placeholder="imię"
-					required
-				/>
-				<input
-					className="rounded border border-b-stone-300 bg-stone-100 p-4"
+				<Input distances="lg" type="text" name="name" required placeholder="imię" />
+				<Input
+					distances="lg"
+					variant="default"
 					type="email"
 					name="email"
-					placeholder="email"
 					required
+					placeholder="email"
 				/>
-				<input
-					className="rounded border border-b-stone-300 bg-stone-100 p-4"
+				<Input
+					distances="lg"
+					variant="default"
 					type="text"
 					name="headline"
+					required
 					placeholder="tytuł"
-					required
 				/>
-				<textarea
-					className="rounded border border-b-stone-300 bg-stone-100 p-4"
-					name="content"
-					placeholder="treść"
-					required
-				/>
-
-				<div className="flex gap-2">
-					<ActiveRates selectedRating={selectedRating} setSelectedRating={setSelectedRating} />
-				</div>
-
-				<Button type="submit" isDisabled={isPending}>
+				<Textarea name="content" placeholder="treść" required />
+				<ActiveRates selectedRating={selectedRating} setSelectedRating={setSelectedRating} />
+				<Button variant="default" type="submit" disabled={isPending}>
+					{isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
 					Dodaj recenzję
 				</Button>
 			</form>
