@@ -6,6 +6,8 @@ query ProductVariantGetById($id: ID!) {
 				name
 				color
 				size
+				price
+				total
 			}
 			... on ProductColorVariant {
 				id

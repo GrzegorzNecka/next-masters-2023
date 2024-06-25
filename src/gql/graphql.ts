@@ -6535,6 +6535,7 @@ export type ProductSizeColorVariant = Entity & Node & {
   /** Get the other localizations for this document */
   localizations: Array<ProductSizeColorVariant>;
   name: Scalars['String']['output'];
+  price: Scalars['Int']['output'];
   product?: Maybe<Product>;
   /** The time the document was published. Null on documents in draft stage. */
   publishedAt?: Maybe<Scalars['DateTime']['output']>;
@@ -6545,6 +6546,7 @@ export type ProductSizeColorVariant = Entity & Node & {
   slug?: Maybe<Scalars['String']['output']>;
   /** System stage field */
   stage: Stage;
+  total: Scalars['Int']['output'];
   /** The time the document was updated */
   updatedAt: Scalars['DateTime']['output'];
   /** User that last updated this document */
@@ -6645,16 +6647,20 @@ export type ProductSizeColorVariantCreateInput = {
   localizations?: InputMaybe<ProductSizeColorVariantCreateLocalizationsInput>;
   /** name input for default locale (en) */
   name: Scalars['String']['input'];
+  /** price input for default locale (en) */
+  price: Scalars['Int']['input'];
   product?: InputMaybe<ProductCreateOneInlineInput>;
   size: ProductSize;
   /** slug input for default locale (en) */
   slug?: InputMaybe<Scalars['String']['input']>;
+  total: Scalars['Int']['input'];
   updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
 };
 
 export type ProductSizeColorVariantCreateLocalizationDataInput = {
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   name: Scalars['String']['input'];
+  price: Scalars['Int']['input'];
   slug?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
 };
@@ -6774,6 +6780,21 @@ export type ProductSizeColorVariantManyWhereInput = {
   size_not?: InputMaybe<ProductSize>;
   /** All values that are not contained in given list. */
   size_not_in?: InputMaybe<Array<InputMaybe<ProductSize>>>;
+  total?: InputMaybe<Scalars['Int']['input']>;
+  /** All values greater than the given value. */
+  total_gt?: InputMaybe<Scalars['Int']['input']>;
+  /** All values greater than or equal the given value. */
+  total_gte?: InputMaybe<Scalars['Int']['input']>;
+  /** All values that are contained in given list. */
+  total_in?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
+  /** All values less than the given value. */
+  total_lt?: InputMaybe<Scalars['Int']['input']>;
+  /** All values less than or equal the given value. */
+  total_lte?: InputMaybe<Scalars['Int']['input']>;
+  /** Any other value that exists and is not equal to the given value. */
+  total_not?: InputMaybe<Scalars['Int']['input']>;
+  /** All values that are not contained in given list. */
+  total_not_in?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
   updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values greater than the given value. */
   updatedAt_gt?: InputMaybe<Scalars['DateTime']['input']>;
@@ -6801,12 +6822,16 @@ export enum ProductSizeColorVariantOrderByInput {
   IdDesc = 'id_DESC',
   NameAsc = 'name_ASC',
   NameDesc = 'name_DESC',
+  PriceAsc = 'price_ASC',
+  PriceDesc = 'price_DESC',
   PublishedAtAsc = 'publishedAt_ASC',
   PublishedAtDesc = 'publishedAt_DESC',
   SizeAsc = 'size_ASC',
   SizeDesc = 'size_DESC',
   SlugAsc = 'slug_ASC',
   SlugDesc = 'slug_DESC',
+  TotalAsc = 'total_ASC',
+  TotalDesc = 'total_DESC',
   UpdatedAtAsc = 'updatedAt_ASC',
   UpdatedAtDesc = 'updatedAt_DESC'
 }
@@ -6817,14 +6842,18 @@ export type ProductSizeColorVariantUpdateInput = {
   localizations?: InputMaybe<ProductSizeColorVariantUpdateLocalizationsInput>;
   /** name input for default locale (en) */
   name?: InputMaybe<Scalars['String']['input']>;
+  /** price input for default locale (en) */
+  price?: InputMaybe<Scalars['Int']['input']>;
   product?: InputMaybe<ProductUpdateOneInlineInput>;
   size?: InputMaybe<ProductSize>;
   /** slug input for default locale (en) */
   slug?: InputMaybe<Scalars['String']['input']>;
+  total?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type ProductSizeColorVariantUpdateLocalizationDataInput = {
   name?: InputMaybe<Scalars['String']['input']>;
+  price?: InputMaybe<Scalars['Int']['input']>;
   slug?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -6866,11 +6895,15 @@ export type ProductSizeColorVariantUpdateManyInput = {
   localizations?: InputMaybe<ProductSizeColorVariantUpdateManyLocalizationsInput>;
   /** name input for default locale (en) */
   name?: InputMaybe<Scalars['String']['input']>;
+  /** price input for default locale (en) */
+  price?: InputMaybe<Scalars['Int']['input']>;
   size?: InputMaybe<ProductSize>;
+  total?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type ProductSizeColorVariantUpdateManyLocalizationDataInput = {
   name?: InputMaybe<Scalars['String']['input']>;
+  price?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type ProductSizeColorVariantUpdateManyLocalizationInput = {
@@ -7012,6 +7045,21 @@ export type ProductSizeColorVariantWhereInput = {
   name_not_starts_with?: InputMaybe<Scalars['String']['input']>;
   /** All values starting with the given string. */
   name_starts_with?: InputMaybe<Scalars['String']['input']>;
+  price?: InputMaybe<Scalars['Int']['input']>;
+  /** All values greater than the given value. */
+  price_gt?: InputMaybe<Scalars['Int']['input']>;
+  /** All values greater than or equal the given value. */
+  price_gte?: InputMaybe<Scalars['Int']['input']>;
+  /** All values that are contained in given list. */
+  price_in?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
+  /** All values less than the given value. */
+  price_lt?: InputMaybe<Scalars['Int']['input']>;
+  /** All values less than or equal the given value. */
+  price_lte?: InputMaybe<Scalars['Int']['input']>;
+  /** Any other value that exists and is not equal to the given value. */
+  price_not?: InputMaybe<Scalars['Int']['input']>;
+  /** All values that are not contained in given list. */
+  price_not_in?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
   product?: InputMaybe<ProductWhereInput>;
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values greater than the given value. */
@@ -7058,6 +7106,21 @@ export type ProductSizeColorVariantWhereInput = {
   slug_not_starts_with?: InputMaybe<Scalars['String']['input']>;
   /** All values starting with the given string. */
   slug_starts_with?: InputMaybe<Scalars['String']['input']>;
+  total?: InputMaybe<Scalars['Int']['input']>;
+  /** All values greater than the given value. */
+  total_gt?: InputMaybe<Scalars['Int']['input']>;
+  /** All values greater than or equal the given value. */
+  total_gte?: InputMaybe<Scalars['Int']['input']>;
+  /** All values that are contained in given list. */
+  total_in?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
+  /** All values less than the given value. */
+  total_lt?: InputMaybe<Scalars['Int']['input']>;
+  /** All values less than or equal the given value. */
+  total_lte?: InputMaybe<Scalars['Int']['input']>;
+  /** Any other value that exists and is not equal to the given value. */
+  total_not?: InputMaybe<Scalars['Int']['input']>;
+  /** All values that are not contained in given list. */
+  total_not_in?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
   updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values greater than the given value. */
   updatedAt_gt?: InputMaybe<Scalars['DateTime']['input']>;
@@ -10986,7 +11049,7 @@ export type ProductVariantGetByIdQueryVariables = Exact<{
 }>;
 
 
-export type ProductVariantGetByIdQuery = { product?: { variants: Array<{ id: string, name: string, color: ProductColor } | { id: string, name: string, color: ProductColor, size: ProductSize } | { id: string, name: string, size: ProductSize }> } | null };
+export type ProductVariantGetByIdQuery = { product?: { variants: Array<{ id: string, name: string, color: ProductColor } | { id: string, name: string, color: ProductColor, size: ProductSize, price: number, total: number } | { id: string, name: string, size: ProductSize }> } | null };
 
 export type ProductVariantsFragment = { id: string, variants: Array<{ id: string, name: string, color: ProductColor, product?: { id: string, slug: string, name: string, price: number, categories: Array<{ name: string }>, images: Array<{ url: string }> } | null } | { id: string, name: string, color: ProductColor, size: ProductSize, product?: { id: string, slug: string, name: string, price: number, categories: Array<{ name: string }>, images: Array<{ url: string }> } | null } | { id: string, name: string, size: ProductSize, product?: { id: string, slug: string, name: string, price: number, categories: Array<{ name: string }>, images: Array<{ url: string }> } | null }> };
 
@@ -11335,6 +11398,8 @@ export const ProductVariantGetByIdDocument = new TypedDocumentString(`
         name
         color
         size
+        price
+        total
       }
       ... on ProductColorVariant {
         id

@@ -1,26 +1,23 @@
 import { type Route } from "next";
 
 import { ActiveLink } from "./ActiveLink";
-import { getVariantProductByProductId } from "@/api/products";
+import { type ProductVariantGetByIdQuery } from "@/gql/graphql";
 import { type SearchParams } from "@/types";
 
 type ProductVariantListProps = {
+	variants: NonNullable<ProductVariantGetByIdQuery["product"]>["variants"] | undefined;
 	searchParams: SearchParams;
-	product: {
-		id: string;
-		slug: string;
-	};
+	url: string;
 };
 
-export const ProductVariantsList = async ({ searchParams, product }: ProductVariantListProps) => {
-	const host = process.env.NEXT_PUBLIC_HOST;
-
-	if (typeof host !== "string") {
-		throw new Error("NEXT_PUBLIC_HOST is required");
+export const ProductVariantsList = async ({
+	variants,
+	url,
+	searchParams,
+}: ProductVariantListProps) => {
+	if (!variants) {
+		return;
 	}
-
-	const variants = await getVariantProductByProductId(product.id);
-	const url = `${host}/product/${product.slug}` as const;
 
 	return (
 		<ul className="flex flex-wrap gap-3">
