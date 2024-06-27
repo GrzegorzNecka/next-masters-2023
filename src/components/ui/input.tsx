@@ -9,8 +9,9 @@ const inputVariants = {
 	},
 	distances: {
 		default: "h-10 px-3 py-2",
-		sm: "h-8 rounded-md px-3",
-		lg: "h-11 rounded-md px-3",
+		xs: "h-8",
+		sm: "h-8  px-3",
+		lg: "h-11  px-3",
 	},
 };
 
@@ -25,7 +26,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 			<input
 				type={type}
 				className={cn(
-					"flex  w-full rounded-md border border-input bg-background text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
+					"flex rounded-md border border-input bg-background text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
 					className,
 					inputVariants.variant[variant],
 					inputVariants.distances[distances],

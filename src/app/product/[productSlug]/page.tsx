@@ -15,6 +15,8 @@ import { AddToCartButton } from "@/ui/atoms/AddToCartButton";
 import { getOrCreateCart, addProductToCart } from "@/api/cart";
 
 import { Reviews } from "@/ui/molecules/Reviews";
+import { Input } from "@/components/ui/input";
+import { isValidDefined, isValidNonEmptyArray, isValidUndefined } from "@/validator/methods";
 
 // import { sleep } from "@/utils/common";
 
@@ -71,7 +73,7 @@ export default async function SingleProductPage({
 		const cart = await getOrCreateCart();
 
 		//todo - dodaj + i -
-		//todo jeśl ijest variant i query string  jest === product.variant to productid = varaint
+		//todo jeśl jest variant i query string  jest === product.variant to productid = varaint
 
 		await addProductToCart({
 			orderId: cart.id,
@@ -99,15 +101,23 @@ export default async function SingleProductPage({
 					<p className="ml-1 text-sm font-semibold text-slate-500">in stock - zostało ... </p>
 					<form action={addProductToCartAction}>
 						<input type="hidden" name="productId" value={product.id} />
-						<input type="number" name="quantity" min={1} max={10} defaultValue="1" />
+						<Input
+							type="number"
+							distances={"xs"}
+							name="quantity"
+							min={1}
+							max={10}
+							defaultValue="1"
+						/>
 
 						<AddToCartButton
-							isDisable={!variants || !variants.length || searchParams?.variant ? false : true}
+							isDisable={
+								isValidDefined(variants) &&
+								isValidNonEmptyArray(variants) &&
+								isValidUndefined(searchParams?.variant)
+							}
 						/>
 					</form>
-					<p>{JSON.stringify(!variants, null, 2)}</p>
-					<p>{JSON.stringify(!variants?.length, null, 2)}</p>
-					<p>{JSON.stringify(Boolean(searchParams?.variant), null, 2)}</p>
 				</div>
 			</section>
 

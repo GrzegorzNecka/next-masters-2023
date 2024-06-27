@@ -1,8 +1,17 @@
 import { type WebhookProductData } from "@/app/api/hygraph/webhook/types";
 
-// WEBHOOK VALIDATORS
-
+export type ValidationMethod = <T>(input: T | T[] | undefined) => boolean;
 export type WebhookMethod = (webhookData: WebhookProductData) => boolean;
+
+export const isValidObject: WebhookMethod = (value) => typeof value === "object";
+export const isValidString: ValidationMethod = (value) => typeof value === "string";
+export const isValidDefined: ValidationMethod = (value) => typeof value !== "undefined";
+export const isValidUndefined: ValidationMethod = (value) => typeof value === "undefined";
+export const isValidNonEmptyArray: ValidationMethod = (value) =>
+	Array.isArray(value) && value.length > 0;
+export const isValidInteger: ValidationMethod = (value) => Number.isInteger(Number(value));
+
+// SPECIFIC HYGRAPH WEBHOOK METHODS
 
 const isWebhookDataObject: WebhookMethod = (webhookData) => typeof webhookData === "object";
 const isWebhookProductModel: WebhookMethod = (webhookData) =>
@@ -15,28 +24,3 @@ export const VALIDATOR_PRODUCT_WEBHOOKS = [
 	isWebhookProductModel,
 	hasValidProductLocalizations,
 ];
-
-// NUMBER VALIDATORS
-
-export type NumericValidationMethod = (input:string) => boolean;
-
-
-export const isValidInteger: NumericValidationMethod = (
-	value: string
-  ): boolean => {
-	return Number.isInteger(Number(value));
-  };
-
-  export const NUMBER_VALIDATORS: NumericValidationMethod[] = [
-	isValidInteger
-  ];
-
- // STRING VALIDATORS
-
-export type StringValidationMethod = (input: string) => boolean;
-
-export const isValidString: StringValidationMethod = (value) => typeof value === "string";
-
-export const STRING_VALIDATORS:StringValidationMethod[] = [
-	isValidString
-  ];
