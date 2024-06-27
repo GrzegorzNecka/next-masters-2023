@@ -13,11 +13,15 @@ query ProductVariantGetById($id: ID!) {
 				id
 				name
 				color
+				price
+				total
 			}
 			... on ProductSizeVariant {
 				id
 				name
 				size
+				price
+				total
 			}
 		}
 	}

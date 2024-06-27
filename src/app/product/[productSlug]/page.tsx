@@ -16,7 +16,10 @@ import { getOrCreateCart, addProductToCart } from "@/api/cart";
 
 import { Reviews } from "@/ui/molecules/Reviews";
 import { Input } from "@/components/ui/input";
-import { isValidDefined, isValidNonEmptyArray, isValidUndefined } from "@/validator/methods";
+import { isValidDefined, isValidNonEmptyArray } from "@/validator/methods";
+import { Typography } from "@/ui/atoms/Typography";
+import { ProductSingleDescription } from "@/ui/atoms/ProductSingleDescription";
+import { type ProductVariants } from "@/gql/graphql";
 
 // import { sleep } from "@/utils/common";
 
@@ -85,20 +88,29 @@ export default async function SingleProductPage({
 		revalidateTag("cart");
 	}
 
+	const variant = variants?.find((variant) => variant.id === searchParams?.variant?.toString());
+
 	return (
 		<>
-			{JSON.stringify(variants && searchParams?.variant, null, 2)}
 			<section className="flex gap-10">
 				<ProductSingleCoverImage image={product.images.at(0)} alt={product.name} />
 				<div>
-					{/* <ProductSingleDescription product={product} />*/}
+					<Typography className="mb-4" isUppercase={true} as="h1">
+						{product.name}
+					</Typography>
+
 					<ProductVariantsList
 						searchParams={searchParams}
 						variants={variants}
 						url={`${host}/product/${product.slug}` as const}
 					/>
 
-					<p className="ml-1 text-sm font-semibold text-slate-500">in stock - zostało ... </p>
+					<ProductSingleDescription
+						isVariant={Boolean(variants?.length)}
+						product={product}
+						variant={variant as ProductVariants}
+					/>
+
 					<form action={addProductToCartAction}>
 						<input type="hidden" name="productId" value={product.id} />
 						<Input
@@ -111,11 +123,7 @@ export default async function SingleProductPage({
 						/>
 
 						<AddToCartButton
-							isDisable={
-								isValidDefined(variants) &&
-								isValidNonEmptyArray(variants) &&
-								isValidUndefined(searchParams?.variant)
-							}
+							isDisable={isValidNonEmptyArray(variants) && !isValidDefined(searchParams?.variant)}
 						/>
 					</form>
 				</div>
