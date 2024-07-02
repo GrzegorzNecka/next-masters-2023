@@ -5,11 +5,6 @@ fragment ProductListVariant on Product {
 		price
 		total
 		productType {
-			... on Accesory {
-				id
-				color
-				stage
-			}
 			... on Clothing {
 				id
 				color

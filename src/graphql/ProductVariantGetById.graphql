@@ -1,0 +1,19 @@
+query ProductVariantGetById($variantId: ID!) {
+	products(where: { productVariants_some: { id: $variantId } }) {
+		id
+		productVariants(where: { id: $variantId }, first: 1) {
+			id
+			name
+			total
+			price
+			productType {
+				... on Clothing {
+					id
+					color
+					size
+					stage
+				}
+			}
+		}
+	}
+}

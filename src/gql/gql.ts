@@ -29,9 +29,9 @@ const documents = {
     "query ProductGetById($id: ID!) {\n  product(where: {id: $id}) {\n    id\n    name\n    price\n  }\n}": types.ProductGetByIdDocument,
     "query PorductListGetAggregate {\n  productsConnection {\n    aggregate {\n      count\n    }\n  }\n}": types.PorductListGetAggregateDocument,
     "fragment ProductListItem on Product {\n  id\n  slug\n  name\n  categories(first: 1) {\n    name\n  }\n  images(first: 1) {\n    url\n  }\n  price\n}": types.ProductListItemFragmentDoc,
-    "query ProductSingleGetBySlug($slug: String!) {\n  products(where: {slug: $slug}, first: 1) {\n    ...ProductListItem\n    description\n    ...ProductVariantList\n  }\n}": types.ProductSingleGetBySlugDocument,
-    "fragment ProductVariantList on Product {\n  productVariantList {\n    id\n    name\n    color\n    price\n    sizes {\n      ... on SizeList {\n        id\n        size\n        total\n      }\n    }\n  }\n}": types.ProductVariantListFragmentDoc,
-    "fragment ProductListVariant on Product {\n  productVariants {\n    id\n    name\n    price\n    total\n    productType {\n      ... on Accesory {\n        id\n        color\n        stage\n      }\n      ... on Clothing {\n        id\n        color\n        size\n        stage\n      }\n    }\n  }\n}": types.ProductListVariantFragmentDoc,
+    "query ProductSingleGetBySlug($slug: String!) {\n  products(where: {slug: $slug}, first: 1) {\n    ...ProductListItem\n    description\n    ...ProductListVariant\n  }\n}": types.ProductSingleGetBySlugDocument,
+    "query ProductVariantGetById($variantId: ID!) {\n  products(where: {productVariants_some: {id: $variantId}}) {\n    id\n    productVariants(where: {id: $variantId}, first: 1) {\n      id\n      name\n      total\n      price\n      productType {\n        ... on Clothing {\n          id\n          color\n          size\n          stage\n        }\n      }\n    }\n  }\n}": types.ProductVariantGetByIdDocument,
+    "fragment ProductListVariant on Product {\n  productVariants {\n    id\n    name\n    price\n    total\n    productType {\n      ... on Clothing {\n        id\n        color\n        size\n        stage\n      }\n    }\n  }\n}": types.ProductListVariantFragmentDoc,
     "query ProductsConnectionGetByCategorySlug($perPage: Int!, $skipPages: Int!, $slug: String!) {\n  productsConnection(\n    where: {categories_some: {slug: $slug}}\n    first: $perPage\n    skip: $skipPages\n    orderBy: publishedAt_ASC\n  ) {\n    edges {\n      cursor\n      node {\n        ...ProductListItem\n      }\n    }\n    pageInfo {\n      hasNextPage\n      hasPreviousPage\n      startCursor\n      endCursor\n      pageSize\n    }\n    aggregate {\n      count\n    }\n  }\n}": types.ProductsConnectionGetByCategorySlugDocument,
     "query ProductsConnectionGetList($perPage: Int!, $skipPages: Int!) {\n  productsConnection(first: $perPage, skip: $skipPages, orderBy: publishedAt_ASC) {\n    edges {\n      cursor\n      node {\n        ...ProductListItem\n      }\n    }\n    pageInfo {\n      hasNextPage\n      hasPreviousPage\n      startCursor\n      endCursor\n      pageSize\n    }\n    aggregate {\n      count\n    }\n  }\n}": types.ProductsConnectionGetListDocument,
     "query ProductsGetByCategorySlug($slug: String!) {\n  categories(where: {slug: $slug}) {\n    products(first: 4) {\n      ...ProductListItem\n    }\n  }\n}": types.ProductsGetByCategorySlugDocument,
@@ -108,15 +108,15 @@ export function graphql(source: "fragment ProductListItem on Product {\n  id\n  
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "query ProductSingleGetBySlug($slug: String!) {\n  products(where: {slug: $slug}, first: 1) {\n    ...ProductListItem\n    description\n    ...ProductVariantList\n  }\n}"): typeof import('./graphql').ProductSingleGetBySlugDocument;
+export function graphql(source: "query ProductSingleGetBySlug($slug: String!) {\n  products(where: {slug: $slug}, first: 1) {\n    ...ProductListItem\n    description\n    ...ProductListVariant\n  }\n}"): typeof import('./graphql').ProductSingleGetBySlugDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "fragment ProductVariantList on Product {\n  productVariantList {\n    id\n    name\n    color\n    price\n    sizes {\n      ... on SizeList {\n        id\n        size\n        total\n      }\n    }\n  }\n}"): typeof import('./graphql').ProductVariantListFragmentDoc;
+export function graphql(source: "query ProductVariantGetById($variantId: ID!) {\n  products(where: {productVariants_some: {id: $variantId}}) {\n    id\n    productVariants(where: {id: $variantId}, first: 1) {\n      id\n      name\n      total\n      price\n      productType {\n        ... on Clothing {\n          id\n          color\n          size\n          stage\n        }\n      }\n    }\n  }\n}"): typeof import('./graphql').ProductVariantGetByIdDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "fragment ProductListVariant on Product {\n  productVariants {\n    id\n    name\n    price\n    total\n    productType {\n      ... on Accesory {\n        id\n        color\n        stage\n      }\n      ... on Clothing {\n        id\n        color\n        size\n        stage\n      }\n    }\n  }\n}"): typeof import('./graphql').ProductListVariantFragmentDoc;
+export function graphql(source: "fragment ProductListVariant on Product {\n  productVariants {\n    id\n    name\n    price\n    total\n    productType {\n      ... on Clothing {\n        id\n        color\n        size\n        stage\n      }\n    }\n  }\n}"): typeof import('./graphql').ProductListVariantFragmentDoc;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

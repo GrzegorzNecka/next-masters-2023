@@ -6,7 +6,7 @@ import { formatMoney } from "@/utils/product";
 type ProductListItemDescriptionProps = {
 	product: ProductListItemFragment;
 	isVariant?: boolean;
-	variant?: ProductSingleGetBySlugQuery["products"][0]["productVariantList"][number];
+	variant?: ProductSingleGetBySlugQuery["products"][0]["productVariants"][number];
 };
 
 export const ProductSingleDescription = ({
@@ -30,10 +30,9 @@ export const ProductSingleDescription = ({
 					</Typography>
 					<Typography as="p">
 						<Typography as="span">Stan: </Typography>
-						<Typography as="span">{variant?.sizes.at(0)?.total}</Typography>
+						{/* <Typography as="span">{variant?.sizes.at(0)?.total}</Typography> */}
 					</Typography>
 
-					<p>color: {variant?.color}</p>
 					{/* <p>size: {variant?.productType?.size}</p> */}
 				</Article>
 			) : (

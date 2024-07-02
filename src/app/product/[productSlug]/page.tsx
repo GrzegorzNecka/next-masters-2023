@@ -85,13 +85,14 @@ export default async function SingleProductPage({
 			orderId: cart.id,
 			productId: product.id,
 			quantity: parseInt(quantity),
+			variantId: searchParams?.variant?.toString() || undefined,
 		});
 		// await sleep(1000);
 
 		revalidateTag("cart");
 	}
 
-	const variants = product.productVariantList;
+	const variants = product.productVariants;
 	const variant = variants?.find((variant) => variant.id === searchParams?.variant?.toString());
 
 	return (
@@ -105,7 +106,7 @@ export default async function SingleProductPage({
 
 					<ProductVariantsList
 						searchParams={searchParams}
-						variants={product.productVariantList}
+						variants={product.productVariants}
 						url={`${host}/product/${product.slug}` as const}
 					/>
 

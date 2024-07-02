@@ -1,12 +1,12 @@
 import { type Route } from "next";
-import { redirect } from "next/navigation";
+
 import { ActiveLink } from "./ActiveLink";
 import type { ProductSingleGetBySlugQuery } from "@/gql/graphql";
 import { type SearchParams } from "@/types";
-import { isValidDefined, isValidNonEmptyArray } from "@/validator/methods";
+import { isValidDefined, isValidString } from "@/validator/methods";
 
 type ProductVariantListProps = {
-	variants: ProductSingleGetBySlugQuery["products"][0]["productVariantList"];
+	variants: ProductSingleGetBySlugQuery["products"][0]["productVariants"];
 	searchParams: SearchParams;
 	url: string;
 };
@@ -20,48 +20,66 @@ export const ProductVariantsList = async ({
 		return;
 	}
 
-	const variant = variants.find((v) => v.id === searchParams?.variant?.toString());
+	const groupedByColor = variants.reduce(
+		(acc, variant) => {
+			const color = variant.productType?.color;
+			if (!color) return acc;
 
-	if (isValidNonEmptyArray(variant?.sizes) && !isValidDefined(searchParams?.size)) {
-		// Redirect to the URL with the first size
-		redirect(`${url}?variant=${variant?.id}&size=${variant?.sizes[0]?.id}`);
-	}
+			return {
+				...acc,
+				[color]: [...(acc[color] || []), variant],
+			};
+		},
+		{} as Record<string, typeof variants>,
+	);
+
+	const searchParamColor = Array.isArray(searchParams.color)
+		? searchParams.color[0]
+		: searchParams.color;
 
 	return (
-		<article>
-			<ul className="flex flex-wrap gap-3">
-				{Array.isArray(variants) &&
-					variants.map((variant) => {
-						return (
-							<li key={variant.id}>
+		<>
+			<nav>
+				<ul className="flex flex-wrap gap-3">
+					{Object.keys(groupedByColor).map((color) => (
+						<>
+							{/* {JSON.stringify(groupedByColor[color])} */}
+
+							<li key={color}>
 								<ActiveLink
-									isActiveRule={variant.id === searchParams?.variant?.toString()}
-									href={`${url}?variant=${variant.id}` as Route}
+									isActiveRule={color === searchParams?.color}
+									href={`${url}?color=${color}` as Route}
 								>
-									{variant.name}
+									{color}
 								</ActiveLink>
 							</li>
-						);
-					})}
-			</ul>
+						</>
+					))}
 
-			{variant?.sizes && (
-				<ul className="flex flex-wrap gap-3">
-					{Array.isArray(variant?.sizes) &&
-						variant.sizes.map((size) => {
-							return (
-								<li key={size.id}>
+					{/* {groupedByColor &&
+						groupedByColor.map((variant) => {
+							{
+								JSON.stringify(variant);
+							}
+						})} */}
+				</ul>
+
+				{isValidString(searchParams.color) &&
+					isValidDefined(groupedByColor[`${searchParamColor}`]) && (
+						<ul className="flex flex-wrap gap-3">
+							{groupedByColor[`${searchParamColor}`]?.map((variant) => (
+								<li key={variant.id}>
 									<ActiveLink
-										isActiveRule={size.id === searchParams?.size?.toString()}
-										href={`${url}?variant=${variant.id}&size=${size.id}` as Route}
+										isActiveRule={variant.id === searchParams?.variant?.toString()}
+										href={`${url}?color=${searchParamColor}&variant=${variant.id}` as Route}
 									>
-										{size.size}
+										{variant.productType?.size ?? "brak zdefiniowanego rozmiaru"}
 									</ActiveLink>
 								</li>
-							);
-						})}
-				</ul>
-			)}
-		</article>
+							))}
+						</ul>
+					)}
+			</nav>
+		</>
 	);
 };
