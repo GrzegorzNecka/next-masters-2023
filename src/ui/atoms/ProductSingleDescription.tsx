@@ -1,17 +1,17 @@
 import { Article } from "./Article";
 import { Typography } from "./Typography";
-import { type ProductVariantGetByIdQuery, type ProductListItemFragment } from "@/gql/graphql";
+import { type ProductSingleGetBySlugQuery, type ProductListItemFragment } from "@/gql/graphql";
 import { formatMoney } from "@/utils/product";
 
 type ProductListItemDescriptionProps = {
 	product: ProductListItemFragment;
 	isVariant?: boolean;
-	variant: NonNullable<ProductVariantGetByIdQuery["product"]>["variants"][number];
+	variant?: ProductSingleGetBySlugQuery["products"][0]["productVariantList"][number];
 };
 
 export const ProductSingleDescription = ({
 	product,
-	isVariant,
+	isVariant = false,
 	variant,
 }: ProductListItemDescriptionProps) => {
 	return (
@@ -30,8 +30,11 @@ export const ProductSingleDescription = ({
 					</Typography>
 					<Typography as="p">
 						<Typography as="span">Stan: </Typography>
-						<Typography as="span">{variant?.total}</Typography>
+						<Typography as="span">{variant?.sizes.at(0)?.total}</Typography>
 					</Typography>
+
+					<p>color: {variant?.color}</p>
+					{/* <p>size: {variant?.productType?.size}</p> */}
 				</Article>
 			) : (
 				<Article className="mt-2 flex flex-col">

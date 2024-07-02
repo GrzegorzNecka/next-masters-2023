@@ -1,29 +1,14 @@
-fragment ProductVariants on Product {
-	id
-	variants {
-		... on ProductSizeColorVariant {
-			id
-			name
-			color
-			size
-			product {
-				...ProductListItem
-			}
-		}
-		... on ProductColorVariant {
-			id
-			name
-			color
-			product {
-				...ProductListItem
-			}
-		}
-		... on ProductSizeVariant {
-			id
-			name
-			size
-			product {
-				...ProductListItem
+fragment ProductVariantList on Product {
+	productVariantList {
+		id
+		name
+		color
+		price
+		sizes {
+			... on SizeList {
+				id
+				size
+				total
 			}
 		}
 	}

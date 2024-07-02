@@ -10,7 +10,7 @@ import {
 	ProductsGetSlugsDocument,
 	ProductSingleGetBySlugDocument,
 	ProductsSearchByNameDocument,
-	ProductVariantGetByIdDocument,
+	// ProductVariantGetByIdDocument,
 	ReviewCreateByProductIdDocument,
 	type ReviewCreateByProductIdMutationVariables,
 	ReviewsGetByProductIdDocument,
@@ -110,17 +110,17 @@ export const searchProductsByName = async (name: string) => {
 	return graphQlResponse.products;
 };
 
-export const getVariantProductByProductId = async (id: string) => {
-	const graphQlResponse = await executeGraphql({
-		query: ProductVariantGetByIdDocument,
-		variables: {
-			id: id,
-		},
-		next: { revalidate: 1 },
-	});
+// export const getVariantProductByProductId = async (id: string) => {
+// 	const graphQlResponse = await executeGraphql({
+// 		query: ProductVariantGetByIdDocument,
+// 		variables: {
+// 			id: id,
+// 		},
+// 		next: { revalidate: 1 },
+// 	});
 
-	return graphQlResponse.product?.variants;
-};
+// 	return graphQlResponse.product?.variants;
+// };
 
 export const getProductListAggregate = async () => {
 	const graphQlResponse = await executeGraphql({

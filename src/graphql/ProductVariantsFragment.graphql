@@ -1,0 +1,21 @@
+fragment ProductListVariant on Product {
+	productVariants {
+		id
+		name
+		price
+		total
+		productType {
+			... on Accesory {
+				id
+				color
+				stage
+			}
+			... on Clothing {
+				id
+				color
+				size
+				stage
+			}
+		}
+	}
+}

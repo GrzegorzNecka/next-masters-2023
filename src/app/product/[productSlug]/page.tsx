@@ -1,10 +1,11 @@
 import { Suspense } from "react";
 
 import { revalidateTag } from "next/cache";
+
 import {
 	getProductBySlug,
 	getProductsSlugList,
-	getVariantProductByProductId,
+	// getVariantProductByProductId,
 } from "@/api/products";
 import { SugestedProductsList } from "@/ui/organisms/SugestedProductsList";
 // import { ProductSingleDescription } from "@/ui/atoms/ProductSingleDescription";
@@ -19,7 +20,8 @@ import { Input } from "@/components/ui/input";
 import { isValidDefined, isValidNonEmptyArray } from "@/validator/methods";
 import { Typography } from "@/ui/atoms/Typography";
 import { ProductSingleDescription } from "@/ui/atoms/ProductSingleDescription";
-import { type ProductVariants } from "@/gql/graphql";
+
+// import { type ProductVariants } from "@/gql/graphql";
 
 // import { sleep } from "@/utils/common";
 
@@ -57,13 +59,14 @@ export default async function SingleProductPage({
 		return <p>produkt chwilowo niedostępny</p>;
 	}
 
+	console.log(product);
 	const host = process.env.NEXT_PUBLIC_HOST;
 
 	if (typeof host !== "string") {
 		throw new Error("NEXT_PUBLIC_HOST is required");
 	}
 
-	const variants = await getVariantProductByProductId(product.id);
+	// const variants = await getVariantProductByProductId(product.id);
 
 	async function addProductToCartAction(formData: FormData) {
 		"use server";
@@ -88,6 +91,7 @@ export default async function SingleProductPage({
 		revalidateTag("cart");
 	}
 
+	const variants = product.productVariantList;
 	const variant = variants?.find((variant) => variant.id === searchParams?.variant?.toString());
 
 	return (
@@ -101,14 +105,14 @@ export default async function SingleProductPage({
 
 					<ProductVariantsList
 						searchParams={searchParams}
-						variants={variants}
+						variants={product.productVariantList}
 						url={`${host}/product/${product.slug}` as const}
 					/>
 
 					<ProductSingleDescription
 						isVariant={Boolean(variants?.length)}
 						product={product}
-						variant={variant as ProductVariants}
+						variant={variant}
 					/>
 
 					<form action={addProductToCartAction}>
