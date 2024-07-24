@@ -10,14 +10,14 @@ import {
 import { SugestedProductsList } from "@/ui/organisms/SugestedProductsList";
 // import { ProductSingleDescription } from "@/ui/atoms/ProductSingleDescription";
 import { ProductSingleCoverImage } from "@/ui/atoms/ProductSingleCoverImage";
-import { ProductVariantsList } from "@/ui/atoms/ProductVariantsList";
+// import { ProductVariantsList } from "@/ui/atoms/ProductVariantsList";
 
 import { AddToCartButton } from "@/ui/atoms/AddToCartButton";
 import { getOrCreateCart, addProductToCart } from "@/api/cart";
 
 import { Reviews } from "@/ui/molecules/Reviews";
 import { Input } from "@/components/ui/input";
-import { isValidDefined, isValidNonEmptyArray } from "@/validator/methods";
+// import { isValidDefined, isValidNonEmptyArray } from "@/validator/methods";
 import { Typography } from "@/ui/atoms/Typography";
 import { ProductSingleDescription } from "@/ui/atoms/ProductSingleDescription";
 
@@ -48,7 +48,7 @@ export async function generateStaticParams() {
 
 export default async function SingleProductPage({
 	params,
-	searchParams,
+	// searchParams,
 }: {
 	params: { productSlug: string };
 	searchParams: { [key: string]: string | string[] | undefined };
@@ -85,9 +85,16 @@ export default async function SingleProductPage({
 		revalidateTag("cart");
 	}
 
-	const variant = product.productVariants?.find(
-		(variant) => variant.id === searchParams?.variant?.toString(),
-	);
+	//Todo:
+	/**
+	 * pobierz cartItem i wyciąg z niego total
+	 * stwórz wartość curentTotal = cartItem.total - product.total
+	 *
+	 */
+
+	// const variant = product.productVariants?.find(
+	// 	(variant) => variant.id === searchParams?.variant?.toString(),
+	// );
 
 	return (
 		<>
@@ -98,21 +105,17 @@ export default async function SingleProductPage({
 						{product.name}
 					</Typography>
 
-					<ProductVariantsList
+					{/* {<ProductVariantsList
 						searchParams={searchParams}
 						variants={product.productVariants}
 						url={`${host}/product/${product.slug}` as const}
-					/>
+					/>} */}
 
-					<ProductSingleDescription
-						isVariant={Boolean(product.productVariants?.length)}
-						product={product}
-						variant={variant}
-					/>
+					<ProductSingleDescription product={product} />
 
 					<form action={addProductToCartAction}>
 						<input type="hidden" name="productId" value={product.id} />
-						<input type="hidden" name="variantId" value={searchParams?.variant?.toString()} />
+						{/* <input type="hidden" name="variantId" value={searchParams?.variant?.toString()} /> */}
 						<Input
 							type="number"
 							distances={"xs"}
@@ -124,8 +127,9 @@ export default async function SingleProductPage({
 
 						<AddToCartButton
 							isDisable={
-								isValidNonEmptyArray(product.productVariants) &&
-								!isValidDefined(searchParams?.variant)
+								// isValidNonEmptyArray(product.productVariants) &&
+								// !isValidDefined(searchParams?.variant)
+								false
 							}
 						/>
 					</form>

@@ -6127,6 +6127,7 @@ export type Product = Entity & Node & {
   slug: Scalars['String']['output'];
   /** System stage field */
   stage: Stage;
+  total?: Maybe<Scalars['Int']['output']>;
   /** The time the document was updated */
   updatedAt: Scalars['DateTime']['output'];
   /** User that last updated this document */
@@ -6927,6 +6928,8 @@ export type ProductCreateInput = {
   reviews?: InputMaybe<ReviewCreateManyInlineInput>;
   /** slug input for default locale (en) */
   slug: Scalars['String']['input'];
+  /** total input for default locale (en) */
+  total?: InputMaybe<Scalars['Int']['input']>;
   updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
 };
 
@@ -6936,6 +6939,7 @@ export type ProductCreateLocalizationDataInput = {
   name: Scalars['String']['input'];
   price: Scalars['Int']['input'];
   slug: Scalars['String']['input'];
+  total?: InputMaybe<Scalars['Int']['input']>;
   updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
 };
 
@@ -7090,6 +7094,8 @@ export enum ProductOrderByInput {
   PublishedAtDesc = 'publishedAt_DESC',
   SlugAsc = 'slug_ASC',
   SlugDesc = 'slug_DESC',
+  TotalAsc = 'total_ASC',
+  TotalDesc = 'total_DESC',
   UpdatedAtAsc = 'updatedAt_ASC',
   UpdatedAtDesc = 'updatedAt_DESC'
 }
@@ -8267,6 +8273,8 @@ export type ProductUpdateInput = {
   reviews?: InputMaybe<ReviewUpdateManyInlineInput>;
   /** slug input for default locale (en) */
   slug?: InputMaybe<Scalars['String']['input']>;
+  /** total input for default locale (en) */
+  total?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type ProductUpdateLocalizationDataInput = {
@@ -8274,6 +8282,7 @@ export type ProductUpdateLocalizationDataInput = {
   name?: InputMaybe<Scalars['String']['input']>;
   price?: InputMaybe<Scalars['Int']['input']>;
   slug?: InputMaybe<Scalars['String']['input']>;
+  total?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type ProductUpdateLocalizationInput = {
@@ -8315,11 +8324,14 @@ export type ProductUpdateManyInput = {
   localizations?: InputMaybe<ProductUpdateManyLocalizationsInput>;
   /** price input for default locale (en) */
   price?: InputMaybe<Scalars['Int']['input']>;
+  /** total input for default locale (en) */
+  total?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type ProductUpdateManyLocalizationDataInput = {
   description?: InputMaybe<Scalars['String']['input']>;
   price?: InputMaybe<Scalars['Int']['input']>;
+  total?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type ProductUpdateManyLocalizationInput = {
@@ -8544,6 +8556,21 @@ export type ProductWhereInput = {
   slug_not_starts_with?: InputMaybe<Scalars['String']['input']>;
   /** All values starting with the given string. */
   slug_starts_with?: InputMaybe<Scalars['String']['input']>;
+  total?: InputMaybe<Scalars['Int']['input']>;
+  /** All values greater than the given value. */
+  total_gt?: InputMaybe<Scalars['Int']['input']>;
+  /** All values greater than or equal the given value. */
+  total_gte?: InputMaybe<Scalars['Int']['input']>;
+  /** All values that are contained in given list. */
+  total_in?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
+  /** All values less than the given value. */
+  total_lt?: InputMaybe<Scalars['Int']['input']>;
+  /** All values less than or equal the given value. */
+  total_lte?: InputMaybe<Scalars['Int']['input']>;
+  /** Any other value that exists and is not equal to the given value. */
+  total_not?: InputMaybe<Scalars['Int']['input']>;
+  /** All values that are not contained in given list. */
+  total_not_in?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
   updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values greater than the given value. */
   updatedAt_gt?: InputMaybe<Scalars['DateTime']['input']>;
@@ -12288,7 +12315,7 @@ export type ProductSingleGetBySlugQueryVariables = Exact<{
 }>;
 
 
-export type ProductSingleGetBySlugQuery = { products: Array<{ description: string, id: string, slug: string, name: string, price: number, categories: Array<{ name: string }>, images: Array<{ url: string }>, productVariants: Array<{ id: string, name?: string | null, price: number, total: number, productType?: { id: string, color: ProductColor, size?: ClothesSize | null, stage: Stage } | null }> }> };
+export type ProductSingleGetBySlugQuery = { products: Array<{ description: string, total?: number | null, id: string, slug: string, name: string, price: number, categories: Array<{ name: string }>, images: Array<{ url: string }> }> };
 
 export type ProductVariantGetByIdQueryVariables = Exact<{
   variantId: Scalars['ID']['input'];
@@ -12596,7 +12623,7 @@ export const ProductSingleGetBySlugDocument = new TypedDocumentString(`
   products(where: {slug: $slug}, first: 1) {
     ...ProductListItem
     description
-    ...ProductListVariant
+    total
   }
 }
     fragment ProductListItem on Product {
@@ -12610,22 +12637,6 @@ export const ProductSingleGetBySlugDocument = new TypedDocumentString(`
     url
   }
   price
-}
-fragment ProductListVariant on Product {
-  productVariants {
-    id
-    name
-    price
-    total
-    productType {
-      ... on Clothing {
-        id
-        color
-        size
-        stage
-      }
-    }
-  }
 }`) as unknown as TypedDocumentString<ProductSingleGetBySlugQuery, ProductSingleGetBySlugQueryVariables>;
 export const ProductVariantGetByIdDocument = new TypedDocumentString(`
     query ProductVariantGetById($variantId: ID!) {

@@ -15,6 +15,10 @@ export default async function CartPage() {
 		redirect("/");
 	}
 
+	if (cart.orderItems.length === 0) {
+		return <div className="mt-10 text-center text-2xl">Koszyk jest pusty</div>;
+	}
+
 	return (
 		<div className="mt-10">
 			<table>

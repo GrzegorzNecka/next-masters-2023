@@ -2,8 +2,9 @@
 
 import { useTransition } from "react";
 // import { useRouter } from "next/navigation";
+import { Loader2, Trash2 } from "lucide-react";
 import { removeItem } from "@/api/actions";
-import { Button } from "@/ui/atoms/_Button";
+import { Button } from "@/components/ui/button";
 
 export const RemoveButton = ({ itemId }: { itemId: string }) => {
 	const [isPending, startTransition] = useTransition();
@@ -11,17 +12,17 @@ export const RemoveButton = ({ itemId }: { itemId: string }) => {
 
 	return (
 		<Button
-			isDisabled={isPending}
+			variant="outline"
+			disabled={isPending}
 			onClick={async () => {
 				startTransition(async () => {
 					await removeItem(itemId);
-					console.log("itemId", itemId);
+
 					// router.refresh();
 				});
 			}}
-			className="text-red-500"
 		>
-			remove
+			{isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Trash2 className="h-4 w-4" />}
 		</Button>
 	);
 };
