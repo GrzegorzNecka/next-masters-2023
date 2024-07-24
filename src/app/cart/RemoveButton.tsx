@@ -1,13 +1,13 @@
 "use client";
 
 import { useTransition } from "react";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 import { removeItem } from "@/api/actions";
 import { Button } from "@/ui/atoms/_Button";
 
 export const RemoveButton = ({ itemId }: { itemId: string }) => {
 	const [isPending, startTransition] = useTransition();
-	const router = useRouter();
+	// const router = useRouter();
 
 	return (
 		<Button
@@ -15,7 +15,8 @@ export const RemoveButton = ({ itemId }: { itemId: string }) => {
 			onClick={async () => {
 				startTransition(async () => {
 					await removeItem(itemId);
-					router.refresh();
+					console.log("itemId", itemId);
+					// router.refresh();
 				});
 			}}
 			className="text-red-500"
