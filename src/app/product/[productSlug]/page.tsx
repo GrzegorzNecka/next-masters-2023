@@ -72,6 +72,7 @@ export default async function SingleProductPage({
 		"use server";
 
 		const quantity = formData.get("quantity") as string;
+		const variantId = formData.get("variantId") as string;
 		if (!product?.id || !quantity) {
 			return;
 		}
@@ -85,7 +86,7 @@ export default async function SingleProductPage({
 			orderId: cart.id,
 			productId: product.id,
 			quantity: parseInt(quantity),
-			variantId: searchParams?.variant?.toString() || undefined,
+			variantId: variantId,
 		});
 		// await sleep(1000);
 
@@ -118,6 +119,7 @@ export default async function SingleProductPage({
 
 					<form action={addProductToCartAction}>
 						<input type="hidden" name="productId" value={product.id} />
+						<input type="hidden" name="variantId" value={searchParams?.variant?.toString()} />
 						<Input
 							type="number"
 							distances={"xs"}
