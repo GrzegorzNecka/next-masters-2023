@@ -41,7 +41,6 @@ export async function getOrCreateCart(): Promise<CartFragment> {
 
 	if (!cart) {
 		throw new Error("unexpected failed to create cart");
-		//TODO - inna forma powiadomienia
 	}
 
 	cookies().set("cartId", cart.id, {
@@ -57,12 +56,10 @@ export async function addProductToCart({
 	orderId,
 	productId,
 	quantity,
-	variantId,
 }: {
 	orderId: string;
 	productId: string;
 	quantity: number;
-	variantId?: string;
 }) {
 	const { product } = await executeGraphql({
 		query: ProductGetByIdDocument,
@@ -70,14 +67,9 @@ export async function addProductToCart({
 		cache: "no-cache",
 	});
 
-	console.log("variantId - co z tym dalej zrobić", variantId);
-	//todo sprawdźcz ywariant istnieje w bazie danych
-
 	if (!product) {
 		throw new Error(`Product with id ${productId} not found`);
 	}
-
-	//todo prześlij id variantu
 
 	const cartItemId = await executeGraphql({
 		query: CartItemGetIdByProductIdDocument,

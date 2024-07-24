@@ -59,42 +59,35 @@ export default async function SingleProductPage({
 		return <p>produkt chwilowo niedostępny</p>;
 	}
 
-	console.log(product);
 	const host = process.env.NEXT_PUBLIC_HOST;
 
 	if (typeof host !== "string") {
 		throw new Error("NEXT_PUBLIC_HOST is required");
 	}
 
-	// const variants = await getVariantProductByProductId(product.id);
-
 	async function addProductToCartAction(formData: FormData) {
 		"use server";
 
 		const quantity = formData.get("quantity") as string;
-		const variantId = formData.get("variantId") as string;
+
 		if (!product?.id || !quantity) {
 			return;
 		}
 
 		const cart = await getOrCreateCart();
 
-		//todo - dodaj + i -
-		//todo jeśl jest variant i query string  jest === product.variant to productid = varaint
-
 		await addProductToCart({
 			orderId: cart.id,
 			productId: product.id,
 			quantity: parseInt(quantity),
-			variantId: variantId,
 		});
-		// await sleep(1000);
 
 		revalidateTag("cart");
 	}
 
-	const variants = product.productVariants;
-	const variant = variants?.find((variant) => variant.id === searchParams?.variant?.toString());
+	const variant = product.productVariants?.find(
+		(variant) => variant.id === searchParams?.variant?.toString(),
+	);
 
 	return (
 		<>
@@ -112,7 +105,7 @@ export default async function SingleProductPage({
 					/>
 
 					<ProductSingleDescription
-						isVariant={Boolean(variants?.length)}
+						isVariant={Boolean(product.productVariants?.length)}
 						product={product}
 						variant={variant}
 					/>
@@ -130,7 +123,10 @@ export default async function SingleProductPage({
 						/>
 
 						<AddToCartButton
-							isDisable={isValidNonEmptyArray(variants) && !isValidDefined(searchParams?.variant)}
+							isDisable={
+								isValidNonEmptyArray(product.productVariants) &&
+								!isValidDefined(searchParams?.variant)
+							}
 						/>
 					</form>
 				</div>

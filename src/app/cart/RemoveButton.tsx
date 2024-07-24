@@ -18,7 +18,7 @@ export const RemoveButton = ({ itemId }: { itemId: string }) => {
 					router.refresh();
 				});
 			}}
-			className="text-red-500 disabled:text-slate-500"
+			className="text-red-500"
 		>
 			remove
 		</Button>

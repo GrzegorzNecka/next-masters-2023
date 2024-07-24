@@ -20,6 +20,7 @@ export default async function CartPage() {
 			<table>
 				<thead>
 					<tr>
+						<th>id</th>
 						<th>Produkt</th>
 						<th>Ilość</th>
 						<th>Cena</th>
@@ -33,6 +34,7 @@ export default async function CartPage() {
 						}
 						return (
 							<tr key={item.product.id}>
+								<td>{item.id}</td>
 								<td>{item.product.name}</td>
 
 								<td>
