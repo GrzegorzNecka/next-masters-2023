@@ -37,12 +37,17 @@ export default async function CartPage() {
 						}
 						return (
 							<tr key={item.product.id}>
+								<td>{item.product.id}</td>
 								<td className="flex flex-col">
 									{item.product.name} <small className=" text-gray-400">{item.id}</small>
 								</td>
 
 								<td>
-									<IncrementProductQuantity quantity={item.quantity} itemId={item.id} />
+									<IncrementProductQuantity
+										total={item.product.total}
+										quantity={item.quantity}
+										itemId={item.id}
+									/>
 								</td>
 
 								<td>{formatMoney(item.product.price / 100)}</td>

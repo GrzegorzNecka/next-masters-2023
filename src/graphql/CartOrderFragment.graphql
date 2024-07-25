@@ -8,6 +8,7 @@ fragment Cart on Order {
 			id
 			name
 			price
+			total
 		}
 	}
 }

@@ -4,7 +4,7 @@ import { Loader2, ShoppingBag } from "lucide-react";
 import { useFormStatus } from "react-dom";
 import { Button } from "@/components/ui/button";
 
-export const AddToCartButton = ({ isDisable }: { isDisable: boolean }) => {
+export const AddToCartButton = ({ isDisable = false }: { isDisable?: boolean }) => {
 	const { pending } = useFormStatus();
 
 	return (

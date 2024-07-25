@@ -4,10 +4,15 @@ import Stripe from "stripe";
 import { redirect } from "next/navigation";
 import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
-import { getCartByIdFromCookies } from "./cart";
+import { getCartByIdFromCookies, getOrCreateCart } from "./cart";
 import { createReviewByProductId, publishReviewById } from "./products";
 import { executeGraphql } from "@/api/graphql";
-import { CartRemoveProductDocument, CartSetProductQuantityDocument } from "@/gql/graphql";
+import {
+	CartItemGetIdByProductIdDocument,
+	CartRemoveProductDocument,
+	CartSetProductQuantityDocument,
+} from "@/gql/graphql";
+import { sleep } from "@/lib/utils";
 
 export const removeItem = async (itemId: string) => {
 	const res = await executeGraphql({
@@ -119,4 +124,35 @@ export async function handleProductReviewSubmissionAction(formData: FormData) {
 	} catch (error) {
 		throw new Error("something went wrong with Hygraph connection");
 	}
+}
+
+export async function getTemporaryProductTotal({
+	productId,
+	productTotal,
+}: {
+	productId: string;
+	productTotal: number;
+}) {
+	const cart = await getOrCreateCart();
+
+	await sleep(1000);
+
+	const cartItemId = await executeGraphql({
+		query: CartItemGetIdByProductIdDocument,
+		variables: { orderId: cart.id, productId: productId },
+		cache: "no-cache",
+	});
+
+	const orderItem = cartItemId.order?.orderItems?.at(0);
+	let currentTotal = orderItem?.quantity ? productTotal - orderItem?.quantity : productTotal;
+
+	if (currentTotal < 0) {
+		currentTotal = 0;
+	}
+
+	if (currentTotal > productTotal) {
+		currentTotal = productTotal;
+	}
+
+	return currentTotal;
 }

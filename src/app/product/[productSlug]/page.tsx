@@ -20,6 +20,7 @@ import { Input } from "@/components/ui/input";
 // import { isValidDefined, isValidNonEmptyArray } from "@/validator/methods";
 import { Typography } from "@/ui/atoms/Typography";
 import { ProductSingleDescription } from "@/ui/atoms/ProductSingleDescription";
+import { getTemporaryProductTotal } from "@/api/actions";
 
 // import { type ProductVariants } from "@/gql/graphql";
 
@@ -96,6 +97,11 @@ export default async function SingleProductPage({
 	// 	(variant) => variant.id === searchParams?.variant?.toString(),
 	// );
 
+	const productTotal = await getTemporaryProductTotal({
+		productId: product.id,
+		productTotal: product.total || 0,
+	});
+
 	return (
 		<>
 			<section className="flex gap-10">
@@ -104,34 +110,20 @@ export default async function SingleProductPage({
 					<Typography className="mb-4" isUppercase={true} as="h1">
 						{product.name}
 					</Typography>
-
-					{/* {<ProductVariantsList
-						searchParams={searchParams}
-						variants={product.productVariants}
-						url={`${host}/product/${product.slug}` as const}
-					/>} */}
-
-					<ProductSingleDescription product={product} />
-
+					<p>total: {productTotal}</p> <ProductSingleDescription product={product} />
 					<form action={addProductToCartAction}>
 						<input type="hidden" name="productId" value={product.id} />
-						{/* <input type="hidden" name="variantId" value={searchParams?.variant?.toString()} /> */}
+
 						<Input
 							type="number"
 							distances={"xs"}
 							name="quantity"
 							min={1}
-							max={10}
+							max={productTotal}
 							defaultValue="1"
 						/>
 
-						<AddToCartButton
-							isDisable={
-								// isValidNonEmptyArray(product.productVariants) &&
-								// !isValidDefined(searchParams?.variant)
-								false
-							}
-						/>
+						<AddToCartButton />
 					</form>
 				</div>
 			</section>
