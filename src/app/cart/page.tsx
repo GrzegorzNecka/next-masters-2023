@@ -1,15 +1,18 @@
 import { redirect } from "next/navigation";
-// import { revalidateTag } from "next/cache";
+import { revalidateTag } from "next/cache";
 
 import { RemoveButton } from "./RemoveButton";
 import { getCartByIdFromCookies } from "@/api/cart";
 import { formatMoney } from "@/utils/product";
 import { IncrementProductQuantity } from "@/ui/atoms/IncrementProductQuantity";
 import { handlePaymentAction } from "@/api/actions";
+import { sleep } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
 export default async function CartPage() {
 	const cart = await getCartByIdFromCookies();
-	// revalidateTag('cart');
+	await sleep(1000);
+	revalidateTag("cart");
 
 	if (!cart) {
 		redirect("/");
@@ -37,7 +40,6 @@ export default async function CartPage() {
 						}
 						return (
 							<tr key={item.product.id}>
-								<td>{item.product.id}</td>
 								<td className="flex flex-col">
 									{item.product.name} <small className=" text-gray-400">{item.id}</small>
 								</td>
@@ -52,7 +54,7 @@ export default async function CartPage() {
 
 								<td>{formatMoney(item.product.price / 100)}</td>
 
-								<td>{formatMoney(item.total / 100)}</td>
+								<td>{formatMoney((item.total * item.quantity) / 100)}</td>
 
 								<td>
 									<RemoveButton itemId={item.id} />
@@ -63,9 +65,9 @@ export default async function CartPage() {
 				</tbody>
 			</table>
 			<form action={handlePaymentAction}>
-				<button className="rounded-smpy-2 mt-4 w-full bg-slate-950 text-white shadow-sm">
+				<Button type="submit" variant={"default"}>
 					Zapłać
-				</button>
+				</Button>
 			</form>
 		</div>
 	);

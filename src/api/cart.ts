@@ -20,7 +20,7 @@ export async function getCartByIdFromCookies() {
 	const cart = await executeGraphql({
 		query: CartGetByIdDocument,
 		variables: { id: cartId },
-		cache: "no-store",
+		cache: "no-cache",
 		next: { tags: ["cart"] },
 	});
 

@@ -4,7 +4,7 @@ import Stripe from "stripe";
 import { redirect } from "next/navigation";
 import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
-import { getCartByIdFromCookies, getOrCreateCart } from "./cart";
+import { getCartByIdFromCookies } from "./cart";
 import { createReviewByProductId, publishReviewById } from "./products";
 import { executeGraphql } from "@/api/graphql";
 import {
@@ -126,14 +126,18 @@ export async function handleProductReviewSubmissionAction(formData: FormData) {
 	}
 }
 
-export async function getTemporaryProductTotal({
+export async function getProductTotal({
 	productId,
 	productTotal,
 }: {
 	productId: string;
 	productTotal: number;
 }) {
-	const cart = await getOrCreateCart();
+	const cart = await getCartByIdFromCookies();
+
+	if (!cart) {
+		return productTotal;
+	}
 
 	await sleep(1000);
 

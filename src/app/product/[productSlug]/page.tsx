@@ -20,7 +20,7 @@ import { Input } from "@/components/ui/input";
 // import { isValidDefined, isValidNonEmptyArray } from "@/validator/methods";
 import { Typography } from "@/ui/atoms/Typography";
 import { ProductSingleDescription } from "@/ui/atoms/ProductSingleDescription";
-import { getTemporaryProductTotal } from "@/api/actions";
+import { getProductTotal } from "@/api/actions";
 
 // import { type ProductVariants } from "@/gql/graphql";
 
@@ -55,7 +55,7 @@ export default async function SingleProductPage({
 	searchParams: { [key: string]: string | string[] | undefined };
 }) {
 	const product = await getProductBySlug(params.productSlug);
-
+	revalidateTag("cart");
 	if (!product) {
 		return <p>produkt chwilowo niedostępny</p>;
 	}
@@ -86,18 +86,7 @@ export default async function SingleProductPage({
 		revalidateTag("cart");
 	}
 
-	//Todo:
-	/**
-	 * pobierz cartItem i wyciąg z niego total
-	 * stwórz wartość curentTotal = cartItem.total - product.total
-	 *
-	 */
-
-	// const variant = product.productVariants?.find(
-	// 	(variant) => variant.id === searchParams?.variant?.toString(),
-	// );
-
-	const productTotal = await getTemporaryProductTotal({
+	const productTotal = await getProductTotal({
 		productId: product.id,
 		productTotal: product.total || 0,
 	});
